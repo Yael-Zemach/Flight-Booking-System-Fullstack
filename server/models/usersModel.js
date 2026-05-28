@@ -22,7 +22,7 @@ export async function createUser(name, email, passwordHash, userType) {
 
 export async function getUserByEmail(email) {
     const [rows] = await pool.query(
-        `SELECT u.*, hp.hash_passwords 
+        `SELECT u.*, hp.password_hash 
          FROM Users u 
          JOIN hash_passwords hp ON u.user_id = hp.user_id 
          WHERE u.email = ?`,
@@ -31,7 +31,6 @@ export async function getUserByEmail(email) {
     
     return rows[0]; 
 }
-
 export async function updateUser(userId, name, email) {
     const [result] = await pool.query(
         'UPDATE Users SET name = ?, email = ? WHERE user_id = ?',
