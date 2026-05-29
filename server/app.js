@@ -5,7 +5,7 @@ import express from 'express';
 
 import flightsRouter from './routes/flightsRoute.js';
 import authRouter from './routes/authRoutes.js';
-
+import usersRoutes from './routes/usersRoutes.js'; // הייבוא של הראוטר החדש
 
 const app = express();
 
@@ -17,12 +17,13 @@ app.use('/api/flights', flightsRouter);
 
 app.use('/api/auth', authRouter);
 
-
+app.use('/api/users', usersRoutes); // השרת מבין שכל מה שמתחיל ב- `/api/users` הולך לקובץ הראוטר
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });
 });
+
 
 
 app.listen(3000, () => {

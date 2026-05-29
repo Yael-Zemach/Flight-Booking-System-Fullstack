@@ -22,7 +22,7 @@ export async function createUser(name, email, passwordHash, userType) {
 
 export async function getUserByEmail(email) {
     const [rows] = await pool.query(
-        `SELECT u.*, hp.hash_passwords 
+        `SELECT u.*, hp.password_hash 
          FROM Users u 
          JOIN hash_passwords hp ON u.user_id = hp.user_id 
          WHERE u.email = ?`,
@@ -38,4 +38,9 @@ export async function updateUser(userId, name, email) {
         [name, email, userId]
     );
     return result.affectedRows > 0; 
+}
+// הפונקציה החדשה שנצרכת עבור ה-Middleware
+export async function getUserById(userId) {
+    const [rows] = await pool.query('SELECT user_id, email, name, user_type FROM Users WHERE user_id = ?', [userId]);
+    return rows[0]; // מחזיר את המשתמש הראשון שנמצא או undefined
 }
