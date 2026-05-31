@@ -38,3 +38,8 @@ export async function updateUser(userId, name, email) {
     );
     return result.affectedRows > 0; 
 }
+// הפונקציה החדשה שנצרכת עבור ה-Middleware
+export async function getUserById(userId) {
+    const [rows] = await pool.query('SELECT user_id, email, name, user_type FROM Users WHERE user_id = ?', [userId]);
+    return rows[0]; // מחזיר את המשתמש הראשון שנמצא או undefined
+}
