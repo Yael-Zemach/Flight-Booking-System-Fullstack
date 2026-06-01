@@ -36,16 +36,31 @@ CREATE TABLE IF NOT EXISTS Flights (
     FOREIGN KEY (departure_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE,
     FOREIGN KEY (arrival_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE
 );
+-- 1. טבלת הזמנות (מייצגת את העסקה/ההזמנה הכללית)
 CREATE TABLE IF NOT EXISTS Bookings (
     booking_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL, -- מי המשתמש המחובר שביצע ושילם על ההזמנה
     flight_id INTEGER NOT NULL,
     booking_time DATETIME NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
+    total_price DECIMAL(10, 2) NOT NULL, -- המחיר הכולל של כל הנוסעים ביחד
     status ENUM('confirmed', 'cancelled') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE
 );
+
+-- 2. טבלת נוסעים (חדשה - מייצגת את הכרטיסים והנוסעים בפועל)
+CREATE TABLE IF NOT EXISTS Passengers (
+    passenger_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    booking_id INTEGER NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    gender ENUM('male', 'female', 'other') NOT NULL,
+    email VARCHAR(50),
+    phone VARCHAR(20),
+    FOREIGN KEY (booking_id) REFERENCES Bookings(booking_id) ON DELETE CASCADE
+);
+
 
 
 -- CREATE OR REPLACE VIEW premium_users_status AS

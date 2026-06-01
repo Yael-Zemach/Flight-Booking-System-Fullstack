@@ -6,7 +6,7 @@ import express from 'express';
 import flightsRouter from './routes/flightsRoute.js';
 import authRouter from './routes/authRoutes.js';
 import usersRoutes from './routes/usersRoutes.js'; // הייבוא של הראוטר החדש
-
+import bookingsRoutes from './routes/bookingsRoutes.js';
 const app = express();
 
 app.use(cors());
@@ -18,6 +18,7 @@ app.use('/api/flights', flightsRouter);
 app.use('/api/auth', authRouter);
 
 app.use('/api/users', usersRoutes); // השרת מבין שכל מה שמתחיל ב- `/api/users` הולך לקובץ הראוטר
+app.use('/api/bookings', bookingsRoutes); // השרת מבין שכל מה שמתחיל ב- `/api/bookings` הולך לקובץ הראוטר
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

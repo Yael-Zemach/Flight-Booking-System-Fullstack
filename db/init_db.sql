@@ -1,9 +1,7 @@
 USE flight_app;
-
--- ביטול זמני של בדיקת מפתחות זרים כדי שההכנסה תרוץ חלק ללא תלות בסדר הטבלאות
 SET FOREIGN_KEY_CHECKS = 0;
 
--- 1. הכנסת 20 משתמשים (Users) - ללא עמודת הסיסמה
+-- 1. הכנסת 20 משתמשים (Users)
 INSERT INTO Users (email, name, user_type) VALUES
 ('admin1@elal.co.il', 'אדמין ראשי', 'admin'),  -- ID = 1
 ('admin2@elal.co.il', 'אדמין משני', 'admin'),  -- ID = 2
@@ -26,7 +24,7 @@ INSERT INTO Users (email, name, user_type) VALUES
 ('rachel@gmail.com', 'רחל אזולאי', 'customer'),  -- ID = 19
 ('tom@gmail.com', 'תום שגיא', 'customer');      -- ID = 20
 
--- 2. הכנסת הסיסמאות התואמות לטבלת hash_passwords (לפי ה-user_id שנוצר לעיל)
+-- 2. הכנסת הסיסמאות התואמות לטבלת hash_passwords
 INSERT INTO hash_passwords (user_id, password_hash) VALUES
 (1, '$2b$10$E3EjKDF76KksjdhfKJGHe7'),
 (2, '$2b$10$E3EjKDF76KksjdhfKJGHe8'),
@@ -49,7 +47,7 @@ INSERT INTO hash_passwords (user_id, password_hash) VALUES
 (19, '$2b$10$E3EjKDF76KksjdhfKJGHed'),
 (20, '$2b$10$HJGHe7E3EjKDF76Kksjdhe');
 
--- 3. הכנסת 20 נמלי תעופה (Airports)
+-- 3. הכנסת 20 נמלי תעופה (Airports) - כולל תיקון לפרנקפורט
 INSERT INTO Airports (airport_code, airport_name, city, country, image_url) VALUES
 ('TLV', 'נמל התעופה בן גוריון', 'תל אביב', 'ישראל', 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1'),
 ('JFK', 'John F. Kennedy International Airport', 'ניו יורק', 'ארצות הברית', 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9'),
@@ -63,7 +61,7 @@ INSERT INTO Airports (airport_code, airport_name, city, country, image_url) VALU
 ('NRT', 'Narita International Airport', 'טוקיו', 'יפן', 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e'),
 ('BKK', 'Suvarnabhumi Airport', 'בנגקוק', 'תאילנד', 'https://images.unsplash.com/photo-1508009603885-50cf7c579365'),
 ('LAX', 'Los Angeles International Airport', 'לוס אנגלס', 'ארצות הברית', 'https://images.unsplash.com/photo-1422464804701-7d00235af121'),
-('FRA', 'Frankfurt Airport', 'גרמניה', 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b'),
+('FRA', 'Frankfurt Airport', 'פרנקפורט', 'גרמניה', 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b'),
 ('VIE', 'Vienna International Airport', 'וינה', 'אוסטריה', 'https://images.unsplash.com/photo-1516550893923-42d28e5677af'),
 ('ZRH', 'Zurich Airport', 'ציריך', 'שוויץ', 'https://images.unsplash.com/photo-1515488042361-404e9250afb2'),
 ('MAD', 'Adolfo Suárez Madrid–Barajas Airport', 'מדריד', 'ספרד', 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750'),
@@ -98,7 +96,7 @@ INSERT INTO Flights (flight_number, departure_airport_id, arrival_airport_id, de
 -- 5. הכנסת 20 הזמנות (Bookings)
 INSERT INTO Bookings (user_id, flight_id, booking_time, total_price, status) VALUES
 (3, 1, '2026-05-10 10:00:00', 850.00, 'confirmed'),
-(3, 2, '2026-05-11 11:30:00', 420.00, 'confirmed'),
+(3, 2, '2026-05-11 11:30:00', 840.00, 'confirmed'), -- שונה המחיר ל-840 (עבור 2 נוסעים בטיסה 2)
 (3, 3, '2026-05-12 14:15:00', 390.50, 'confirmed'),
 (4, 4, '2026-05-12 09:00:00', 299.00, 'confirmed'),
 (4, 5, '2026-05-13 10:00:00', 250.00, 'confirmed'),
@@ -117,6 +115,30 @@ INSERT INTO Bookings (user_id, flight_id, booking_time, total_price, status) VAL
 (14, 18, '2026-05-18 16:22:00', 210.00, 'confirmed'),
 (15, 19, '2026-05-19 10:05:00', 820.00, 'confirmed'),
 (16, 20, '2026-05-19 14:40:00', 399.00, 'confirmed');
+
+-- 6. הכנסת נוסעים (Passengers) המתאימים ל-20 ההזמנות הקיימות
+INSERT INTO Passengers (booking_id, first_name, last_name, date_of_birth, gender, email, phone) VALUES
+(1, 'תמר', 'כהן', '1995-04-12', 'female', 'tamar@gmail.com', '052-1112223'),
+(2, 'תמר', 'כהן', '1995-04-12', 'female', 'tamar@gmail.com', '052-1112223'),
+(2, 'רועי', 'כהן', '2018-09-05', 'male', NULL, NULL), -- הדגמה: 2 נוסעים על אותה הזמנה!
+(3, 'תמר', 'כהן', '1995-04-12', 'female', 'tamar@gmail.com', '052-1112223'),
+(4, 'יוסי', 'לוי', '1988-11-23', 'male', 'yossi@gmail.com', '054-4445556'),
+(5, 'יוסי', 'לוי', '1988-11-23', 'male', 'yossi@gmail.com', '054-4445556'),
+(6, 'יוסי', 'לוי', '1988-11-23', 'male', 'yossi@gmail.com', '054-4445556'),
+(7, 'דנה', 'אברהם', '1992-07-30', 'female', 'dana@gmail.com', '050-7778889'),
+(8, 'דנה', 'אברהם', '1992-07-30', 'female', 'dana@gmail.com', '050-7778889'),
+(9, 'דנה', 'אברהם', '1992-07-30', 'female', 'dana@gmail.com', '050-7778889'),
+(10, 'רון', 'שפירא', '1985-02-14', 'male', 'ron@gmail.com', '053-9991112'),
+(11, 'מיכל', 'רז', '1990-10-05', 'female', 'michal@gmail.com', '052-5554443'),
+(12, 'דוד', 'מזרחי', '1982-06-18', 'male', 'david@gmail.com', '054-3332221'),
+(13, 'שרה', 'פרידמן', '1979-12-01', 'female', 'sarah@gmail.com', '050-1234567'),
+(14, 'עמית', 'גל', '1994-03-25', 'male', 'amit@gmail.com', '052-9876543'),
+(15, 'נועם', 'כץ', '1987-08-14', 'male', 'noam@gmail.com', '053-1113335'),
+(16, 'יעל', 'צמח', '1976-05-15', 'female', 'yael@gmail.com', '050-5556667'),
+(17, 'עדי', 'ברק', '1991-01-22', 'female', 'adi@gmail.com', '054-7776665'),
+(18, 'עומר', 'דגן', '1989-11-09', 'male', 'omer@gmail.com', '050-8889991'),
+(19, 'שירה', 'לוין', '1993-02-28', 'female', 'shira@gmail.com', '052-4447772'),
+(20, 'איתי', 'שגב', '1986-07-07', 'male', 'itay@gmail.com', '053-6663332');
 
 -- הפעלה מחדש של מנגנון המפתחות הזרים
 SET FOREIGN_KEY_CHECKS = 1;
