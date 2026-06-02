@@ -7,7 +7,7 @@ import { MESSAGES } from './constants/messages.js';
 import flightsRouter from './routes/flightsRoute.js';
 import authRouter from './routes/authRoutes.js';
 import usersRoutes from './routes/usersRoutes.js'; // הייבוא של הראוטר החדש
-import bookingsRoutes from './routes/bookingsRoutes.js';
+import bookingsRoutes from './routes/bookingRoutes.js';
 const app = express();
 const baseUrl = API_ROUTES.BASE;
 const PORT = process.env.PORT || 3000;

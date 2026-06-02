@@ -29,6 +29,14 @@ export const MESSAGES = {
         UPDATE_FAILED: 'עדכון הפרטים נכשל',
         UPDATE_ERROR: 'שגיאה בעדכון הנתונים'
     },
+        BOOKINGS: {
+        MISSING_DATA: 'חסרים נתוני טיסה או נוסעים',
+        CREATE_SUCCESS: 'ההזמנה בוצעה בהצלחה',
+        CANCEL_SUCCESS: 'ההזמנה בוטלה בהצלחה',
+        NOT_FOUND_OR_CANCELLED: 'ההזמנה לא נמצאה או שכבר בוטלה',
+        ADMIN_UPDATE_SUCCESS: 'ההזמנה והנוסעים עודכנו בהצלחה',
+        ADMIN_UPDATE_FAILED: 'עדכון ההזמנה נכשל'
+    },
     SERVER: {
         INTERNAL_ERROR: 'Internal Server Error'
     }

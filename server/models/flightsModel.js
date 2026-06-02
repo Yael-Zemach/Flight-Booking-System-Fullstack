@@ -23,3 +23,10 @@ export async function getFlightsByDateRange(originCode, destCode, startDate, end
     const [rows] = await pool.execute(query, [originCode, destCode, startDate, endDate, requiredSeats]);
     return rows;
 }
+export async function updateFlightSeats(connection, flightId, seatsToChange) {
+    // seatsToChange יכול להיות שלילי (כאשר מזמינים) או חיובי (כאשר מבטלים)
+    await connection.query(
+        'UPDATE Flights SET seats_available = seats_available + ? WHERE flight_id = ?',
+        [seatsToChange, flightId]
+    );
+}
