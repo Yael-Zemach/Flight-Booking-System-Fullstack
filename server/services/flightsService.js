@@ -1,4 +1,4 @@
-import { getFlightsByDateRange } from '../models/flightsModel.js';
+import * as flightsModel from '../models/flightsModel.js';
 
 // פונקציית עזר להוספה/החסרה של ימים לתאריך
 const addDays = (dateStr, days) => {
@@ -88,4 +88,57 @@ export async function findRelevantFlights(tripType, origin, dest, departDate, re
         outbound: outbound,
         inbound: inbound
     };
+}
+
+export async function createNewFlight(flightData) {
+    const { flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available } = flightData;
+
+    if (!flight_number || !departure_airport_id || !arrival_airport_id || !departure_time || !arrival_time || price === undefined || seats_available === undefined) {
+        throw new Error('MISSING_DATA');
+    }
+    if (departure_airport_id === arrival_airport_id) {
+        throw new Error('INVALID_AIRPORTS');
+    }
+    if (new Date(departure_time) >= new Date(arrival_time)) {
+        throw new Error('INVALID_DATES');
+    }
+
+    return await flightsModel.insertFlight(
+        flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available
+    );
+}
+
+export async function updateExistingFlight(flightId, flightData) {
+    const { flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available } = flightData;
+
+    if (!flight_number || !departure_airport_id || !arrival_airport_id || !departure_time || !arrival_time || price === undefined || seats_available === undefined) {
+        throw new Error('MISSING_DATA');
+    }
+    if (departure_airport_id === arrival_airport_id) {
+        throw new Error('INVALID_AIRPORTS');
+    }
+    if (new Date(departure_time) >= new Date(arrival_time)) {
+        throw new Error('INVALID_DATES');
+    }
+
+    const success = await flightsModel.updateFlightDetails(
+        flightId, flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available
+    );
+    
+    if (!success) {
+        throw new Error('NOT_FOUND');
+    }
+    return success;
+}
+
+export async function cancelFlight(flightId) {
+    try {
+        await flightsModel.cancelFlightAndBookings(flightId);
+        return true;
+    } catch (error) {
+        if (error.message === 'NOT_FOUND_OR_ALREADY_CANCELLED') {
+            throw new Error('ALREADY_CANCELLED');
+        }
+        throw error;
+    }
 }

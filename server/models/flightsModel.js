@@ -1,4 +1,6 @@
 import pool from '../config/database.js';
+import { FLIGHT_STATUS } from '../constants/flightStatus.js';
+import { BOOKING_STATUS } from '../constants/bookingStatus.js';
 
 export async function getFlightsByDateRange(originCode, destCode, startDate, endDate, requiredSeats) {
     const query = `
@@ -29,4 +31,57 @@ export async function updateFlightSeats(connection, flightId, seatsToChange) {
         'UPDATE Flights SET seats_available = seats_available + ? WHERE flight_id = ?',
         [seatsToChange, flightId]
     );
+
+}
+
+
+// 1. יצירת טיסה חדשה
+export async function insertFlight(flightNumber, departureAirportId, arrivalAirportId, departureTime, arrivalTime, price, seatsAvailable) {
+    const [result] = await pool.query(
+        'INSERT INTO Flights (flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [flightNumber, departureAirportId, arrivalAirportId, departureTime, arrivalTime, price, seatsAvailable, FLIGHT_STATUS.SCHEDULED]
+    );
+    return result.insertId;
+}
+
+// 2. עדכון פרטי טיסה
+export async function updateFlightDetails(flightId, flightNumber, departureAirportId, arrivalAirportId, departureTime, arrivalTime, price, seatsAvailable) {
+    const [result] = await pool.query(
+        'UPDATE Flights SET flight_number = ?, departure_airport_id = ?, arrival_airport_id = ?, departure_time = ?, arrival_time = ?, price = ?, seats_available = ? WHERE flight_id = ?',
+        [flightNumber, departureAirportId, arrivalAirportId, departureTime, arrivalTime, price, seatsAvailable, flightId]
+    );
+    return result.affectedRows > 0;
+}
+
+// 3. ביטול טיסה וביטול ההזמנות שלה (טרנזקציה!)
+export async function cancelFlightAndBookings(flightId) {
+    const connection = await pool.getConnection();
+    
+    try {
+        await connection.beginTransaction();
+
+        // עדכון סטטוס הטיסה ל"מבוטל"
+        const [flightResult] = await connection.query(
+            'UPDATE Flights SET status = ? WHERE flight_id = ? AND status != ?',
+            [FLIGHT_STATUS.CANCELLED, flightId, FLIGHT_STATUS.CANCELLED]
+        );
+
+        if (flightResult.affectedRows === 0) {
+            throw new Error('NOT_FOUND_OR_ALREADY_CANCELLED');
+        }
+
+        // אפקט הדומינו: עדכון כל ההזמנות של הטיסה הזו ל"מבוטל"
+        await connection.query(
+            'UPDATE Bookings SET status = ? WHERE flight_id = ?',
+            [BOOKING_STATUS.CANCELLED, flightId]
+        );
+
+        await connection.commit();
+        return true;
+    } catch (error) {
+        await connection.rollback();
+        throw error;
+    } finally {
+        connection.release();
+    }
 }

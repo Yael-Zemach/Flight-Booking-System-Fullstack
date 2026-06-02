@@ -37,6 +37,16 @@ export const MESSAGES = {
         ADMIN_UPDATE_SUCCESS: 'ההזמנה והנוסעים עודכנו בהצלחה',
         ADMIN_UPDATE_FAILED: 'עדכון ההזמנה נכשל'
     },
+  FLIGHTS: {
+        CREATE_SUCCESS: 'הטיסה נוצרה בהצלחה',
+        UPDATE_SUCCESS: 'הטיסה עודכנה בהצלחה',
+        CANCEL_SUCCESS: 'הטיסה בוטלה בהצלחה וכל ההזמנות הקשורות עודכנו',
+        NOT_FOUND: 'הטיסה לא נמצאה',
+        MISSING_DATA: 'חסרים נתוני טיסה',
+        INVALID_AIRPORTS: 'שדה התעופה של ההמראה והנחיתה לא יכולים להיות זהים',
+        INVALID_DATES: 'תאריך הנחיתה חייב להיות אחרי תאריך ההמראה',
+        ALREADY_CANCELLED: 'הטיסה כבר מבוטלת'
+    },
     SERVER: {
         INTERNAL_ERROR: 'Internal Server Error'
     }

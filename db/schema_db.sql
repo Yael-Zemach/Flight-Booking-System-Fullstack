@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS Flights (
     arrival_time DATETIME NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     seats_available INTEGER NOT NULL,
+    status ENUM('scheduled', 'cancelled') NOT NULL DEFAULT 'scheduled', -- העמודה החדשה!
     FOREIGN KEY (departure_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE,
     FOREIGN KEY (arrival_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE
 );

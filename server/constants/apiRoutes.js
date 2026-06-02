@@ -17,5 +17,11 @@ export const API_ROUTES = {
         ADMIN_USER_BOOKINGS: '/admin/user-bookings/:id',
         ADMIN_CANCEL_BOOKING: '/admin/user-bookings/:id/:bookingId/cancel', // נתיב מלא לאדמין
         ADMIN_UPDATE_BOOKING: '/admin/user-bookings/:id/:bookingId' // נתיב מלא לעדכון
+    },
+    FLIGHTS: {
+        SEARCH: '/search', // קיים אצלך
+        ADMIN_FLIGHTS: '/admin/flights', // נתיב ליצירת טיסה
+        ADMIN_FLIGHT_BY_ID: '/admin/flights/:id' ,// נתיב לעדכון ומחיקת טיסה
+        ADMIN_CANCEL_FLIGHT: '/admin/flights/:id/cancel' // ביטול טיסה
     }
 };
