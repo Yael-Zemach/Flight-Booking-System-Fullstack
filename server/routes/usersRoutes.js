@@ -4,6 +4,7 @@ import {
     handleGetMyProfile, 
     handleUpdateUser 
 } from '../controllers/usersController.js';
+import { API_ROUTES } from '../constants/apiRoutes.js';
 
 const router = Router();
 
@@ -13,10 +14,10 @@ const router = Router();
 // ============================================================================
 
 // שליפת הפרופיל של המשתמש המחובר
-router.get('/profile', authenticateToken, handleGetMyProfile);
+router.get(API_ROUTES.USERS.PROFILE, authenticateToken, handleGetMyProfile);
 
 // עדכון הפרופיל של המשתמש המחובר
-router.put('/profile', authenticateToken, handleUpdateUser);
+router.put(API_ROUTES.USERS.PROFILE, authenticateToken, handleUpdateUser);
 
 
 // ============================================================================
@@ -25,6 +26,6 @@ router.put('/profile', authenticateToken, handleUpdateUser);
 // ============================================================================
 
 // עדכון משתמש ספציפי ע"י מנהל
-router.put('/admin/users/:id', authenticateToken, isAdmin, handleUpdateUser);
+router.put(API_ROUTES.USERS.ADMIN_USER, authenticateToken, isAdmin, handleUpdateUser);
 
 export default router;

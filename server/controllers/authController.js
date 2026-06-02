@@ -1,26 +1,28 @@
 import * as authService from '../services/authService.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
+import { MESSAGES } from '../constants/messages.js';
 
 export async function register(req, res) {
     const { name, email, password, userType } = req.body;
 
     if (!name || !email || !password) {
-        return res.status(400).json({ message: 'שם, אימייל וסיסמה הם שדות חובה' });
+        return res.status(400).json({ message: MESSAGES.AUTH.REGISTRATION_REQUIRED_FIELDS });
     }
 
     try {
        
         const { user, token } = await authService.registerUser(name, email, password, userType);
         return res.status(201).json({ 
-            message: 'הרישום בוצע בהצלחה והתחברת למערכת!', 
+            message: MESSAGES.AUTH.REGISTRATION_SUCCESS, 
             user, 
             token 
         });
     } catch (error) {
-        if (error.message === 'EMAIL_EXISTS') {
-            return res.status(400).json({ message: 'כתובת האימייל הזו כבר רשומה במערכת' });
+        if (error.message === ERROR_CODES.EMAIL_EXISTS) {
+            return res.status(400).json({ message: MESSAGES.AUTH.EMAIL_ALREADY_EXISTS });
         }
         console.error(error);
-        return res.status(500).json({ message: 'שגיאת שרת פנימית בעת הרישום' });
+        return res.status(500).json({ message: MESSAGES.AUTH.REGISTRATION_ERROR });
     }
 }
 
@@ -28,27 +30,27 @@ export async function login(req, res) {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({ message: 'אימייל וסיסמה הם שדות חובה' });
+        return res.status(400).json({ message: MESSAGES.AUTH.LOGIN_REQUIRED_FIELDS });
     }
 
     try {
         const { user, token } = await authService.loginUser(email, password);
     
         return res.json({ 
-            message: 'התחברת בהצלחה!', 
+            message: MESSAGES.AUTH.LOGIN_SUCCESS, 
             user, 
             token 
         });
     } catch (error) {
     
-        if (error.message === 'EMAIL_NOT_FOUND') {
-            return res.status(401).json({ message: 'אימייל לא נמצא' });
+        if (error.message === ERROR_CODES.EMAIL_NOT_FOUND) {
+            return res.status(401).json({ message: MESSAGES.AUTH.EMAIL_NOT_FOUND });
         }
-        if (error.message === 'PASSWORD_INCORRECT') {
-            return res.status(401).json({ message: 'סיסמה שגויה' });
+        if (error.message === ERROR_CODES.PASSWORD_INCORRECT) {
+            return res.status(401).json({ message: MESSAGES.AUTH.PASSWORD_INCORRECT });
         }
         
         console.error(error);
-        return res.status(500).json({ message: 'שגיאת שרת פנימית בעת ההתחברות' });
+        return res.status(500).json({ message: MESSAGES.AUTH.LOGIN_ERROR });
     }
 }
