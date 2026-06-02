@@ -10,15 +10,10 @@ import { API_ROUTES } from '../constants/apiRoutes.js';
 
 const router = Router();
 
-// ============================================================================
-// אזור הלקוח (הלקוח יכול רק לראות וליצור)
-// ============================================================================
+
 router.get(API_ROUTES.BOOKINGS.MY_BOOKINGS, authenticateToken, handleGetBookings);
 router.post(API_ROUTES.BOOKINGS.MY_BOOKINGS, authenticateToken, handleCreateBooking);
 
-// ============================================================================
-// אזור האדמין (לאדמין יש שליטה גם על ביטול/עדכון סטטוס וגם על עריכה מלאה)
-// ============================================================================
 router.get(API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS, authenticateToken, isAdmin, verifyAdminTarget, handleGetBookings);
 router.post(API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS, authenticateToken, isAdmin, verifyAdminTarget, handleCreateBooking);
 
