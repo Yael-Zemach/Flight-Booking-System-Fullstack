@@ -47,6 +47,16 @@ export const MESSAGES = {
         INVALID_DATES: 'תאריך הנחיתה חייב להיות אחרי תאריך ההמראה',
         ALREADY_CANCELLED: 'הטיסה כבר מבוטלת'
     },
+    AIRPORTS: {
+        CREATE_SUCCESS: 'שדה התעופה נוצר בהצלחה',
+        UPDATE_IMAGE_SUCCESS: 'תמונת שדה התעופה עודכנה בהצלחה',
+        UPDATE_IMAGE_FAILED: 'עדכון תמונת שדה התעופה נכשל',
+        DELETE_SUCCESS: 'שדה התעופה נמחק בהצלחה',
+        NOT_FOUND: 'שדה התעופה לא נמצא',
+        MISSING_DATA: 'חסרים נתוני שדה תעופה או קישור לתמונה',
+        CODE_ALREADY_EXISTS: 'קוד שדה התעופה (Airport Code) כבר קיים במערכת',
+        CANNOT_DELETE_HAS_FLIGHTS: 'לא ניתן למחוק שדה תעופה: קיימות טיסות פעילות המשויכות לשדה זה'
+    },
     SERVER: {
         INTERNAL_ERROR: 'Internal Server Error'
     }

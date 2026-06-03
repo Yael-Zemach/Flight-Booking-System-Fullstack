@@ -23,5 +23,12 @@ export const API_ROUTES = {
         ADMIN_FLIGHTS: '/admin/flights', // נתיב ליצירת טיסה
         ADMIN_FLIGHT_BY_ID: '/admin/flights/:id' ,// נתיב לעדכון ומחיקת טיסה
         ADMIN_CANCEL_FLIGHT: '/admin/flights/:id/cancel' // ביטול טיסה
+    },
+    AIRPORTS: {
+        GET_ALL: '/airports', // הנתיב הציבורי החדש
+        ADMIN_AIRPORTS: '/admin/airports', // נתיב ליצירת שדה תעופה
+        ADMIN_AIRPORT_BY_ID: '/admin/airports/:id', // נתיב למחיקה
+        ADMIN_UPDATE_IMAGE: '/admin/airports/:id/image' // נתיב לעדכון תמונה בלבד
     }
 };
+
