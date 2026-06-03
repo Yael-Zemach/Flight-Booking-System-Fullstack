@@ -21,12 +21,13 @@ const isValidConnection = (outboundFlight, inboundFlight) => {
 export async function findRelevantFlights(tripType, origin, dest, departDate, returnDate, passengers) {
     let isFlexibleSearch = false; // דגל שיגיד ל-React אם זו תוצאה מדויקת או חלופית
     
-    // 1. ניסיון חיפוש לתאריכים המדויקים
-    let outbound = await getFlightsByDateRange(origin, dest, departDate, departDate, passengers);
+    // 1. ניסיון חיפוש לתאריכים המדויקים (נוסף flightsModel.)
+    let outbound = await flightsModel.getFlightsByDateRange(origin, dest, departDate, departDate, passengers);
     let inbound = [];
     
     if (tripType === TRIP_TYPES.ROUND_TRIP && returnDate) {
-        inbound = await getFlightsByDateRange(dest, origin, returnDate, returnDate, passengers);
+        // נוסף flightsModel.
+        inbound = await flightsModel.getFlightsByDateRange(dest, origin, returnDate, returnDate, passengers);
     }
 
     // 2. בדיקה אם מצאנו תוצאות מדויקות ואם הן לא סותרות אחת את השנייה
@@ -64,18 +65,21 @@ export async function findRelevantFlights(tripType, origin, dest, departDate, re
             const flexDepartStart = addDays(departDate, -2);
             const flexDepartEnd = addDays(departDate, 2);
             
-            outbound = await getFlightsByDateRange(origin, dest, flexDepartStart, flexDepartEnd, passengers);
+            // נוסף flightsModel.
+            outbound = await flightsModel.getFlightsByDateRange(origin, dest, flexDepartStart, flexDepartEnd, passengers);
 
             if (tripType === TRIP_TYPES.ROUND_TRIP && returnDate) {
                 const flexReturnStart = addDays(returnDate, -2);
                 const flexReturnEnd = addDays(returnDate, 2);
                 
-                inbound = await getFlightsByDateRange(dest, origin, flexReturnStart, flexReturnEnd, passengers);
+                // נוסף flightsModel.
+                inbound = await flightsModel.getFlightsByDateRange(dest, origin, flexReturnStart, flexReturnEnd, passengers);
                 
                 // הליבה של מניעת הסתירות: סינון המערכים הגמישים לפי חוק ה-3 שעות
-                // אנחנו שומרים רק טיסות הלוך שיש להן לפחות טיסת חזור אחת שתואמת להן ולהפך!
                 outbound = outbound.filter(out => inbound.some(inb => isValidConnection(out, inb)));
                 inbound = inbound.filter(inb => outbound.some(out => isValidConnection(out, inb)));
+                
+                
             }
         } else {
             // אם החיפוש הגמיש נחסם בגלל הפרש קטן מיומיים
@@ -83,6 +87,7 @@ export async function findRelevantFlights(tripType, origin, dest, departDate, re
             inbound = [];
         }
     }
+    
 
     // 4. החזרת האובייקט המסכם לקונטרולר ול-React
     return {

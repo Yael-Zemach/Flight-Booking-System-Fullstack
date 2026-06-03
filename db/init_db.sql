@@ -26,9 +26,9 @@ INSERT INTO Users (email, name, user_type) VALUES
 
 -- 2. הכנסת הסיסמאות התואמות לטבלת hash_passwords
 INSERT INTO hash_passwords (user_id, password_hash) VALUES
-(1, '$2b$10$E3EjKDF76KksjdhfKJGHe7'),
+(1, '$2b$10$q7.R.r5e91wvZ68KxY/Ld.B3QLYZ47UH9Gi5sC7NQbmyxSTz/kkHK'),
 (2, '$2b$10$E3EjKDF76KksjdhfKJGHe8'),
-(3, '$2b$10$JHe7E3EjKDF76KksjdhfKG'),
+(3, '$2b$10$q7.R.r5e91wvZ68KxY/Ld.B3QLYZ47UH9Gi5sC7NQbmyxSTz/kkHK'),
 (4, '$2b$10$KksjdhfKJGHe7E3EjKDF76'),
 (5, '$2b$10$76KksjdhfKGKksjdhfKJGH'),
 (6, '$2b$10$dfKJGHe7E3EjKDF76Kksjd'),
