@@ -1,7 +1,6 @@
 import * as flightsModel from '../models/flightsModel.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 import { TRIP_TYPES } from '../constants/tripTypes.js';
-import { ERROR_CODES } from '../constants/errorCodes.js';
 
 // פונקציית עזר להוספה/החסרה של ימים לתאריך
 const addDays = (dateStr, days) => {

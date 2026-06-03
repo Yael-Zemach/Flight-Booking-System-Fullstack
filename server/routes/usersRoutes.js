@@ -2,14 +2,14 @@ import { Router } from 'express';
 // ייבוא המידלוור החדש verifyAdminTarget
 import { authenticateToken, isAdmin, verifyAdminTarget } from '../middleware/authMiddleware.js';
 import { 
-    handleGetMyProfile, 
+    // handleGetMyProfile, 
     handleUpdateUser 
 } from '../controllers/usersController.js';
 import { API_ROUTES } from '../constants/apiRoutes.js';
 
 const router = Router();
 
-router.get(API_ROUTES.USERS.PROFILE, authenticateToken, handleGetMyProfile);
+// router.get(API_ROUTES.USERS.PROFILE, authenticateToken, handleGetMyProfile);
 
 // עדכון הפרופיל של המשתמש המחובר
 router.put(API_ROUTES.USERS.PROFILE, authenticateToken, handleUpdateUser);
