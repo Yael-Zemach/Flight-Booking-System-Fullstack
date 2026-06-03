@@ -1,4 +1,7 @@
 import * as flightsModel from '../models/flightsModel.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
+import { TRIP_TYPES } from '../constants/tripTypes.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 
 // פונקציית עזר להוספה/החסרה של ימים לתאריך
 const addDays = (dateStr, days) => {
@@ -23,15 +26,15 @@ export async function findRelevantFlights(tripType, origin, dest, departDate, re
     let outbound = await getFlightsByDateRange(origin, dest, departDate, departDate, passengers);
     let inbound = [];
     
-    if (tripType === 'round-trip' && returnDate) {
+    if (tripType === TRIP_TYPES.ROUND_TRIP && returnDate) {
         inbound = await getFlightsByDateRange(dest, origin, returnDate, returnDate, passengers);
     }
 
     // 2. בדיקה אם מצאנו תוצאות מדויקות ואם הן לא סותרות אחת את השנייה
-    let hasExactResults = outbound.length > 0 && (tripType === 'one-way' || inbound.length > 0);
+    let hasExactResults = outbound.length > 0 && (tripType === TRIP_TYPES.ONE_WAY || inbound.length > 0);
     
     // אם יש לנו תוצאות מדויקות בהלוך-חזור, נפעיל את חוק ה-3 שעות
-    if (hasExactResults && tripType === 'round-trip') {
+    if (hasExactResults && tripType === TRIP_TYPES.ROUND_TRIP) {
         outbound = outbound.filter(out => inbound.some(inb => isValidConnection(out, inb)));
         inbound = inbound.filter(inb => outbound.some(out => isValidConnection(out, inb)));
         
@@ -45,7 +48,7 @@ export async function findRelevantFlights(tripType, origin, dest, departDate, re
     if (!hasExactResults) {
         // בדיקת חוק טיול קצר: אם זה הלוך-חזור בהפרש של יומיים או פחות - אין טעם לחפש גמיש
         let allowFlexible = true;
-        if (tripType === 'round-trip' && returnDate) {
+        if (tripType === TRIP_TYPES.ROUND_TRIP && returnDate) {
             const departTime = new Date(departDate).getTime();
             const returnTime = new Date(returnDate).getTime();
             const daysDiff = (returnTime - departTime) / (1000 * 60 * 60 * 24);
@@ -64,7 +67,7 @@ export async function findRelevantFlights(tripType, origin, dest, departDate, re
             
             outbound = await getFlightsByDateRange(origin, dest, flexDepartStart, flexDepartEnd, passengers);
 
-            if (tripType === 'round-trip' && returnDate) {
+            if (tripType === TRIP_TYPES.ROUND_TRIP && returnDate) {
                 const flexReturnStart = addDays(returnDate, -2);
                 const flexReturnEnd = addDays(returnDate, 2);
                 
@@ -94,13 +97,13 @@ export async function createNewFlight(flightData) {
     const { flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available } = flightData;
 
     if (!flight_number || !departure_airport_id || !arrival_airport_id || !departure_time || !arrival_time || price === undefined || seats_available === undefined) {
-        throw new Error('MISSING_DATA');
+        throw new Error(ERROR_CODES.MISSING_DATA);
     }
     if (departure_airport_id === arrival_airport_id) {
-        throw new Error('INVALID_AIRPORTS');
+        throw new Error(ERROR_CODES.INVALID_AIRPORTS);
     }
     if (new Date(departure_time) >= new Date(arrival_time)) {
-        throw new Error('INVALID_DATES');
+        throw new Error(ERROR_CODES.INVALID_DATES);
     }
 
     return await flightsModel.insertFlight(
@@ -112,13 +115,13 @@ export async function updateExistingFlight(flightId, flightData) {
     const { flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available } = flightData;
 
     if (!flight_number || !departure_airport_id || !arrival_airport_id || !departure_time || !arrival_time || price === undefined || seats_available === undefined) {
-        throw new Error('MISSING_DATA');
+        throw new Error(ERROR_CODES.MISSING_DATA);
     }
     if (departure_airport_id === arrival_airport_id) {
-        throw new Error('INVALID_AIRPORTS');
+        throw new Error(ERROR_CODES.INVALID_AIRPORTS);
     }
     if (new Date(departure_time) >= new Date(arrival_time)) {
-        throw new Error('INVALID_DATES');
+        throw new Error(ERROR_CODES.INVALID_DATES);
     }
 
     const success = await flightsModel.updateFlightDetails(
@@ -126,7 +129,7 @@ export async function updateExistingFlight(flightId, flightData) {
     );
     
     if (!success) {
-        throw new Error('NOT_FOUND');
+        throw new Error(ERROR_CODES.NOT_FOUND);
     }
     return success;
 }
@@ -136,8 +139,8 @@ export async function cancelFlight(flightId) {
         await flightsModel.cancelFlightAndBookings(flightId);
         return true;
     } catch (error) {
-        if (error.message === 'NOT_FOUND_OR_ALREADY_CANCELLED') {
-            throw new Error('ALREADY_CANCELLED');
+        if (error.message === ERROR_CODES.NOT_FOUND_OR_ALREADY_CANCELLED) {
+            throw new Error(ERROR_CODES.ALREADY_CANCELLED);
         }
         throw error;
     }

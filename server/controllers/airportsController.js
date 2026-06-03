@@ -1,4 +1,5 @@
 import * as airportsService from '../services/airportsService.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 import { MESSAGES } from '../constants/messages.js';
 
 // 1. טיפול בהוספת שדה תעופה
@@ -10,8 +11,8 @@ export async function handleAdminCreateAirport(req, res) {
             airportId: airportId 
         });
     } catch (error) {
-        if (error.message === 'MISSING_DATA') return res.status(400).json({ message: MESSAGES.AIRPORTS.MISSING_DATA });
-        if (error.message === 'CODE_ALREADY_EXISTS') return res.status(400).json({ message: MESSAGES.AIRPORTS.CODE_ALREADY_EXISTS });
+        if (error.message === ERROR_CODES.MISSING_DATA) return res.status(400).json({ message: MESSAGES.AIRPORTS.MISSING_DATA });
+        if (error.message === ERROR_CODES.CODE_ALREADY_EXISTS) return res.status(400).json({ message: MESSAGES.AIRPORTS.CODE_ALREADY_EXISTS });
         
         console.error("Error creating airport:", error);
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
@@ -27,8 +28,8 @@ export async function handleAdminUpdateAirportImage(req, res) {
         await airportsService.updateAirportImage(airportId, image_url);
         return res.status(200).json({ message: MESSAGES.AIRPORTS.UPDATE_IMAGE_SUCCESS });
     } catch (error) {
-        if (error.message === 'NOT_FOUND') return res.status(404).json({ message: MESSAGES.AIRPORTS.NOT_FOUND });
-        if (error.message === 'MISSING_DATA') return res.status(400).json({ message: MESSAGES.AIRPORTS.MISSING_DATA });
+        if (error.message === ERROR_CODES.NOT_FOUND) return res.status(404).json({ message: MESSAGES.AIRPORTS.NOT_FOUND });
+        if (error.message === ERROR_CODES.MISSING_DATA) return res.status(400).json({ message: MESSAGES.AIRPORTS.MISSING_DATA });
         
         console.error("Error updating airport image:", error);
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
@@ -43,8 +44,8 @@ export async function handleAdminDeleteAirport(req, res) {
         await airportsService.deleteAirportSafely(airportId);
         return res.status(200).json({ message: MESSAGES.AIRPORTS.DELETE_SUCCESS });
     } catch (error) {
-        if (error.message === 'NOT_FOUND') return res.status(404).json({ message: MESSAGES.AIRPORTS.NOT_FOUND });
-        if (error.message === 'CANNOT_DELETE_HAS_FLIGHTS') return res.status(400).json({ message: MESSAGES.AIRPORTS.CANNOT_DELETE_HAS_FLIGHTS });
+        if (error.message === ERROR_CODES.NOT_FOUND) return res.status(404).json({ message: MESSAGES.AIRPORTS.NOT_FOUND });
+        if (error.message === ERROR_CODES.CANNOT_DELETE_HAS_FLIGHTS) return res.status(400).json({ message: MESSAGES.AIRPORTS.CANNOT_DELETE_HAS_FLIGHTS });
         
         console.error("Error deleting airport:", error);
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });

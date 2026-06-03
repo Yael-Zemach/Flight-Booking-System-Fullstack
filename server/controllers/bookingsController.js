@@ -1,4 +1,5 @@
 import * as bookingsService from '../services/bookingsService.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 import { MESSAGES } from '../constants/messages.js';
 
 // שליפת הזמנות
@@ -26,7 +27,7 @@ export async function handleCreateBooking(req, res) {
             bookingId: bookingId 
         });
     } catch (error) {
-        if (error.message === 'MISSING_DATA') {
+        if (error.message === ERROR_CODES.MISSING_DATA) {
             return res.status(400).json({ message: MESSAGES.BOOKINGS.MISSING_DATA });
         }
         console.error("Error creating booking:", error);
@@ -43,10 +44,10 @@ export async function handleAdminUpdateStatus(req, res) {
         await bookingsService.updateStatusByAdmin(bookingId, status);
         return res.status(200).json({ message: MESSAGES.BOOKINGS.ADMIN_UPDATE_SUCCESS }); 
     } catch (error) {
-        if (error.message === 'NOT_FOUND') {
+        if (error.message === ERROR_CODES.NOT_FOUND) {
             return res.status(404).json({ message: MESSAGES.BOOKINGS.NOT_FOUND_OR_CANCELLED }); 
         }
-        if (error.message === 'INVALID_STATUS') {
+        if (error.message === ERROR_CODES.INVALID_STATUS) {
             return res.status(400).json({ message: MESSAGES.BOOKINGS.INVALID_STATUS }); 
         }
         console.error("Error updating booking status:", error);
@@ -63,7 +64,7 @@ export async function handleAdminUpdateBooking(req, res) {
         await bookingsService.updateBookingFull(bookingId, flightId, totalPrice, status, passengers);
         return res.status(200).json({ message: MESSAGES.BOOKINGS.ADMIN_UPDATE_SUCCESS }); 
     } catch (error) {
-        if (error.message === 'ADMIN_UPDATE_FAILED') {
+        if (error.message === ERROR_CODES.ADMIN_UPDATE_FAILED) {
             return res.status(400).json({ message: MESSAGES.BOOKINGS.ADMIN_UPDATE_FAILED });
         }
         console.error("Error updating booking full details:", error);

@@ -1,5 +1,6 @@
 import { AIRPORT_CODES } from '../constants/airportCodes.js';
 import { MESSAGES } from '../constants/messages.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 import * as flightsService from '../services/flightsService.js';
 export async function searchFlights(req, res) {
     try {
@@ -30,9 +31,9 @@ export async function handleAdminCreateFlight(req, res) {
             flightId: flightId 
         });
     } catch (error) {
-        if (error.message === 'MISSING_DATA') return res.status(400).json({ message: MESSAGES.FLIGHTS.MISSING_DATA });
-        if (error.message === 'INVALID_AIRPORTS') return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_AIRPORTS });
-        if (error.message === 'INVALID_DATES') return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_DATES });
+        if (error.message === ERROR_CODES.MISSING_DATA) return res.status(400).json({ message: MESSAGES.FLIGHTS.MISSING_DATA });
+        if (error.message === ERROR_CODES.INVALID_AIRPORTS) return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_AIRPORTS });
+        if (error.message === ERROR_CODES.INVALID_DATES) return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_DATES });
         
         console.error("Error creating flight:", error);
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
@@ -46,10 +47,10 @@ export async function handleAdminUpdateFlight(req, res) {
         await flightsService.updateExistingFlight(flightId, req.body);
         return res.status(200).json({ message: MESSAGES.FLIGHTS.UPDATE_SUCCESS });
     } catch (error) {
-        if (error.message === 'NOT_FOUND') return res.status(404).json({ message: MESSAGES.FLIGHTS.NOT_FOUND });
-        if (error.message === 'MISSING_DATA') return res.status(400).json({ message: MESSAGES.FLIGHTS.MISSING_DATA });
-        if (error.message === 'INVALID_AIRPORTS') return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_AIRPORTS });
-        if (error.message === 'INVALID_DATES') return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_DATES });
+        if (error.message === ERROR_CODES.NOT_FOUND) return res.status(404).json({ message: MESSAGES.FLIGHTS.NOT_FOUND });
+        if (error.message === ERROR_CODES.MISSING_DATA) return res.status(400).json({ message: MESSAGES.FLIGHTS.MISSING_DATA });
+        if (error.message === ERROR_CODES.INVALID_AIRPORTS) return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_AIRPORTS });
+        if (error.message === ERROR_CODES.INVALID_DATES) return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_DATES });
         
         console.error("Error updating flight:", error);
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
@@ -63,7 +64,7 @@ export async function handleAdminCancelFlight(req, res) {
         await flightsService.cancelFlight(flightId);
         return res.status(200).json({ message: MESSAGES.FLIGHTS.CANCEL_SUCCESS });
     } catch (error) {
-        if (error.message === 'ALREADY_CANCELLED') return res.status(400).json({ message: MESSAGES.FLIGHTS.ALREADY_CANCELLED });
+        if (error.message === ERROR_CODES.ALREADY_CANCELLED) return res.status(400).json({ message: MESSAGES.FLIGHTS.ALREADY_CANCELLED });
         
         console.error("Error cancelling flight:", error);
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });

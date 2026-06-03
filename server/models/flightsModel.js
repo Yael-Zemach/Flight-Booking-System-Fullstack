@@ -1,6 +1,7 @@
 import pool from '../config/database.js';
 import { FLIGHT_STATUS } from '../constants/flightStatus.js';
 import { BOOKING_STATUS } from '../constants/bookingStatus.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 
 export async function getFlightsByDateRange(originCode, destCode, startDate, endDate, requiredSeats) {
     const query = `
@@ -67,7 +68,7 @@ export async function cancelFlightAndBookings(flightId) {
         );
 
         if (flightResult.affectedRows === 0) {
-            throw new Error('NOT_FOUND_OR_ALREADY_CANCELLED');
+            throw new Error(ERROR_CODES.NOT_FOUND_OR_ALREADY_CANCELLED);
         }
 
         // אפקט הדומינו: עדכון כל ההזמנות של הטיסה הזו ל"מבוטל"
