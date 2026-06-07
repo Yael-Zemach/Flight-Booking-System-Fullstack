@@ -19,16 +19,16 @@ export const API_ROUTES = {
         ADMIN_UPDATE_BOOKING: '/admin/user-bookings/:id/:bookingId' // נתיב מלא לעדכון
     },
     FLIGHTS: {
-        SEARCH: '/search', // קיים אצלך
-        ADMIN_FLIGHTS: '/admin/flights', // נתיב ליצירת טיסה
-        ADMIN_FLIGHT_BY_ID: '/admin/flights/:id' ,// נתיב לעדכון ומחיקת טיסה
-        ADMIN_CANCEL_FLIGHT: '/admin/flights/:id/cancel' // ביטול טיסה
+        SEARCH: '/search', // public search -> /api/flights/search
+        ADMIN_FLIGHTS: '/admin', // admin create -> /api/flights/admin
+        ADMIN_FLIGHT_BY_ID: '/admin/:id', // admin update/delete -> /api/flights/admin/:id
+        ADMIN_CANCEL_FLIGHT: '/admin/:id/cancel' // admin cancel -> /api/flights/admin/:id/cancel
     },
     AIRPORTS: {
-        GET_ALL: '/allairports', // הנתיב הציבורי החדש
-        ADMIN_AIRPORTS: '/admin/airports', // נתיב ליצירת שדה תעופה
-        ADMIN_AIRPORT_BY_ID: '/admin/airports/:id', // נתיב למחיקה
-        ADMIN_UPDATE_IMAGE: '/admin/airports/:id/image' // נתיב לעדכון תמונה בלבד
+        GET_ALL: '/all', // public list of airports -> results in /api/airports/all
+        ADMIN_AIRPORTS: '/admin', // create airport -> /api/airports/admin
+        ADMIN_AIRPORT_BY_ID: '/admin/:id', // delete/update by id -> /api/airports/admin/:id
+        ADMIN_UPDATE_IMAGE: '/admin/:id/image' // update image -> /api/airports/admin/:id/image
     }
 };
 
