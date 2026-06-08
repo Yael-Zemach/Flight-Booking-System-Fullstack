@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from '../Hooks/authContext.jsx';
+import { useAuth } from '../../Hooks/authContext.jsx';
 
 export default function LoginPage() {
   const { login } = useAuth();

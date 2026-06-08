@@ -1,8 +1,8 @@
-import { Routes, Route, Navigate ,BrowserRouter} from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './Hooks/authContext.jsx';
-import LoginPage from './common/login.jsx'
-import RegisterPage from './common/register.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
+import LoginPage from './pages/common/login.jsx';
+import RegisterPage from './pages/common/register.jsx';
+import ProtectedRoute from './components/shared/ProtectedRoute.jsx';
 import './App.css';
 
 
