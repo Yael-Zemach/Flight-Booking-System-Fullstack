@@ -23,7 +23,7 @@ const AdminDashboard = () => (
 function App() {
   return (
     // 2. עטפנו את הכל בתוך BrowserRouter - זה פותר את השגיאה לחלוטין!
-    <BrowserRouter>
+   
       <AuthProvider>
         <Routes>
           {/* עמוד הבית הציבורי */}
@@ -40,7 +40,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
-    </BrowserRouter>
+    
   );
 }
 
