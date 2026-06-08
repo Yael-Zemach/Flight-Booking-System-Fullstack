@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { login as apiLogin, register as apiRegister } from "../api/authApi.js";
+import { login as apiLogin, register as apiRegister } from "../API/authAPI.js";
 const AuthContext = createContext(null);
 
 
@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
     async function login(email, password) {
         try {
             
-            const result = await apiLogin(email, password);
+                    const result = await apiLogin({ email, password });
             
             
             const myUser = {
@@ -44,7 +44,7 @@ return { ok: true, userType: myUser.userType, msg: result.message };
   
     async function register(name, email, password) {
         try {
-            const result = await apiRegister(name, email, password);
+            const result = await apiRegister({ name, email, password });
 
             const myUser = {
                 name: result.user.name,
