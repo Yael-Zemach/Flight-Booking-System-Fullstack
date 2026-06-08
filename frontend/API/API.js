@@ -28,13 +28,23 @@ async function request(url, options = {}) {
   // תיקון: הוספת גרשיים והפיכה ל-Template Literal
  
   const fullUrl = `${API_BASE}${url}`; // תיקון: שימוש ב-Backticks
- 
-  
+ //double protection
   if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || "API Error");
-  }
+    let errorMessage = "API Error";
+    
+    try {
+    
+      const errorData = await res.json();
+      errorMessage = errorData.message || errorMessage;
+    } catch (e) {
+     
+      errorMessage = await res.text() || errorMessage;
+    }
 
+   
+    throw new Error(errorMessage);
+  }
+  
   // לבדוק אם DELETE או PATCH/PUT מסוימים החזירו 204 No Content
   if (res.status === 204) return true;
   
@@ -43,7 +53,7 @@ async function request(url, options = {}) {
 
 export const api = {
   get: (url) => request(url),
-  
+
   post: (url, data) =>
     request(url, {
       method: "POST",

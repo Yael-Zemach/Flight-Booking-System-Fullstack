@@ -50,7 +50,8 @@ export async function loginUser(email, password) {
     );
      const newUser = {
         name: user.name,
-        email: user.email
+        email: user.email,
+        userType: user.user_type
     };
 
 
