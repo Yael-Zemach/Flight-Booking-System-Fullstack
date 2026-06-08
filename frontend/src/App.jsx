@@ -2,6 +2,7 @@ import { Routes, Route, Navigate ,BrowserRouter} from 'react-router-dom';
 import { AuthProvider } from './Hooks/authContext.jsx';
 import LoginPage from './common/login.jsx'
 import RegisterPage from './common/register.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 import './App.css';
 
 
@@ -33,8 +34,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          {/* עמוד המנהל המוגן */}
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          {/* עמוד המנהל המוגן - רק אדמינים */}
+          <Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminDashboard />} requiredRole="admin" />} />
 
           {/* כל נתיב אחר זורק לעמוד הבית */}
           <Route path="*" element={<Navigate to="/" replace />} />

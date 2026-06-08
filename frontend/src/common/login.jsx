@@ -21,7 +21,7 @@ export default function LoginPage() {
     
     if (result.ok) {
       // ניווט מבוסס תפקיד (Role-Based) עם החלפת הדף בהיסטוריה כדי למנוע חזרה לאחור
-      if (result.userType === "ADMIN") {
+      if (result.userType === "admin") {
         navigate("/admin/dashboard", { replace: true });
       } else {
         navigate("/", { replace: true });
