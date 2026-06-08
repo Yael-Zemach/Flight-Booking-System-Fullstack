@@ -16,8 +16,6 @@ async function request(url, options = {}) {
     },
   });
 
- 
-  const fullUrl = `${API_BASE}${url}`; // תיקון: שימוש ב-Backticks
  //double protection
   if (!res.ok) {
     let errorMessage = "API Error";
