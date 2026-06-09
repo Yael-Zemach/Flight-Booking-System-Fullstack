@@ -13,7 +13,8 @@ export const API_ROUTES = {
     },
     BOOKINGS: {
         MY_BOOKINGS: '/my-bookings',
-        MY_BOOKINGS_CANCEL: '/my-bookings/:bookingId/cancel', // נתיב מלא בקבוע
+        MY_BOOKINGS_CANCEL: '/my-bookings/:bookingId/cancel',
+        MY_BOOKINGS_PAY: '/my-bookings/:bookingId/pay', // 🌟 הראוט החדש לתשלום הלקוח // נתיב מלא בקבוע
         ADMIN_USER_BOOKINGS: '/admin/user-bookings/:id',
         ADMIN_CANCEL_BOOKING: '/admin/user-bookings/:id/:bookingId/cancel', // נתיב מלא לאדמין
         ADMIN_UPDATE_BOOKING: '/admin/user-bookings/:id/:bookingId' // נתיב מלא לעדכון
