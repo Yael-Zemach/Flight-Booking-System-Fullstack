@@ -1,9 +1,38 @@
 import pool from '../config/database.js';
 import { BOOKING_STATUS } from '../constants/bookingStatus.js';
-// ייבוא הפונקציות שהוספת למודלים האחרים
 import { updateFlightSeats } from './flightsModel.js'; 
 import { insertPassenger, updatePassengerDetails } from './passengersModel.js'; 
 
+// 🌟 הפונקציה החדשה שהוספנו במודל
+export async function getBookingById(bookingId) {
+    const query = `
+        SELECT 
+            b.booking_id, b.user_id, b.booking_time, b.total_price, b.status,
+            f.flight_number, f.departure_time, f.arrival_time,
+            dep.city AS departure_city, arr.city AS arrival_city
+        FROM Bookings b
+        JOIN Flights f ON b.flight_id = f.flight_id
+        JOIN Airports dep ON f.departure_airport_id = dep.airport_id
+        JOIN Airports arr ON f.arrival_airport_id = arr.airport_id
+        WHERE b.booking_id = ?
+    `;
+    const [bookings] = await pool.query(query, [bookingId]);
+    
+    if (bookings.length === 0) return null;
+
+    const booking = bookings[0];
+
+    // שליפת הנוסעים רק עבור ההזמנה הספציפית הזו
+    const [passengers] = await pool.query(
+        'SELECT passenger_id, first_name, last_name, gender, email, phone FROM Passengers WHERE booking_id = ?',
+        [bookingId]
+    );
+    booking.passengers = passengers;
+
+    return booking;
+}
+
+// --- שאר הפונקציות הקיימות שלך נשארות ללא שינוי ---
 export async function getBookingsByUserId(userId) {
     const query = `
         SELECT 
@@ -14,28 +43,26 @@ export async function getBookingsByUserId(userId) {
         JOIN Flights f ON b.flight_id = f.flight_id
         JOIN Airports dep ON f.departure_airport_id = dep.airport_id
         JOIN Airports arr ON f.arrival_airport_id = arr.airport_id
-        WHERE b.user_id = ?
+        WHERE b.user_id = ? 
+          AND b.status IN ('confirmed', 'cancelled')
         ORDER BY b.booking_time DESC
     `;
     const [bookings] = await pool.query(query, [userId]);
 
     for (let booking of bookings) {
         const [passengers] = await pool.query(
-            'SELECT passenger_id, first_name, last_name, date_of_birth, gender, email, phone FROM Passengers WHERE booking_id = ?',
+            'SELECT passenger_id, first_name, last_name, gender, email, phone FROM Passengers WHERE booking_id = ?',
             [booking.booking_id]
         );
         booking.passengers = passengers;
     }
-
     return bookings;
 }
 
 export async function createBookingWithPassengers(userId, flightId, totalPrice, passengersArray) {
     const connection = await pool.getConnection();
-    
     try {
         await connection.beginTransaction();
-
         const [bookingResult] = await connection.query(
             'INSERT INTO Bookings (user_id, flight_id, booking_time, total_price, status) VALUES (?, ?, NOW(), ?, ?)',
             [userId, flightId, totalPrice, BOOKING_STATUS.PENDING]
@@ -46,9 +73,7 @@ export async function createBookingWithPassengers(userId, flightId, totalPrice, 
             await insertPassenger(connection, newBookingId, pax);
         }
 
-        // עדכון מושבים פנויים (הורדה)
         await updateFlightSeats(connection, flightId, -passengersArray.length);
-
         await connection.commit();
         return newBookingId;
     } catch (error) {
@@ -69,10 +94,8 @@ export async function updateBookingStatus(bookingId, newStatus) {
 
 export async function updateBookingByAdmin(bookingId, flightId, totalPrice, status, passengersArray) {
     const connection = await pool.getConnection();
-    
     try {
         await connection.beginTransaction();
-
         await connection.query(
             'UPDATE Bookings SET flight_id = ?, total_price = ?, status = ? WHERE booking_id = ?',
             [flightId, totalPrice, status, bookingId]
@@ -85,7 +108,6 @@ export async function updateBookingByAdmin(bookingId, flightId, totalPrice, stat
                 }
             }
         }
-
         await connection.commit();
         return true;
     } catch (error) {

@@ -1,0 +1,60 @@
+.passengers-form {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.passengers-form h3 {
+  margin-top: 0;
+  color: #0f172a;
+}
+
+.passengers-error {
+  color: #dc2626;
+  margin-bottom: 15px;
+}
+
+.passenger-card {
+  border: 1px solid #cbd5e1;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.passenger-card h4 {
+  margin: 0 0 10px 0;
+  color: #0f172a;
+}
+
+.passenger-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.passenger-field label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.passenger-input,
+.passenger-select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+
+.passengers-submit-btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}

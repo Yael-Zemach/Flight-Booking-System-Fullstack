@@ -1,0 +1,57 @@
+/* BookingProcessPage.css */
+.booking-process-container {
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.step-item {
+    font-weight: normal;
+    color: #ccc;
+}
+
+.step-item.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.step-item.completed {
+    color: #28a745;
+}
+
+.error-message {
+    color: red;
+    background: #ffe6e6;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.success-title {
+    color: #28a745;
+    font-size: 30px;
+}
+
+.nav-button {
+    padding: 12px 25px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+}

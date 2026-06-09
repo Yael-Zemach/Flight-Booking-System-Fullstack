@@ -3,7 +3,8 @@ import API_ROUTES from "../constants/apiRoutes.js";
 
 // שליפת כל ההזמנות של המשתמש המחובר
 export const getMyBookings = () => api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}`);
-
+export const getBookingById = (bookingId) =>
+    api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}/${bookingId}`);
 // יצירת הזמנה חדשה למשתמש המחובר (מערך הנוסעים נשלח בתוך ה-body)
 export const createBooking = (bookingData) =>
     api.post(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}`, {
@@ -41,3 +42,5 @@ export const adminUpdateBookingFull = (bookingId, bookingData) =>
         status: bookingData.status,
         passengers: bookingData.passengers, // כולל ה-passenger_id לכל נוסע קיים
     });
+    export const payForBooking = (bookingId) =>
+    api.post(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}/${bookingId}/pay`, {});

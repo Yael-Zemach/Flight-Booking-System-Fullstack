@@ -3,9 +3,11 @@ import { flightsApi } from '../../API/flightsAPI.js'; //  מתוקן!
 import {getAllAirports} from '../../API/airportsAPI.js';
 import SearchForm from '../../components/common/Flights/searchForm';
 import FlightResults from '../../components/common/flights/FlightResults';
+import { useNavigate } from 'react-router-dom';
 import '../../style/Flights/FlightSearchPage.css';
 
 const FlightSearchPage = () => {
+    const navigate = useNavigate();
     const [airports, setAirports] = useState([]);
     const [searchResults, setSearchResults] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -63,7 +65,7 @@ const FlightSearchPage = () => {
         } catch (err) {
             console.error('Search Flights Error:', err);
             // תופס אבסולוטית את ה-errorMessage שחזר מהקונטרולר בשרת
-            setError(err.message );
+          setError(err.message);
         } finally {
             setLoading(false);
         }
@@ -124,7 +126,17 @@ const FlightSearchPage = () => {
                     <button
                         type="button"
                         disabled={!isSelectionComplete()}
-                        onClick={() => alert('מעבר לעמוד מילוי פרטי נוסעים ותשלום!')}
+                        onClick={() => {
+                            // מעביר לעמוד ההזמנה, ושולח אליו ב"מזוודה" (state) את נתוני הטיסה
+                            navigate('/book', {
+                                state: {
+                                    selectedOutbound,
+                                    selectedInbound,
+                                    searchPassengers,
+                                    totalPrice: calculateTotal()
+                                }
+                            });
+                        }}
                        
                         className={`checkout-btn ${isSelectionComplete() ? 'enabled' : ''}`}
                     >

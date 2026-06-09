@@ -66,22 +66,49 @@
   position: relative;
 }
 
-/* כפתורי הנאב בר */
-.nav-profile-btn {
-  background-color: #f1f5f9;
-  color: #334155;
-  border: 1px solid #e2e8f0;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 600;
+/* 🌟 כפתור אווטאר פרופיל - בסיס עגול */
+.nav-avatar-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.nav-profile-btn:hover {
+/* 🌟 מצב: משתמש מחובר (רקע כחול הייטק עם האות הראשונה בלבן) */
+.nav-avatar-btn.logged-in {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.nav-avatar-btn.logged-in:hover {
+  background-color: #ef4444; /* אדום יוקרתי */
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* 🌟 מצב: אורח מנותק (אפור נקי עם האייקון 👤) */
+.nav-avatar-btn.guest {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  font-size: 18px;
+}
+
+.nav-avatar-btn.guest:hover {
   background-color: #e2e8f0;
+  color: #334155;
+  transform: scale(1.05);
 }
 
+/* כפתור התנתקות */
 .nav-logout-btn {
   background-color: transparent;
   color: #ef4444; /* אדום יוקרתי */

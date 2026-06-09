@@ -5,6 +5,9 @@ import RegisterPage from './pages/common/register.jsx';
 import ProtectedRoute from './components/common/ProtectedRoute.jsx';
 import MainLayout from './components/client/mainLayout.jsx'; 
 import FlightSearchPage from './pages/common/FlightSearchPage.jsx';
+import MyBookingsPage from './pages/customer/bookings/MyBookingsPage.jsx';
+import BookingDetailsPage from './pages/customer/Bookings/BookingDetailsPage.jsx';
+import BookingProcessPage from './pages/customer/Bookings/BookingProcessPage.jsx';
 import './App.css';
 
 
@@ -27,9 +30,13 @@ function App() {
         <Route element={<MainLayout />}>
           {/* All routes inside here will automatically render the Navbar when a user is logged in */}
           <Route path="/" element={<FlightSearchPage />} />
+          <Route path="/book"
+            element={<ProtectedRoute element={<BookingProcessPage />} />}
+          />
           
-          {/* Once you activate your bookings page, it will go here: */}
-          {/* <Route path="/my-bookings" element={<MyBookingsPage />} /> */}
+          {/* ראוטים ייעודיים עבור אזור ההזמנות האישי של הלקוח */}
+          <Route path="/my-bookings" element={<MyBookingsPage />} />
+          <Route path="/my-bookings/:bookingId" element={<BookingDetailsPage />} />
           
           <Route 
             path="/admin/dashboard" 
