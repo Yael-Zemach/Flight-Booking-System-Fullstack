@@ -4,7 +4,8 @@ import {
     handleGetBookings, 
     handleCreateBooking, 
     handleAdminUpdateStatus,
-    handleAdminUpdateBooking 
+    handleAdminUpdateBooking ,
+    handleProcessPayment
 } from '../controllers/bookingsController.js';
 import { API_ROUTES } from '../constants/apiRoutes.js';
 
@@ -19,7 +20,8 @@ router.post(API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS, authenticateToken, isAdmin,
 
 // ראוט לאדמין לעדכון הסטטוס בלבד (PATCH)
 router.patch(API_ROUTES.BOOKINGS.ADMIN_UPDATE_STATUS, authenticateToken, isAdmin, verifyAdminTarget, handleAdminUpdateStatus);
-
+// תוספת: הראוט שמפעיל את התשלום
+router.post(API_ROUTES.BOOKINGS.MY_BOOKINGS_PAY, authenticateToken, handleProcessPayment);
 // ראוט לאדמין לעדכון מלא של ההזמנה ורשימת הנוסעים (PUT)
 router.put(API_ROUTES.BOOKINGS.ADMIN_UPDATE_BOOKING, authenticateToken, isAdmin, verifyAdminTarget, handleAdminUpdateBooking);
 

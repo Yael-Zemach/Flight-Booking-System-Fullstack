@@ -71,3 +71,22 @@ export async function handleAdminUpdateBooking(req, res) {
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
     }
 }
+// תוספת: טיפול בבקשת התשלום של הלקוח
+export async function handleProcessPayment(req, res) {
+    const bookingId = parseInt(req.params.bookingId);
+
+    if (!bookingId || isNaN(bookingId)) {
+        return res.status(400).json({ message: "Invalid or missing booking ID." });
+    }
+
+    try {
+        await bookingsService.processBookingPayment(bookingId);
+        return res.status(200).json({ message: "Payment successful. Booking confirmed!" });
+    } catch (error) {
+        console.error("Payment error:", error);
+        if (error.message === "PAYMENT_FAILED") {
+            return res.status(402).json({ message: "Payment declined by issuing bank." });
+        }
+        return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
+    }
+}

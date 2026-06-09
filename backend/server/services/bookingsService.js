@@ -34,3 +34,14 @@ export async function updateBookingFull(bookingId, flightId, totalPrice, status,
     }
     return success;
 }
+
+// תוספת: פונקציה שמדמה תשלום ומעדכנת את הסטטוס ל-CONFIRMED
+export async function processBookingPayment(bookingId) {
+    const paymentSuccess = true; // מדמה תשלום שעבר בהצלחה
+    // משתמשים בפונקציה הקיימת במודל כדי לעדכן סטטוס
+    const success = await bookingsModel.updateBookingStatus(bookingId, BOOKING_STATUS.CONFIRMED);
+    if (!success) {
+        throw new Error(ERROR_CODES.NOT_FOUND);
+    }
+    return true;
+}
