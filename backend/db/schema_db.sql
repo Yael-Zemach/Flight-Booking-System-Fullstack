@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Bookings (
     flight_id INTEGER NOT NULL,
     booking_time DATETIME NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL, -- המחיר הכולל של כל הנוסעים ביחד
-    status ENUM('confirmed', 'cancelled') NOT NULL,
+    status ENUM('pending', 'confirmed', 'cancelled') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE
 );
