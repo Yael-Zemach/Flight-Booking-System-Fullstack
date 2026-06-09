@@ -38,7 +38,7 @@ export async function createBookingWithPassengers(userId, flightId, totalPrice, 
 
         const [bookingResult] = await connection.query(
             'INSERT INTO Bookings (user_id, flight_id, booking_time, total_price, status) VALUES (?, ?, NOW(), ?, ?)',
-            [userId, flightId, totalPrice, BOOKING_STATUS.CONFIRMED]
+            [userId, flightId, totalPrice, BOOKING_STATUS.PENDING]
         );
         const newBookingId = bookingResult.insertId;
 
