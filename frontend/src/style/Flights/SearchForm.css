@@ -1,0 +1,122 @@
+.search-form-container {
+    background: #f4f4f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.trip-type-selector {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.trip-type-btn {
+    padding: 8px 16px;
+    background-color: #ccc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.trip-type-btn.active {
+    background-color: #007bff;
+}
+
+.form-inputs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.form-field-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-field-group select,
+.form-field-group input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-select-airport {
+    width: 180px;
+}
+
+.form-input-passengers {
+    width: 70px;
+}
+
+.search-submit-btn {
+    padding: 10px 25px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.search-submit-btn:hover {
+    background-color: #218838;
+}
+
+/* עטיפה שמאפשרת מיקום אבסולוטי לרשימה הבת */
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.form-input-searchable {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* עיצוב רשימת שדות התעופה הצפה */
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    z-index: 999; /* מבטיח שהרשימה תצוף מעל הכל */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* עיצוב שורה בודדת ברשימה */
+.autocomplete-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+    text-align: right;
+    direction: rtl;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 14px;
+}
+
+/* אפקט מעבר עכבר על שורה */
+.autocomplete-dropdown li:hover {
+    background-color: #f5f5f5;
+    color: #007bff;
+}

@@ -2,7 +2,7 @@ import { api } from "./api";
 import API_ROUTES from "../constants/apiRoutes.js";
 
 // 1. שליפת כל שדות התעופה (נתיב ציבורי - מעולה לטפסי חיפוש)
-export const getAllAirports = () => api.get(`${API_ROUTES.AIRPORTS.BASE}${API_ROUTES.AIRPORTS.GET_ALL}`);
+export  const getAllAirports = () => api.get(`${API_ROUTES.AIRPORTS.BASE}${API_ROUTES.AIRPORTS.GET_ALL}`);
 
 // 2. הוספת שדה תעופה חדש (אדמין בלבד)
 export const createAirport = (airportData) =>

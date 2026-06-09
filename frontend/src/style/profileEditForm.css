@@ -1,0 +1,77 @@
+/* ProfileEditForm.css */
+.profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-input-field {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #0f172a;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+/* אפקט זוהר כחול כשלוחצים על השדה */
+.profile-input-field:focus {
+  background-color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.profile-error-message {
+  color: #ef4444;
+  font-size: 13px;
+  margin: 0;
+  background-color: #fef2f2;
+  padding: 8px;
+  border-radius: 4px;
+  border-left: 3px solid #ef4444;
+}
+
+.profile-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.profile-save-btn {
+  background-color: #10b981; /* ירוק אישור יפה */
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.profile-save-btn:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.profile-save-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.profile-cancel-btn {
+  background-color: white;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.profile-cancel-btn:hover:not(:disabled) {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}

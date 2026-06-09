@@ -21,18 +21,23 @@ async function request(url, options = {}) {
     let errorMessage = "API Error";
     
     try {
-    
-      const errorData = await res.json();
-      errorMessage = errorData.message || errorMessage;
-    } catch (e) {
-     
-      errorMessage = await res.text() || errorMessage;
+      // קוראים את הסטרים פעם אחת בלבד כטקסט
+      const errorText = await res.text(); 
+      
+      try {
+        // מנסים לראות אם זה בעצם JSON עם הודעת שגיאה מסודרת
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.message || errorMessage;
+      } catch (e) {
+        // אם זה לא JSON, פשוט לוקחים את הטקסט הגולמי שהשרת החזיר (למשל "Not Found")
+        errorMessage = errorText || errorMessage;
+      }
+    } catch (readError) {
+      console.error("Failed to read response body", readError);
     }
 
-   
     throw new Error(errorMessage);
   }
-  
   // לבדוק אם DELETE או PATCH/PUT מסוימים החזירו 204 No Content
   if (res.status === 204) return true;
   return res.json();

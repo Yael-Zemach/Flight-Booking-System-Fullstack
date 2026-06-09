@@ -1,4 +1,4 @@
 export const JWT_CONFIG = {
-    SECRET: process.env.JWT_SECRET || 'your_super_secret_key',
+    SECRET: process.env.JWT_SECRET,
     EXPIRATION: '3h'
 };

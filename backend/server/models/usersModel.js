@@ -31,12 +31,14 @@ export async function getUserByEmail(email) {
     
     return rows[0]; 
 }
-export async function updateUser(userId, name, email) {
+export async function updateUser(userId, name) {
+    // אנחנו מעדכנים אך ורק את השם, לפי ה-ID של המשתמש
     const [result] = await pool.query(
-        'UPDATE Users SET name = ?, email = ? WHERE user_id = ?',
-        [name, email, userId]
+        'UPDATE Users SET name = ? WHERE user_id = ?',
+        [name, userId]
     );
-    return result.affectedRows > 0; 
+    // מחזיר true אם באמת עודכנה שורה, אחרת false
+    return result.affectedRows > 0;
 }
 // הפונקציה החדשה שנצרכת עבור ה-Middleware
 export async function getUserById(userId) {

@@ -6,7 +6,6 @@ import API_ROUTES from "../constants/apiRoutes.js";
 export const updateMyProfile = (userData) =>
     api.put(`${API_ROUTES.USERS.BASE}${API_ROUTES.USERS.PROFILE}`, {
         name: userData.name,
-        email: userData.email,
     });
 
 // 2. עדכון משתמש ספציפי על ידי מנהל (אדמין בלבד - משתמש ב-PUT)

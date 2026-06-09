@@ -1,0 +1,77 @@
+.flight-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.flight-card.selected {
+    border: 2px solid #007bff;
+    background-color: #f0f7ff;
+    box-shadow: 0 4px 8px rgba(0,123,255,0.15);
+}
+
+.flight-badge {
+    background: #eee;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.flight-route {
+    font-weight: bold;
+}
+
+.flight-arrow {
+    margin: 0 10px;
+}
+
+.flight-times {
+    color: #666;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.flight-price-zone {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.flight-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.flight-seats {
+    font-size: 11px;
+    color: #888;
+}
+
+.select-flight-btn {
+    padding: 6px 15px;
+    background-color: #ffffff;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.select-flight-btn.active {
+    background-color: #007bff;
+    color: #ffffff;
+}

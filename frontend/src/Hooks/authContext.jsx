@@ -6,42 +6,50 @@ const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-    
-    
+
+
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem("user");
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
-   
+    // פונקציה לעדכון הסטייט המקומי וה-localStorage לאחר עריכת פרופיל
+    function updateLocalUser(updatedFields) {
+        setUser(prevUser => {
+            const newUser = { ...prevUser, ...updatedFields };
+            localStorage.setItem("user", JSON.stringify(newUser));
+            return newUser;
+        });
+    }
+
     async function login(email, password) {
         try {
-            
-                    const result = await apiLogin({ email, password });
-            
-            
+
+            const result = await apiLogin({ email, password });
+
+
             const myUser = {
                 name: result.user.name,
                 email: result.user.email,
-                
-                userType: result.user.userType 
+
+                userType: result.user.userType
             };
 
-            
+
             setUser(myUser);
 
-        
-            localStorage.setItem("user", JSON.stringify(myUser));
-            localStorage.setItem("token", result.token); 
 
-       
-return { ok: true, userType: myUser.userType, msg: result.message };
+            localStorage.setItem("user", JSON.stringify(myUser));
+            localStorage.setItem("token", result.token);
+
+
+            return { ok: true, userType: myUser.userType, msg: result.message };
         } catch (err) {
-            return { ok: false, msg: err.message  };
+            return { ok: false, msg: err.message };
         }
     }
 
-  
+
     async function register(name, email, password) {
         try {
             const result = await apiRegister({ name, email, password });
@@ -49,7 +57,7 @@ return { ok: true, userType: myUser.userType, msg: result.message };
             const myUser = {
                 name: result.user.name,
                 email: result.user.email,
-                userType: "CUSTOMER" 
+                userType: "CUSTOMER"
             };
 
             setUser(myUser);
@@ -57,20 +65,20 @@ return { ok: true, userType: myUser.userType, msg: result.message };
             localStorage.setItem("token", result.token);
 
             // גם כאן, מחזירים את סוג המשתמש (CUSTOMER) ישירות לדף הרגיסטר
-return { ok: true, userType: myUser.userType, msg: result.message || "נרשמת בהצלחה!" };
+            return { ok: true, userType: myUser.userType, msg: result.message || "נרשמת בהצלחה!" };
         } catch (err) {
-            return { ok: false, msg: err.message  };
+            return { ok: false, msg: err.message };
         }
     }
 
-    
+
     function logout() {
         setUser(null);
         localStorage.removeItem("user");
         localStorage.removeItem("token");
     }
 
-    
-    const value = { user, login, logout, register };
+
+    const value = { user, login, logout, register   , updateLocalUser };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
