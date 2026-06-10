@@ -59,3 +59,4 @@ export async function processBookingPayment(bookingId) {
     }
     return true;
 }
+

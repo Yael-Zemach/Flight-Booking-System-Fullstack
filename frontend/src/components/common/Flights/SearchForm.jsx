@@ -41,7 +41,7 @@ const SearchForm = ({ airports, onSearch }) => {
         
         // מסננים את כל השאר
         const otherAirports = airports.filter(
-            ap => (ap.airport_code || '').trim().toUpperCase() !== 'TLV'
+            ap => (ap.airport_code || '') !== 'TLV'
         );
 
         // ממיינים את השאר אלפביתית לפי שם העיר
