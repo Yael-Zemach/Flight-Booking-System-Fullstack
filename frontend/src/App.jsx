@@ -8,15 +8,10 @@ import FlightSearchPage from './pages/common/FlightSearchPage.jsx';
 import MyBookingsPage from './pages/customer/bookings/MyBookingsPage.jsx';
 import BookingDetailsPage from './pages/customer/Bookings/BookingDetailsPage.jsx';
 import BookingProcessPage from './pages/customer/Bookings/BookingProcessPage.jsx';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage.jsx';
+import DestinationPage from './pages/customer/DestinationPage.jsx';
 import './App.css';
 
-
-const AdminDashboard = () => (
-  <div style={{ padding: '40px', textAlign: 'center', color: '#4f46e5' }}>
-    <h1>👑 Admin Dashboard</h1>
-    <p>Only logged-in admins can see this.</p>
-  </div>
-);
 
 function App() {
   return (
@@ -30,6 +25,7 @@ function App() {
         <Route element={<MainLayout />}>
           {/* All routes inside here will automatically render the Navbar when a user is logged in */}
           <Route path="/" element={<FlightSearchPage />} />
+          <Route path="/destinations" element={<DestinationPage />} />
           <Route path="/book"
             element={<ProtectedRoute element={<BookingProcessPage />} />}
           />
@@ -40,7 +36,7 @@ function App() {
           
           <Route 
             path="/admin/dashboard" 
-            element={<ProtectedRoute element={<AdminDashboard />} requiredRole="admin" />} 
+            element={<ProtectedRoute element={<AdminDashboardPage />} requiredRole="admin" />} 
           />
         </Route>
 

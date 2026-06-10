@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { flightsApi } from '../../API/flightsAPI.js'; //  מתוקן!
-import {getAllAirports} from '../../API/airportsAPI.js';
-import SearchForm from '../../components/common/Flights/searchForm';
-import FlightResults from '../../components/common/flights/FlightResults';
-import { useNavigate } from 'react-router-dom';
+import { getAllAirports } from '../../API/airportsAPI.js';
+import SearchForm from '../../components/common/Flights/SearchForm.jsx';
+import FlightResults from '../../components/common/Flights/FlightResults.jsx';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../../style/Flights/FlightSearchPage.css';
 
 const FlightSearchPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const prefilledDestination = location.state?.selectedDestination;
     const [airports, setAirports] = useState([]);
     const [searchResults, setSearchResults] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -40,7 +42,7 @@ const FlightSearchPage = () => {
         setSearchResults(null);
         setSelectedOutbound(null);
         setSelectedInbound(null);
-        
+
         setCurrentTripType(formData.tripType);
         setSearchPassengers(Number(formData.passengers));
 
@@ -61,11 +63,11 @@ const FlightSearchPage = () => {
 
             // קריאה ישירה ואלגנטית לשירות הטיסות שלך
             const data = await flightsApi.searchFlights(searchParams);
-            setSearchResults(data); 
+            setSearchResults(data);
         } catch (err) {
             console.error('Search Flights Error:', err);
             // תופס אבסולוטית את ה-errorMessage שחזר מהקונטרולר בשרת
-          setError(err.message);
+            setError(err.message);
         } finally {
             setLoading(false);
         }
@@ -93,16 +95,16 @@ const FlightSearchPage = () => {
     return (
         <div className="page-container">
             <h2 className="page-title">חיפוש טיסות</h2>
-            
+
             {error && <div className="alert-error">⚠️ {error}</div>}
-            
-            <SearchForm airports={airports} onSearch={handleSearchSubmit} />
+
+            <SearchForm airports={airports} onSearch={handleSearchSubmit} prefilledDestination={prefilledDestination} />
 
             {loading && <p className="status-loading">🔎 מחפש טיסות מתאימות, רק רגע...</p>}
-            
+
             {searchResults && (
-                <FlightResults 
-                    results={searchResults} 
+                <FlightResults
+                    results={searchResults}
                     selectedOutbound={selectedOutbound}
                     selectedInbound={selectedInbound}
                     onSelectFlight={handleSelectFlight}
@@ -114,7 +116,6 @@ const FlightSearchPage = () => {
                     <div>
                         <h4 className="summary-title">הבחירה שלך ({searchPassengers} נוסעים):</h4>
                         <div className="summary-details">
-                            {/* תוקן: הוספו גרשיים אלכסוניים (` `) מסביב למחרוזות */}
                             {selectedOutbound && `🛫 הלוך: ${selectedOutbound.flight_number} (${selectedOutbound.price}$)`}
                             {selectedInbound && ` | 🛬 חזור: ${selectedInbound.flight_number} (${selectedInbound.price}$)`}
                         </div>
@@ -137,7 +138,7 @@ const FlightSearchPage = () => {
                                 }
                             });
                         }}
-                       
+
                         className={`checkout-btn ${isSelectionComplete() ? 'enabled' : ''}`}
                     >
                         {isSelectionComplete() ? 'המשך להזמנה ➔' : 'נא לבחור טיסות להמשך'}

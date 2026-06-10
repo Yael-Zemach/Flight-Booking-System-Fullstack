@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBookingById } from '../../../API/bookingAPI'; // ייבוא הפונקציה המעודכנת
-import '../../../style/Bookings/BookingDetailsPage.css'; // ייבוא הסטייל החדש
-
-
-
-
+import { getBookingById } from '../../../API/bookingAPI'; 
+import '../../../style/Bookings/BookingDetailsPage.css'; 
 
 export default function BookingDetailsPage() {
   const { bookingId } = useParams();
@@ -13,19 +9,16 @@ export default function BookingDetailsPage() {
   
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // סטייט ייעודי לשגיאות שרת
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         setLoading(true);
-        setError(null); // איפוס שגיאות ישנות לפני שליפה חדשה
-        
-        // קריאה ישירה וממוקדת ל-API החדש שיצרנו לפי ה-ID מה-URL
+        setError(null); 
         const data = await getBookingById(bookingId);
         setBooking(data);
       } catch (err) {
-        // בזכות ה-Double Protection ב-api.js, הודעות השרת המקוריות שלך ינחתו פה!
         setError(err.message); 
       } finally {
         setLoading(false);
@@ -37,10 +30,8 @@ export default function BookingDetailsPage() {
     }
   }, [bookingId]);
 
-  // 1. רינדור מצב טעינה
   if (loading) return <div className="bookings-loading">טוען פרטי הזמנה...</div>;
   
-  // 2. רינדור מצב שגיאה (כאן יוצגו השגיאות המקוריות מהשרת, כמו 404 או 403)
   if (error) return (
     <div className="booking-details-container">
       <button className="back-to-bookings-btn" onClick={() => navigate('/my-bookings')}>
@@ -52,10 +43,8 @@ export default function BookingDetailsPage() {
     </div>
   );
 
-  // 3. הגנה כללית במידה והנתונים חזרו ריקים
   if (!booking) return <div className="bookings-loading">לא נמצא מידע עבור הזמנה זו.</div>;
 
-  // 4. רינדור הנתונים בהצלחה (סטטוס 200 מהשרת)
   return (
     <div className="booking-details-container">
       <button className="back-to-bookings-btn" onClick={() => navigate('/my-bookings')}>
@@ -70,14 +59,30 @@ export default function BookingDetailsPage() {
           </span>
         </div>
 
+        {/* ✈️ בלוק טיסת הלוך */}
         <div className="details-section">
-          <h3 className="details-section-title">✈️ פרטי הטיסה</h3>
+          <h3 className="details-section-title">✈️ פרטי טיסת הלוך</h3>
           <p><strong>מספר טיסה:</strong> {booking.flight_number}</p>
           <p><strong>מוצא (Departure):</strong> {booking.departure_city} ({new Date(booking.departure_time).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' })})</p>
           <p><strong>יעד (Arrival):</strong> {booking.arrival_city} ({new Date(booking.arrival_time).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' })})</p>
+        </div>
+
+        {/* 🔄 🌟 בלוק טיסת חזור אופציונלי */}
+        {booking.return_flight_number && (
+          <div className="details-section">
+            <h3 className="details-section-title">🔄 פרטי טיסת חזור</h3>
+            <p><strong>מספר טיסה:</strong> {booking.return_flight_number}</p>
+            <p><strong>מוצא (Departure):</strong> {booking.return_departure_city} ({new Date(booking.return_departure_time).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' })})</p>
+            <p><strong>יעד (Arrival):</strong> {booking.return_arrival_city} ({new Date(booking.return_arrival_time).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' })})</p>
+          </div>
+        )}
+
+        {/* פירוט המחיר הכללי של כל העסקה */}
+        <div className="details-section">
           <p><strong>סה"כ עלות עסקאות:</strong> <span className="price-text">${booking.total_price}</span></p>
         </div>
 
+        {/* טבלת הנוסעים */}
         <div className="details-section">
           <h3 className="details-section-title">👥 נוסעים וכרטיסים בהזמנה זו ({booking.passengers?.length || 0})</h3>
           <div className="table-wrapper">

@@ -48,28 +48,27 @@ INSERT INTO hash_passwords (user_id, password_hash) VALUES
 (20, '$2b$10$HJGHe7E3EjKDF76Kksjdhe');
 
 -- 3. הכנסת 20 נמלי תעופה (Airports) - כולל תיקון לפרנקפורט
-INSERT INTO Airports (airport_code, airport_name, city, country, image_url) VALUES
-('TLV', 'נמל התעופה בן גוריון', 'תל אביב', 'ישראל', 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1'),
-('JFK', 'John F. Kennedy International Airport', 'ניו יורק', 'ארצות הברית', 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9'),
-('LHR', 'London Heathrow Airport', 'לונדון', 'בריטניה', 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad'),
-('CDG', 'Charles de Gaulle Airport', 'פריז', 'צרפת', 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34'),
-('DXB', 'Dubai International Airport', 'דובאי', 'איחוד האמירויות', 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c'),
-('FCO', 'Leonardo da Vinci–Fiumicino Airport', 'רומא', 'איטליה', 'https://images.unsplash.com/photo-1552832230-c0197dd311b5'),
-('AMS', 'Amsterdam Airport Schiphol', 'אמסטרדם', 'הולנד', 'https://images.unsplash.com/photo-1513694203232-719a280e022f'),
-('BCN', 'Josep Tarradellas Barcelona-El Prat Airport', 'ברצלונה', 'ספרד', 'https://images.unsplash.com/photo-1583422874117-67ad13a3c68a'),
-('ATH', 'Athens International Airport', 'אתונה', 'יוון', 'https://images.unsplash.com/photo-1503156311465-1c3a42d0dd14'),
-('NRT', 'Narita International Airport', 'טוקיו', 'יפן', 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e'),
-('BKK', 'Suvarnabhumi Airport', 'בנגקוק', 'תאילנד', 'https://images.unsplash.com/photo-1508009603885-50cf7c579365'),
-('LAX', 'Los Angeles International Airport', 'לוס אנגלס', 'ארצות הברית', 'https://images.unsplash.com/photo-1422464804701-7d00235af121'),
-('FRA', 'Frankfurt Airport', 'פרנקפורט', 'גרמניה', 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b'),
-('VIE', 'Vienna International Airport', 'וינה', 'אוסטריה', 'https://images.unsplash.com/photo-1516550893923-42d28e5677af'),
-('ZRH', 'Zurich Airport', 'ציריך', 'שוויץ', 'https://images.unsplash.com/photo-1515488042361-404e9250afb2'),
-('MAD', 'Adolfo Suárez Madrid–Barajas Airport', 'מדריד', 'ספרד', 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750'),
-('PRG', 'Václav Havel Airport Prague', 'פראג', 'צכיה', 'https://images.unsplash.com/photo-1541384982283-d269a291d550'),
-('IST', 'Istanbul Airport', 'איסטנבול', 'טורקיה', 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200'),
-('BER', 'Berlin Brandenburg Airport', 'ברלין', 'גרמניה', 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc'),
-('MUC', 'Munich Airport', 'מינכן', 'גרמניה', 'https://images.unsplash.com/photo-1595844730298-b9f0ff9800a4');
-
+INSERT INTO Airports (airport_code, airport_name, city, country, image_url, description) VALUES
+('TLV', 'נמל התעופה בן גוריון', 'תל אביב', 'ישראל', 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1', 'תל אביב היא עיר ללא הפסקה, המציעה חופים מדהימים, חיי לילה תוססים, וקולינריה משובחת המשלבת מזרח ומערב.'),
+('JFK', 'John F. Kennedy International Airport', 'ניו יורק', 'ארצות הברית', 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9', 'התפוח הגדול מחכה לכם! גלו את קו הרקיע המפורסם של מנהטן, טיילו בסנטרל פארק ותיהנו מחוויית קניות ותרבות שאין שנייה לה.'),
+('LHR', 'London Heathrow Airport', 'לונדון', 'בריטניה', 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad', 'עיר המלוכה, ההיסטוריה והתרבות. בקרו בארמון בקינגהאם, צפו בביג בן, והתרווחו בפאב אנגלי מסורתי אחרי יום של קניות באוקספורד סטריט.'),
+('CDG', 'Charles de Gaulle Airport', 'פריז', 'צרפת', 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34', 'עיר האורות והרומנטיקה. טפסו על מגדל אייפל, שוטו על נהר הסן, והתענגו על קרואסון טרי באחד מבתי הקפה הקסומים ברחובות פריז.'),
+('DXB', 'Dubai International Airport', 'דובאי', 'איחוד האמירויות', 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c', 'יעד של חדשנות ויוקרה. גורדי שחקים עצומים, קניוני ענק, איים מלאכותיים וחוויית אירוח ברמה הגבוהה ביותר שיש למזרח התיכון להציע.'),
+('FCO', 'Leonardo da Vinci–Fiumicino Airport', 'רומא', 'איטליה', 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', 'מוזיאון פתוח של היסטוריה ואמנות. טיילו בקולוסיאום, בקרו בוותיקן, ואל תשכחו ליהנות מפיצה ופסטה איטלקית אותנטית.'),
+('AMS', 'Amsterdam Airport Schiphol', 'אמסטרדם', 'הולנד', 'https://images.unsplash.com/photo-1513694203232-719a280e022f', 'עיר התעלות הקסומה. רכבו על אופניים בין גשרים ציוריים, תיהנו מאמנות במוזיאון ואן גוך, וגלו את האווירה הצעירה והמשוחררת.'),
+('BCN', 'Josep Tarradellas Barcelona-El Prat Airport', 'ברצלונה', 'ספרד', 'https://images.unsplash.com/photo-1583422874117-67ad13a3c68a', 'פנינת הים התיכון. חוויה של ארכיטקטורה גאודית מרהיבה, כדורגל עולמי, טאפאס מעולים וחופי ים שטופי שמש.'),
+('ATH', 'Athens International Airport', 'אתונה', 'יוון', 'https://images.unsplash.com/photo-1503156311465-1c3a42d0dd14', 'ערש התרבות המערבית. עמדו למרגלות האקרופוליס, סיירו בעתיקות המיתולוגיה היוונית, ותיהנו מטברנות שמחות עם אוכל ים תיכוני מושלם.'),
+('NRT', 'Narita International Airport', 'טוקיו', 'יפן', 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e', 'שילוב מהפנט של מסורת עתיקה וטכנולוגיית עתיד. מקדשים שלווים, רחובות ניאון שוקקים, סושי מדהים ותרבות יפנית מרתקת.'),
+('BKK', 'Suvarnabhumi Airport', 'בנגקוק', 'תאילנד', 'https://images.unsplash.com/photo-1508009603885-50cf7c579365', 'בירת תאילנד התוססת. שווקי לילה צבעוניים, מקדשים מרהיבים, אוכל רחוב חריף וטעים, ונקודת יציאה מושלמת לאיים טרופיים.'),
+('LAX', 'Los Angeles International Airport', 'לוס אנגלס', 'ארצות הברית', 'https://images.unsplash.com/photo-1422464804701-7d00235af121', 'עיר המלאכים והכוכבים. טיילו בהוליווד, סעו לאורך חופי בוורלי הילס, ותיהנו מהאווירה הקליפורנית הנינוחה והשמשית.'),
+('FRA', 'Frankfurt Airport', 'פרנקפורט', 'גרמניה', 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b', 'הלב הפיננסי של אירופה. עיר מודרנית עם גורדי שחקים מרהיבים לצד עיר עתיקה משוחזרת, ונקודת פתיחה מצוינת לטיולים בגרמניה.'),
+('VIE', 'Vienna International Airport', 'וינה', 'אוסטריה', 'https://images.unsplash.com/photo-1516550893923-42d28e5677af', 'בירת המוזיקה הקלאסית. עיר אלגנטית של ארמונות אימפריאליים, בתי קפה וינאיים מסורתיים, ושטרודל תפוחים שלא תשכחו.'),
+('ZRH', 'Zurich Airport', 'ציריך', 'שוויץ', 'https://images.unsplash.com/photo-1515488042361-404e9250afb2', 'בירת הבנקאות המציעה איכות חיים מושלמת. עיר נקייה להפליא השוכנת על שפת אגם ציורי, מוקפת בהרי האלפים וחנויות יוקרה.'),
+('MAD', 'Adolfo Suárez Madrid–Barajas Airport', 'מדריד', 'ספרד', 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750', 'בירת ספרד מלאת החיים. שדרות רחבות, פארקים ירוקים, מוזיאונים ברמה עולמית, וחיי לילה שלא נגמרים עם טאפאס בכל פינה.'),
+('PRG', 'Václav Havel Airport Prague', 'פראג', 'צכיה', 'https://images.unsplash.com/photo-1541384982283-d269a291d550', 'עיר מאה הצריחים. אחת הערים היפות באירופה, עם גשר קארל המפורסם, טירה עתיקה ובירה צ''כית קרה וזולה.'),
+('IST', 'Istanbul Airport', 'איסטנבול', 'טורקיה', 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200', 'המקום שבו מזרח פוגש מערב. עיר מרתקת על גדות הבוספורוס, עם בזארים ססגוניים, מסגדים מפוארים ואוכל טורקי עשיר.'),
+('BER', 'Berlin Brandenburg Airport', 'ברלין', 'גרמניה', 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc', 'הבירה האלטרנטיבית וההיסטורית של אירופה. שילוב של אמנות רחוב, היסטוריה מרתקת, חיי לילה סוערים ותרבות אוונגרדית.'),
+('MUC', 'Munich Airport', 'מינכן', 'גרמניה', 'https://images.unsplash.com/photo-1595844730298-b9f0ff9800a4', 'הלב של בוואריה. עיר המשלבת מסורת גרמנית גאה עם מודרניות, מפורסמת בפסטיבל האוקטוברפסט, גני בירה ורכבי יוקרה.');
 -- 4. הכנסת 20 הטיסות המקוריות (Flights)
 INSERT INTO Flights (flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available) VALUES
 ('LY301', 1, 2, '2026-07-15 10:00:00', '2026-07-15 22:30:00', 850.00, 120),
@@ -94,28 +93,27 @@ INSERT INTO Flights (flight_number, departure_airport_id, arrival_airport_id, de
 ('BA165', 3, 1, '2026-08-05 08:00:00', '2026-08-05 15:00:00', 399.00, 160);
 
 -- 5. הכנסת 20 הזמנות (Bookings)
-INSERT INTO Bookings (user_id, flight_id, booking_time, total_price, status) VALUES
-(3, 1, '2026-05-10 10:00:00', 850.00, 'confirmed'),
-(3, 2, '2026-05-11 11:30:00', 840.00, 'confirmed'), -- שונה המחיר ל-840 (עבור 2 נוסעים בטיסה 2)
-(3, 3, '2026-05-12 14:15:00', 390.50, 'confirmed'),
-(4, 4, '2026-05-12 09:00:00', 299.00, 'confirmed'),
-(4, 5, '2026-05-13 10:00:00', 250.00, 'confirmed'),
-(4, 6, '2026-05-14 16:45:00', 310.00, 'confirmed'),
-(5, 7, '2026-05-14 18:00:00', 280.00, 'confirmed'),
-(5, 8, '2026-05-15 11:15:00', 180.00, 'confirmed'),
-(5, 9, '2026-05-15 13:20:00', 1100.00, 'confirmed'),
-(6, 10, '2026-05-15 22:00:00', 950.00, 'confirmed'),
-(7, 11, '2026-05-16 08:30:00', 230.00, 'confirmed'),
-(8, 12, '2026-05-16 14:12:00', 340.00, 'confirmed'),
-(9, 13, '2026-05-16 19:00:00', 290.00, 'cancelled'),
-(10, 14, '2026-05-17 09:45:00', 370.00, 'confirmed'),
-(11, 15, '2026-05-17 12:10:00', 320.00, 'confirmed'),
-(12, 16, '2026-05-17 15:30:00', 260.00, 'confirmed'),
-(13, 17, '2026-05-18 11:00:00', 190.00, 'confirmed'),
-(14, 18, '2026-05-18 16:22:00', 210.00, 'confirmed'),
-(15, 19, '2026-05-19 10:05:00', 820.00, 'confirmed'),
-(16, 20, '2026-05-19 14:40:00', 399.00, 'confirmed');
-
+INSERT INTO Bookings (user_id, flight_id, return_flight_id, booking_time, total_price, status) VALUES
+(3, 1, NULL, '2026-05-10 10:00:00', 850.00, 'confirmed'),
+(3, 2, NULL, '2026-05-11 11:30:00', 840.00, 'confirmed'), 
+(3, 3, NULL, '2026-05-12 14:15:00', 390.50, 'confirmed'),
+(4, 4, NULL, '2026-05-12 09:00:00', 299.00, 'confirmed'),
+(4, 5, NULL, '2026-05-13 10:00:00', 250.00, 'confirmed'),
+(4, 6, NULL, '2026-05-14 16:45:00', 310.00, 'confirmed'),
+(5, 7, NULL, '2026-05-14 18:00:00', 280.00, 'confirmed'),
+(5, 8, NULL, '2026-05-15 11:15:00', 180.00, 'confirmed'),
+(5, 9, NULL, '2026-05-15 13:20:00', 1100.00, 'confirmed'),
+(6, 10, NULL, '2026-05-15 22:00:00', 950.00, 'confirmed'),
+(7, 11, NULL, '2026-05-16 08:30:00', 230.00, 'confirmed'),
+(8, 12, NULL, '2026-05-16 14:12:00', 340.00, 'confirmed'),
+(9, 13, NULL, '2026-05-16 19:00:00', 290.00, 'cancelled'),
+(10, 14, NULL, '2026-05-17 09:45:00', 370.00, 'confirmed'),
+(11, 15, NULL, '2026-05-17 12:10:00', 320.00, 'confirmed'),
+(12, 16, NULL, '2026-05-17 15:30:00', 260.00, 'confirmed'),
+(13, 17, NULL, '2026-05-18 11:00:00', 190.00, 'confirmed'),
+(14, 18, NULL, '2026-05-18 16:22:00', 210.00, 'confirmed'),
+(15, 19, NULL, '2026-05-19 10:05:00', 820.00, 'confirmed'),
+(16, 20, NULL, '2026-05-19 14:40:00', 399.00, 'confirmed');
 -- 6. הכנסת נוסעים (Passengers) המתאימים ל-20 ההזמנות הקיימות
 INSERT INTO Passengers (booking_id, first_name, last_name, date_of_birth, gender, email, phone) VALUES
 (1, 'תמר', 'כהן', '1995-04-12', 'female', 'tamar@gmail.com', '052-1112223'),

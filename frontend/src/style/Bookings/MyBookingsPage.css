@@ -28,6 +28,12 @@
 
 .bookings-list {
   margin-top: 20px;
+  transition: opacity 0.2s ease; /* אנימציה חלקה בזמן מעבר עמוד */
+}
+
+/* 🌟 קלאס חדש שמופעל בזמן טעינת עמוד */
+.bookings-list.is-loading {
+  opacity: 0.6;
 }
 
 .bookings-loading, .bookings-error {
@@ -38,4 +44,47 @@
 
 .bookings-error {
   color: #e53e3e;
+}
+
+/* ==========================================================================
+   🌟 עיצובים חדשים עבור מערכת הדפדוד (Pagination)
+   ========================================================================== */
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.pagination-btn {
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #f7fafc;
+  border-color: #a0aec0;
+  color: #1a202c;
+}
+
+/* טיפול חכם בכפתור מנוטרל ישירות דרך ה-CSS */
+.pagination-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: #edf2f7;
+  border-color: #e2e8f0;
+}
+
+.pagination-info {
+  font-weight: bold;
+  color: #4a5568;
+  font-size: 0.95rem;
 }

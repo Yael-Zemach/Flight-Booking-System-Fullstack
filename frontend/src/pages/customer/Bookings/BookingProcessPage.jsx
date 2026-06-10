@@ -12,7 +12,8 @@ export default function BookingProcessPage() {
     const location = useLocation();
     const navigate = useNavigate();
     
-    const { selectedOutbound, searchPassengers, totalPrice } = location.state || {};
+    // 🌟 שליפת נתוני ההלוך (selectedOutbound) והחזור (selectedInbound) מה-state של החיפוש
+    const { selectedOutbound, selectedInbound, searchPassengers, totalPrice } = location.state || {};
 
     const [step, setStep] = useState(1);
     const [bookingId, setBookingId] = useState(null);
@@ -26,8 +27,11 @@ export default function BookingProcessPage() {
     const handlePassengersSubmit = async (passengersArray) => {
         try {
             setError(null);
+            
+            // 🌟 שליחת הבקשה לשרת עם שני מזהי הטיסות
             const response = await createBooking({
                 flightId: selectedOutbound.flight_id, 
+                returnFlightId: selectedInbound ? selectedInbound.flight_id : null, // שליחת חזור אם קיים
                 totalPrice: totalPrice,
                 passengers: passengersArray
             });

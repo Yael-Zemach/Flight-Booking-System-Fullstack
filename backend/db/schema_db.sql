@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS Airports (
     airport_name VARCHAR(100) NOT NULL,
     city VARCHAR(50) NOT NULL,
     country VARCHAR(50) NOT NULL,
-    image_url VARCHAR(255) NOT NULL
+    image_url VARCHAR(255) NOT NULL,
+    description TEXT
 );
 
 
@@ -37,16 +38,19 @@ CREATE TABLE IF NOT EXISTS Flights (
     FOREIGN KEY (departure_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE,
     FOREIGN KEY (arrival_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE
 );
+
 -- 1. טבלת הזמנות (מייצגת את העסקה/ההזמנה הכללית)
 CREATE TABLE IF NOT EXISTS Bookings (
     booking_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     user_id INTEGER NOT NULL, -- מי המשתמש המחובר שביצע ושילם על ההזמנה
-    flight_id INTEGER NOT NULL,
+    flight_id INTEGER NOT NULL, -- טיסת הלוך (חובה)
+    return_flight_id INTEGER NULL, -- 🌟 עמודה חדשה: טיסת חזור (אופציונלית, יכולה להיות NULL)
     booking_time DATETIME NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL, -- המחיר הכולל של כל הנוסעים ביחד
     status ENUM('pending', 'confirmed', 'cancelled') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE
+    FOREIGN KEY (flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE,
+    FOREIGN KEY (return_flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE -- 🌟 הקישור החדש של טיסת החזור
 );
 
 -- 2. טבלת נוסעים (חדשה - מייצגת את הכרטיסים והנוסעים בפועל)

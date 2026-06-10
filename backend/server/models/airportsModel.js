@@ -1,10 +1,10 @@
 import pool from '../config/database.js';
 
 // 1. הוספת שדה תעופה
-export async function insertAirport(airportCode, airportName, city, country, imageUrl) {
+export async function insertAirport(airportCode, airportName, city, country, imageUrl, description) {
     const [result] = await pool.query(
-        'INSERT INTO Airports (airport_code, airport_name, city, country, image_url) VALUES (?, ?, ?, ?, ?)',
-        [airportCode, airportName, city, country, imageUrl]
+        'INSERT INTO Airports (airport_code, airport_name, city, country, image_url, description) VALUES (?, ?, ?, ?, ?, ?)',
+        [airportCode, airportName, city, country, imageUrl, description]
     );
     return result.insertId;
 }

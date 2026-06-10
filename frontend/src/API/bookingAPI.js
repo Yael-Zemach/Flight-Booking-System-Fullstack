@@ -2,25 +2,28 @@ import { api } from "./api";
 import API_ROUTES from "../constants/apiRoutes.js";
 
 // שליפת כל ההזמנות של המשתמש המחובר
-export const getMyBookings = () => api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}`);
+
+export const getMyBookings = (page = 1, limit = 10) => 
+    api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}?page=${page}&limit=${limit}`);
 export const getBookingById = (bookingId) =>
     api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}/${bookingId}`);
+// יצירת הזמנה חדשה למשתמש המחובר (מערך הנוסעים נשלח בתוך ה-body)
 // יצירת הזמנה חדשה למשתמש המחובר (מערך הנוסעים נשלח בתוך ה-body)
 export const createBooking = (bookingData) =>
     api.post(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}`, {
         flightId: bookingData.flightId,
+        returnFlightId: bookingData.returnFlightId, // 🌟 הוספנו את המשתנה החדש כאן
         totalPrice: bookingData.totalPrice,
         passengers: bookingData.passengers, // מערך של אובייקטים (נוסעים)
     });
-
 // שליפת הזמנות של משתמש ספציפי לפי ה-ID שלו
-export const adminGetUserBookings = (userId) =>
-    api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS.replace(':id', userId)}`);
-
+export const adminGetUserBookings = (userId, page = 1, limit = 10) =>
+    api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS.replace(':id', userId)}?page=${page}&limit=${limit}`);
 // יצירת הזמנה עבור משתמש ספציפי על ידי האדמין
 export const adminCreateUserBooking = (userId, bookingData) =>
     api.post(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS.replace(':id', userId)}`, {
         flightId: bookingData.flightId,
+        returnFlightId: bookingData.returnFlightId,
         totalPrice: bookingData.totalPrice,
         passengers: bookingData.passengers,
     });

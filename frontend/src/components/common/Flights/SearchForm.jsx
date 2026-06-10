@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../../../style/Flights/SearchForm.css'; // ייבוא ה-CSS שלך
 
-const SearchForm = ({ airports, onSearch }) => {
+
+const SearchForm = ({ airports, onSearch, prefilledDestination }) => {
     const [tripType, setTripType] = useState('round-trip'); 
     const [departDate, setDepartDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
@@ -29,7 +30,27 @@ const SearchForm = ({ airports, onSearch }) => {
     };
 
     const todayStr = getTodayDateString();
+useEffect(() => {
+        // בודקים שאכן קיבלנו מערך של שדות תעופה ושקיבלנו עיר מהעמוד הקודם
+        if (airports && airports.length > 0 && prefilledDestination) {
+            
+            // מוצאים את האובייקט של יעד הטיסה לפי שם העיר
+            const destAirport = airports.find(ap => ap.city === prefilledDestination);
+            
+            // מוצאים את האובייקט של נתב"ג (כדי לשים אותו כמקור)
+            const tlvAirport = airports.find(ap => ap.airport_code === 'TLV');
 
+            if (destAirport && tlvAirport) {
+                // ממלאים את שדות היעד (לאן?)
+                setDest(destAirport.airport_code);
+                setDestSearch(`${destAirport.city} (${destAirport.airport_code})`);
+
+                // ממלאים אוטומטית את המקור כ"תל אביב" (מאיפה?)
+                setOrigin('TLV');
+                setOriginSearch(`${tlvAirport.city} (TLV)`);
+            }
+        }
+    }, [airports, prefilledDestination]);
     // 1. מיון שדות התעופה: שליפת תל אביב והצבתה אבסולוטית בראש הרשימה
     const getSortedAirports = () => {
         if (!airports || airports.length === 0) return [];

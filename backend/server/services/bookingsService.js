@@ -19,16 +19,15 @@ export async function getBookingDetails(bookingId, userId, userRole) {
     return booking;
 }
 
-// --- שאר הפונקציות הקיימות שלך נשארות ללא שינוי ---
-export async function getUserBookings(userId) {
-    return await bookingsModel.getBookingsByUserId(userId);
+export async function getUserBookings(userId, page, limit) {
+    return await bookingsModel.getBookingsByUserId(userId, page, limit);
 }
-
-export async function createNewBooking(userId, flightId, totalPrice, passengers) {
+export async function createNewBooking(userId, flightId, returnFlightId, totalPrice, passengers) {
     if (!flightId || !passengers || passengers.length === 0) {
         throw new Error(ERROR_CODES.MISSING_DATA);
     }
-    return await bookingsModel.createBookingWithPassengers(userId, flightId, totalPrice, passengers);
+    // 🌟 מעבירים את returnFlightId לתוך מודל ההזמנות
+    return await bookingsModel.createBookingWithPassengers(userId, flightId, returnFlightId, totalPrice, passengers);
 }
 
 export async function updateStatusByAdmin(bookingId, newStatus) {

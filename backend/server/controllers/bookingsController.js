@@ -25,12 +25,19 @@ export async function handleGetBookingById(req, res) {
     }
 }
 
-// --- שאר ההנדלרים הקיימים שלך נשארים ללא שינוי ---
 export async function handleGetBookings(req, res) {
+    // אם יש id בפרמטרים (אדמין) ניקח אותו, אם לא - ניקח את ה-id של המשתמש המחובר
     const targetUserId = req.params.id ? parseInt(req.params.id) : req.user.userId;
+    
+    // חילוץ פרמטרי הדפדוד עם ערכי ברירת מחדל (עמוד 1, 10 פריטים)
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
     try {
-        const bookings = await bookingsService.getUserBookings(targetUserId);
-        return res.status(200).json(bookings);
+        const { bookings, totalCount } = await bookingsService.getUserBookings(targetUserId, page, limit);
+        
+        // החזרת הנתונים בצורה אחידה
+        return res.status(200).json({ bookings, totalCount });
     } catch (error) {
         console.error("Error fetching bookings:", error);
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
@@ -39,9 +46,13 @@ export async function handleGetBookings(req, res) {
 
 export async function handleCreateBooking(req, res) {
     const targetUserId = req.params.id ? parseInt(req.params.id) : req.user.userId;
-    const { flightId, totalPrice, passengers } = req.body;
+    
+    // 🌟 שליפת returnFlightId מה-body שקיבלנו מהפרונטנט
+    const { flightId, returnFlightId, totalPrice, passengers } = req.body; 
+    
     try {
-        const bookingId = await bookingsService.createNewBooking(targetUserId, flightId, totalPrice, passengers);
+        // 🌟 העברת הפרמטר החדש לשירות
+        const bookingId = await bookingsService.createNewBooking(targetUserId, flightId, returnFlightId, totalPrice, passengers);
         return res.status(201).json({ 
             message: MESSAGES.BOOKINGS.CREATE_SUCCESS, 
             bookingId: bookingId 

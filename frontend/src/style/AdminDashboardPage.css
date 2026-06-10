@@ -1,0 +1,107 @@
+.admin-dashboard-container {
+  padding: 50px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  direction: rtl;
+  text-align: right;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* עיצוב כותרת העמוד */
+.admin-dashboard-header h1 {
+  color: #1a202c;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.admin-dashboard-subtitle {
+  color: #4a5568;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.admin-dashboard-divider {
+  border: 0;
+  border-top: 2px solid #e2e8f0;
+  margin-bottom: 40px;
+}
+
+/* מבנה כרטיסי הניהול (Grid) */
+.admin-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* עיצוב בסיסי של כרטיס ניהול */
+.admin-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 30px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* אפקט ריחוף מעל הכרטיס */
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: #3182ce;
+}
+
+/* אייקונים גדולים לכל אזור */
+.admin-card-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+/* תוכן הכרטיס */
+.admin-card-content h3 {
+  color: #2d3748;
+  font-size: 1.4rem;
+  margin: 0 0 12px 0;
+  transition: color 0.2s ease;
+}
+
+.admin-card:hover .admin-card-content h3 {
+  color: #3182ce; /* צביעת הכותרת בכחול בריחוף */
+}
+
+.admin-card-content p {
+  color: #718096;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* שורת הפעולה בתחתית הכרטיס */
+.admin-card-action {
+  margin-top: 25px;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.9rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-card:hover .admin-card-action {
+  color: #3182ce;
+  transform: translateX(-5px); /* תזוזה קלה שמאלה של החץ */
+}
+
+/* התאמה רספונסיבית למובייל (אם צריך) */
+@media (max-width: 600px) {
+  .admin-dashboard-container {
+    padding: 30px 15px;
+  }
+  
+  .admin-dashboard-header h1 {
+    font-size: 1.8rem;
+  }
+}
