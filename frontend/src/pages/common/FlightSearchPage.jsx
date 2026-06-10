@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { flightsApi } from '../../API/flightsAPI.js'; //  מתוקן!
+import { flightsApi } from '../../API/flightsAPI.js';
+import { UI_MESSAGES } from '../../constants/messages.js';
 import { getAllAirports } from '../../API/airportsAPI.js';
 import SearchForm from '../../components/common/Flights/SearchForm.jsx';
 import FlightResults from '../../components/common/Flights/FlightResults.jsx';
@@ -94,13 +95,13 @@ const FlightSearchPage = () => {
 
     return (
         <div className="page-container">
-            <h2 className="page-title">חיפוש טיסות</h2>
+            <h2 className="page-title">{UI_MESSAGES.search.pageTitle}</h2>
 
             {error && <div className="alert-error">⚠️ {error}</div>}
 
             <SearchForm airports={airports} onSearch={handleSearchSubmit} prefilledDestination={prefilledDestination} />
 
-            {loading && <p className="status-loading">🔎 מחפש טיסות מתאימות, רק רגע...</p>}
+            {loading && <p className="status-loading">{UI_MESSAGES.search.loading}</p>}
 
             {searchResults && (
                 <FlightResults
@@ -114,13 +115,13 @@ const FlightSearchPage = () => {
             {(selectedOutbound || selectedInbound) && (
                 <div className="floating-summary-bar">
                     <div>
-                        <h4 className="summary-title">הבחירה שלך ({searchPassengers} נוסעים):</h4>
+                        <h4 className="summary-title">{UI_MESSAGES.search.yourSelection} ({searchPassengers} {UI_MESSAGES.search.passengersLabel.toLowerCase()}):</h4>
                         <div className="summary-details">
-                            {selectedOutbound && `🛫 הלוך: ${selectedOutbound.flight_number} (${selectedOutbound.price}$)`}
-                            {selectedInbound && ` | 🛬 חזור: ${selectedInbound.flight_number} (${selectedInbound.price}$)`}
+                            {selectedOutbound && `🛫 ${UI_MESSAGES.search.outboundLabel}: ${selectedOutbound.flight_number} (${selectedOutbound.price}$)`}
+                            {selectedInbound && ` | 🛬 ${UI_MESSAGES.search.inboundLabel}: ${selectedInbound.flight_number} (${selectedInbound.price}$)`}
                         </div>
                         <strong className="summary-total-price">
-                            סה"כ לתשלום עבור כל הנוסעים: {calculateTotal()} $
+                            {UI_MESSAGES.search.totalLabel} {calculateTotal()} $
                         </strong>
                     </div>
 
@@ -141,7 +142,7 @@ const FlightSearchPage = () => {
 
                         className={`checkout-btn ${isSelectionComplete() ? 'enabled' : ''}`}
                     >
-                        {isSelectionComplete() ? 'המשך להזמנה ➔' : 'נא לבחור טיסות להמשך'}
+                        {isSelectionComplete() ? UI_MESSAGES.search.continueToBooking : UI_MESSAGES.search.selectFlightsPrompt}
                     </button>
                 </div>
             )}

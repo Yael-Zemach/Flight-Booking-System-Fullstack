@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { UI_MESSAGES } from "../../constants/messages.js";
 
 export default function EditButton({
   itemId,
@@ -36,7 +37,7 @@ export default function EditButton({
     if (loading) return;
 
     if (!trimmedDraft) {
-      setError("חובה למלא כותרת");
+      setError(UI_MESSAGES.validation.requiredTitle);
       return;
     }
 
@@ -51,7 +52,7 @@ export default function EditButton({
       await onSave(itemId, trimmedDraft);
       setIsEditing(false);
     } catch {
-      setError("שגיאה בשמירה");
+      setError(UI_MESSAGES.validation.saveError);
     } finally {
       setLoading(false);
     }
@@ -78,15 +79,15 @@ export default function EditButton({
             if (error) setError("");
           }}
           disabled={loading}
-          placeholder="כותרת..."
+          placeholder={UI_MESSAGES.validation.titlePlaceholder}
         />
 
         <button type="button" onClick={handleSave} disabled={loading}>
-          {loading ? "שומר..." : "שמור"}
+          {loading ? UI_MESSAGES.validation.savingButton : UI_MESSAGES.validation.saveButton}
         </button>
 
         <button type="button" onClick={cancelEdit} disabled={loading}>
-          {"ביטול"}
+          {UI_MESSAGES.validation.cancelButton}
         </button>
       </div>
 

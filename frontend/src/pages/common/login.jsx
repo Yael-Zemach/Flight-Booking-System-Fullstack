@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../../Hooks/authContext.jsx';
+import { UI_MESSAGES } from '../../constants/messages.js';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -37,13 +38,13 @@ export default function LoginPage() {
     <div className="auth-page-wrapper">
       <div className="auth-container">
         <div className="auth-card"></div>
-        <h2>כניסה למערכת</h2>
+        <h2>{UI_MESSAGES.auth.loginTitle}</h2>
         
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
             <input
               type="email"
-              placeholder="email"
+              placeholder={UI_MESSAGES.auth.emailPlaceholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -53,7 +54,7 @@ export default function LoginPage() {
           <div className="input-group">
             <input
               type="password"
-              placeholder="password"
+              placeholder={UI_MESSAGES.auth.passwordPlaceholder}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -61,14 +62,14 @@ export default function LoginPage() {
           </div>
 
           <button type="submit" disabled={loading} className="auth-btn">
-            {loading ? "signing in..." : "sign in"}
+            {loading ? UI_MESSAGES.auth.signingInButton : UI_MESSAGES.auth.signInButton}
           </button>
           
           {error && <p className="error-msg">{error}</p>}
         </form>
 
         <p className="auth-switch-text">
-           Don't have an account? <Link to="/register">sign up here</Link>
+           {UI_MESSAGES.auth.noAccountText} <Link to="/register">{UI_MESSAGES.auth.signUpLink}</Link>
         </p>
       </div>
     </div>

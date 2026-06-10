@@ -48,3 +48,39 @@ function App() {
 }
 
 export default App;
+// function App() {
+//   return (
+//     <AuthProvider>
+//       <Routes>
+//         {/* Auth pages - Rendered directly WITHOUT the Navbar or MainLayout wrapper */}
+//         <Route path="/login" element={<LoginPage />} />
+//         <Route path="/register" element={<RegisterPage />} />
+
+//         {/* Layout wrapper route - Contains Navbar and Outlet */}
+//         <Route element={<MainLayout />}>
+//           {/* ראוטים ציבוריים - כולם יכולים לראות, גם מי שלא מחובר */}
+//           <Route path="/" element={<FlightSearchPage />} />
+//           <Route path="/destinations" element={<DestinationPage />} />
+          
+//           {/* ----------------- כאן השינוי עבור הלקוח ----------------- */}
+//           {/* שער הגנה ללקוח: כל מה שנכנס בפנים דורש התחברות אוטומטית */}
+//           <Route element={<ProtectedRoute element={<Outlet />} />}>
+//             <Route path="/book" element={<BookingProcessPage />} />
+//             <Route path="/my-bookings" element={<MyBookingsPage />} />
+//             <Route path="/my-bookings/:bookingId" element={<BookingDetailsPage />} />
+//           </Route>
+//           {/* -------------------------------------------------------- */}
+          
+//           {/* ראוט אדמין מוגן */}
+//           <Route 
+//             path="/admin/dashboard" 
+//             element={<ProtectedRoute element={<AdminDashboardPage />} requiredRole="admin" />} 
+//           />
+//         </Route>
+
+//         {/* Any undefined route redirects back to home */}
+//         <Route path="*" element={<Navigate to="/" replace />} />
+//       </Routes>
+//     </AuthProvider>
+//   );
+// }

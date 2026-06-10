@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Bookings/PassengersForm.css';
 
 export default function PassengersForm({ numberOfPassengers, onSubmit }) {
@@ -32,7 +33,7 @@ export default function PassengersForm({ numberOfPassengers, onSubmit }) {
         );
 
         if (!isValid) {
-            setError('נא למלא את כל שדות החובה (שם פרטי, שם משפחה, תאריך לידה ומין) עבור כל הנוסעים.');
+            setError(UI_MESSAGES.passengers.requiredFieldsError);
             return;
         }
 
@@ -41,16 +42,16 @@ export default function PassengersForm({ numberOfPassengers, onSubmit }) {
 
     return (
         <form onSubmit={handleSubmit} className="passengers-form">
-            <h3 className="passengers-form-title">פרטי נוסעים</h3>
+            <h3 className="passengers-form-title">{UI_MESSAGES.passengers.title}</h3>
             {error && <div className="passengers-error">{error}</div>}
 
             {passengers.map((pax, index) => (
                 <div key={index} className="passenger-card">
-                    <h4 className="passenger-card-title">נוסע {index + 1}</h4>
+                    <h4 className="passenger-card-title">{UI_MESSAGES.passengers.passengerLabel} {index + 1}</h4>
                     
                     <div className="passenger-card-grid">
                         <div className="passenger-field">
-                            <label className="passenger-field-label">שם פרטי *</label>
+                            <label className="passenger-field-label">{UI_MESSAGES.passengers.firstNameLabel}</label>
                             <input 
                                 type="text" 
                                 className="passenger-input"
@@ -61,7 +62,7 @@ export default function PassengersForm({ numberOfPassengers, onSubmit }) {
                         </div>
                         
                         <div className="passenger-field-group">
-                            <label className="passenger-field-label">שם משפחה *</label>
+                            <label className="passenger-field-label">{UI_MESSAGES.passengers.lastNameLabel}</label>
                             <input 
                                 type="text" 
                                 className="passenger-input"
@@ -72,7 +73,7 @@ export default function PassengersForm({ numberOfPassengers, onSubmit }) {
                         </div>
 
                         <div className="passenger-field-group">
-                            <label className="passenger-field-label">תאריך לידה *</label>
+                            <label className="passenger-field-label">{UI_MESSAGES.passengers.birthDateLabel}</label>
                             <input 
                                 type="date" 
                                 className="passenger-input"
@@ -84,20 +85,20 @@ export default function PassengersForm({ numberOfPassengers, onSubmit }) {
                         </div>
                         
                         <div className="passenger-field-group">
-                            <label className="passenger-field-label">מין *</label>
+                            <label className="passenger-field-label">{UI_MESSAGES.passengers.genderLabel}</label>
                             <select 
                                 className="passenger-input"
                                 value={pax.gender}
                                 onChange={(e) => handlePassengerChange(index, 'gender', e.target.value)}
                             >
-                                <option value="male">זכר</option>
-                                <option value="female">נקבה</option>
-                                <option value="other">אחר</option>
+                                <option value="male">{UI_MESSAGES.passengers.genderMale}</option>
+                                <option value="female">{UI_MESSAGES.passengers.genderFemale}</option>
+                                <option value="other">{UI_MESSAGES.passengers.genderOther}</option>
                             </select>
                         </div>
 
                         <div className="passenger-field-group">
-                            <label className="passenger-field-label">אימייל (אופציונלי)</label>
+                            <label className="passenger-field-label">{UI_MESSAGES.passengers.emailLabel}</label>
                             <input 
                                 type="email" 
                                 className="passenger-input"
@@ -107,7 +108,7 @@ export default function PassengersForm({ numberOfPassengers, onSubmit }) {
                         </div>
                         
                         <div className="passenger-field-group">
-                            <label className="passenger-field-label">מספר טלפון (אופציונלי)</label>
+                            <label className="passenger-field-label">{UI_MESSAGES.passengers.phoneLabel}</label>
                             <input 
                                 type="tel" 
                                 className="passenger-input"
@@ -120,7 +121,7 @@ export default function PassengersForm({ numberOfPassengers, onSubmit }) {
             ))}
 
             <button type="submit" className="passengers-submit-btn">
-                המשך לשלב התשלום
+                {UI_MESSAGES.passengers.continueToPayment}
             </button>
         </form>
     );

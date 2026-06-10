@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../Hooks/authContext.jsx"; 
+import { useAuth } from "../../Hooks/authContext.jsx";
+import { UI_MESSAGES } from "../../constants/messages.js";
 
 
 export default function RegisterPage() {
@@ -21,15 +22,15 @@ export default function RegisterPage() {
 
     // וולידציה מהירה בצד הלקוח (חוסכת פניות מיותרות לשרת)
     if (!form.name.trim() || !form.email.trim() || !form.password || !form.verify) {
-      setError("please fill in all fields");
+      setError(UI_MESSAGES.validation.fillAllFields);
       return;
     }
     if (form.password.length < 6) {
-      setError("the password must contain at least 6 characters");
+      setError(UI_MESSAGES.validation.passwordTooShort);
       return;
     }
     if (form.password !== form.verify) {
-      setError("the passwords you entered do not match");
+      setError(UI_MESSAGES.validation.passwordsDoNotMatch);
       return;
     }
 
@@ -52,7 +53,7 @@ export default function RegisterPage() {
     <div className="auth-page-wrapper">
       <div className="auth-container">
         <div className="auth-card wide"></div>
-        <h2>Creating a New Account</h2>
+        <h2>{UI_MESSAGES.auth.registerTitle}</h2>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <input 
@@ -60,7 +61,7 @@ export default function RegisterPage() {
             type="text"
             value={form.name} 
             onChange={onChange} 
-            placeholder="Full Name" 
+            placeholder={UI_MESSAGES.auth.fullNamePlaceholder} 
             required 
           />
           <input 
@@ -68,7 +69,7 @@ export default function RegisterPage() {
             type="email" 
             value={form.email} 
             onChange={onChange} 
-            placeholder="Email Address" 
+            placeholder={UI_MESSAGES.auth.emailAddressPlaceholder} 
             required 
           />
           <input 
@@ -76,7 +77,7 @@ export default function RegisterPage() {
             type="password" 
             value={form.password} 
             onChange={onChange} 
-            placeholder="Password (at least 6 characters)" 
+            placeholder={UI_MESSAGES.auth.passwordPlaceholderLong} 
             required 
           />
           <input 
@@ -84,19 +85,19 @@ export default function RegisterPage() {
             type="password" 
             value={form.verify} 
             onChange={onChange} 
-            placeholder="Verify Password" 
+            placeholder={UI_MESSAGES.auth.verifyPasswordPlaceholder} 
             required 
           />
 
           <button type="submit" disabled={loading} className="auth-btn">
-            {loading ? "Creating Account..." : "Register"}
+            {loading ? UI_MESSAGES.auth.creatingAccountButton : UI_MESSAGES.auth.registerButton}
           </button>
           
           {error && <p className="error-msg">{error}</p>}
         </form>
         
         <p className="auth-switch-text">
-          already have an account? <Link to="/login">sign in here</Link>
+          {UI_MESSAGES.auth.alreadyHaveAccount} <Link to="/login">{UI_MESSAGES.auth.signInHere}</Link>
         </p>
       </div>
     </div>

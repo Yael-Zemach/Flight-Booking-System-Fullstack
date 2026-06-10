@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { updateMyProfile } from "../../API/userAPI.js";
 import { useAuth } from "../../Hooks/authContext.jsx";
+import { UI_MESSAGES } from "../../constants/messages.js";
 import "../../style/profileEditForm.css";
 
 export default function ProfileEditForm({ onCancel, onComplete }) {
@@ -20,7 +21,7 @@ export default function ProfileEditForm({ onCancel, onComplete }) {
       updateLocalUser({ name });
       onComplete();
     } catch (err) {
-      setError("Error updating details. Please try again.");
+      setError(UI_MESSAGES.profile.updateError);
     } finally {
       setLoading(false);
     }
@@ -32,7 +33,7 @@ export default function ProfileEditForm({ onCancel, onComplete }) {
         type="text" 
         value={name} 
         onChange={(e) => setName(e.target.value)} 
-        placeholder="Full Name"
+        placeholder={UI_MESSAGES.auth.fullNamePlaceholder}
         className="profile-input-field"
         required 
       />
@@ -41,17 +42,17 @@ export default function ProfileEditForm({ onCancel, onComplete }) {
         value={user?.email || ""} 
         className="profile-input-field"
         disabled 
-        title="Email cannot be changed"
+        title={UI_MESSAGES.profile.emailDisabledTitle}
         style={{ backgroundColor: '#e2e8f0', color: '#64748b', cursor: 'not-allowed' }}
       />
       {error && <p className="profile-error-message">{error}</p>}
       
       <div className="profile-form-buttons">
         <button type="submit" disabled={loading} className="profile-save-btn">
-          {loading ? "Saving..." : "Save Changes"}
+          {loading ? UI_MESSAGES.profile.saving : UI_MESSAGES.profile.saveChanges}
         </button>
         <button type="button" onClick={onCancel} disabled={loading} className="profile-cancel-btn">
-          Cancel
+          {UI_MESSAGES.profile.cancel}
         </button>
       </div>
     </form>

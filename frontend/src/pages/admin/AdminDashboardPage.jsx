@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminOptionCard from './AdminOptionCard'; // ודאי שהנתיב לקומפוננטה הגנרית החדשה נכון
+import AdminOptionCard from './AdminOptionCard';
+import { UI_MESSAGES } from '../../constants/messages.js';
 import '../../style/AdminDashboardPage.css';
 
 export default function AdminDashboardPage() {
@@ -11,15 +12,15 @@ export default function AdminDashboardPage() {
     {
       id: 'flights',
       icon: '🛫',
-      title: 'ניהול טיסות',
-      description: 'הוספת טיסות חדשות, עדכון זמני המראות ונחיתות, שינוי מחירי כרטיסים וניהול מלאי המושבים בזמן אמת.',
+      title: UI_MESSAGES.admin.flightsTitle,
+      description: UI_MESSAGES.admin.flightsDescription,
       path: '/admin/flights'
     },
     {
       id: 'users-service',
       icon: '👥',
-      title: 'שירות למשתמש',
-      description: 'צפייה בהזמנות של משתמשי המערכת, עדכון ידני של פרטי נוסעים, שינוי סטטוס הזמנה (אישור/ביטול) ומתן תמיכה.',
+      title: UI_MESSAGES.admin.usersTitle,
+      description: UI_MESSAGES.admin.usersDescription,
       path: '/admin/users-service'
     }
   ];
@@ -27,8 +28,8 @@ export default function AdminDashboardPage() {
   return (
     <div className="admin-dashboard-container">
       <header className="admin-dashboard-header">
-        <h1>🔐 לוח בקרה למנהל</h1>
-        <p className="admin-dashboard-subtitle">שלום מנהל, בחר את אזור העבודה הרצוי כדי להתחיל בניהול המערכת.</p>
+        <h1>{UI_MESSAGES.admin.dashboardTitle}</h1>
+        <p className="admin-dashboard-subtitle">{UI_MESSAGES.admin.dashboardSubtitle}</p>
         <hr className="admin-dashboard-divider" />
       </header>
 

@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Flights/SearchForm.css'; // ייבוא ה-CSS שלך
 
 
@@ -132,11 +133,11 @@ useEffect(() => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!origin || !dest || !departDate) {
-            alert('נא למלא את כל שדות החובה ולבחור מיקום מתוך הרשימה הצפה');
+            alert(UI_MESSAGES.search.requiredFieldsAlert);
             return;
         }
         if (tripType === 'round-trip' && !returnDate) {
-            alert('נא למלא תאריך חזרה');
+            alert(UI_MESSAGES.search.returnDateAlert);
             return;
         }
         onSearch({ tripType, origin, dest, departDate, returnDate, passengers });
@@ -150,14 +151,14 @@ useEffect(() => {
                     onClick={() => setTripType('round-trip')}
                     className={`trip-type-btn ${tripType === 'round-trip' ? 'active' : ''}`}
                 >
-                    הלוך וחזור
+                    {UI_MESSAGES.search.tripTypes.roundTrip}
                 </button>
                 <button 
                     type="button"
                     onClick={() => setTripType('one-way')}
                     className={`trip-type-btn ${tripType === 'one-way' ? 'active' : ''}`}
                 >
-                    כיוון אחד
+                    {UI_MESSAGES.search.tripTypes.oneWay}
                 </button>
             </div>
 
@@ -165,10 +166,10 @@ useEffect(() => {
                 
                 {/* שדה מקור (מאיפה) */}
                 <div className="form-field-group autocomplete-wrapper">
-                    <label>מאיפה? (מקור)</label>
+                    <label>{UI_MESSAGES.search.originLabel}</label>
                     <input 
                         type="text"
-                        placeholder="הקלידי עיר או קוד שדה..."
+                        placeholder={UI_MESSAGES.search.originPlaceholder}
                         value={originSearch}
                         onChange={(e) => {
                             setOriginSearch(e.target.value);
@@ -195,10 +196,10 @@ useEffect(() => {
 
                 {/* שדה יעד (לאן) */}
                 <div className="form-field-group autocomplete-wrapper">
-                    <label>לאן? (יעד)</label>
+                    <label>{UI_MESSAGES.search.destinationLabel}</label>
                     <input 
                         type="text"
-                        placeholder="הקלידי עיר או קוד שדה..."
+                        placeholder={UI_MESSAGES.search.originPlaceholder}
                         value={destSearch}
                         onChange={(e) => {
                             setDestSearch(e.target.value);
@@ -226,7 +227,7 @@ useEffect(() => {
 
                 {/* תאריך יציאה */}
                 <div className="form-field-group">
-                    <label>תאריך יציאה</label>
+                    <label>{UI_MESSAGES.search.departDateLabel}</label>
                     <input 
                         type="date" 
                         value={departDate} 
@@ -239,7 +240,7 @@ useEffect(() => {
                 {/* תאריך חזרה */}
                 {tripType === 'round-trip' && (
                     <div className="form-field-group">
-                        <label>תאריך חזרה</label>
+                        <label>{UI_MESSAGES.search.returnDateLabel}</label>
                         <input 
                             type="date" 
                             value={returnDate} 
@@ -252,7 +253,7 @@ useEffect(() => {
 
                 {/* מספר נוסעים */}
                 <div className="form-field-group">
-                    <label>נוסעים</label>
+                    <label>{UI_MESSAGES.search.passengersLabel}</label>
                     <input 
                         type="number" 
                         min="1" 
@@ -264,7 +265,7 @@ useEffect(() => {
                 </div>
 
                 <button type="submit" className="search-submit-btn">
-                    חפש טיסות
+                    {UI_MESSAGES.search.searchButton}
                 </button>
             </div>
         </form>

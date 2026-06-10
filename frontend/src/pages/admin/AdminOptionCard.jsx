@@ -1,6 +1,7 @@
 import React from 'react';
+import { UI_MESSAGES } from '../../constants/messages.js';
 
-export default function AdminOptionCard({ icon, title, description, onClick, actionText = "כניסה לאזור הניהול ←" }) {
+export default function AdminOptionCard({ icon, title, description, onClick, actionText = UI_MESSAGES.admin.optionActionText }) {
   return (
     <div className="admin-card" onClick={onClick}>
       <div className="admin-card-icon">{icon}</div>

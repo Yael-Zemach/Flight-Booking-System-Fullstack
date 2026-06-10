@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { createBooking, payForBooking } from '../../../API/bookingAPI.js';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 
 // ייבוא הקומפוננטות ה"טיפשות"
 import PassengersForm from '../../../components/client/Bookings/PassengerForm.jsx';
@@ -39,7 +40,7 @@ export default function BookingProcessPage() {
             setBookingId(response.bookingId);
             setStep(2);
         } catch (err) {
-            setError(err.message || "שגיאה ביצירת ההזמנה. אנא נסה שוב.");
+            setError(err.message || UI_MESSAGES.booking.bookingProcessError);
         }
     };
 
@@ -49,16 +50,16 @@ export default function BookingProcessPage() {
             await payForBooking(bookingId);
             setStep(3);
         } catch (err) {
-            setError(err.message || "שגיאה באישור התשלום.");
+            setError(err.message || UI_MESSAGES.booking.paymentError);
         }
     };
 
     return (
         <div className="booking-process-container">
             <div className="steps-indicator">
-                <span className={step === 1 ? 'step-item active' : 'step-item'}>1. פרטי נוסעים</span>
-                <span className={step === 2 ? 'step-item active' : 'step-item'}>2. תשלום באשראי</span>
-                <span className={step === 3 ? 'step-item completed' : 'step-item'}>3. אישור הזמנה</span>
+                <span className={step === 1 ? 'step-item active' : 'step-item'}>{UI_MESSAGES.booking.steps.passengerDetails}</span>
+                <span className={step === 2 ? 'step-item active' : 'step-item'}>{UI_MESSAGES.booking.steps.payment}</span>
+                <span className={step === 3 ? 'step-item completed' : 'step-item'}>{UI_MESSAGES.booking.steps.confirmation}</span>
             </div>
 
             {error && <div className="error-message">⚠️ {error}</div>}
@@ -79,10 +80,10 @@ export default function BookingProcessPage() {
 
             {step === 3 && (
                 <div className="success-message">
-                    <h2 className="success-title">🎉 ההזמנה אושרה בהצלחה!</h2>
-                    <p>מספר ההזמנה שלך הוא: <strong>{bookingId}</strong></p>
+                    <h2 className="success-title">{UI_MESSAGES.booking.bookingApprovedTitle}</h2>
+                    <p>{UI_MESSAGES.booking.bookingIdLabel} <strong>{bookingId}</strong></p>
                     <button className="nav-button" onClick={() => navigate('/my-bookings')}>
-                        מעבר לאזור האישי
+                        {UI_MESSAGES.booking.goToMyBookings}
                     </button>
                 </div>
             )}

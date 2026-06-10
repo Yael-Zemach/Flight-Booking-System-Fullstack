@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ייבוא ה-Navigate לניווט
-import { cancelOwnBooking } from '../../../API/bookingAPI.js'; // ייבוא הפונקציה לביטול הזמנה
-import '../../../style/Bookings/BookingCard.css'; // ייבוא ה-CSS של כרטיס ההזמנה
+import { useNavigate } from 'react-router-dom';
+import { cancelOwnBooking } from '../../../API/bookingAPI.js';
+import { UI_MESSAGES } from '../../../constants/messages.js';
+import '../../../style/Bookings/BookingCard.css';
 export default function BookingCard({ booking, onBookingCancelled }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // הגדרת הניווט
@@ -20,18 +21,18 @@ export default function BookingCard({ booking, onBookingCancelled }) {
   const handleCancelClick = async (e) => {
     e.stopPropagation(); // מונע מהלחיצה על הביטול לעבור לעמוד הפרטים!
 
-    if (!window.confirm("האם אתה בטוח שברצונך לבטל את ההזמנה? פעולה זו סופית.")) return;
+    if (!window.confirm(UI_MESSAGES.booking.cancelConfirm)) return;
 
     try {
       setLoading(true);
       await cancelOwnBooking(booking.booking_id);
-      alert("ההזמנה בוטלה בהצלחה.");
+      alert(UI_MESSAGES.booking.cancelSuccess);
       
       if (onBookingCancelled) {
         onBookingCancelled(); // מרענן את העמוד
       }
     } catch (err) {
-      alert(err.response?.data?.message || "שגיאה בתהליך ביטול ההזמנה");
+      alert(err.response?.data?.message || UI_MESSAGES.booking.cancelError);
     } finally {
       setLoading(false);
     }
@@ -43,28 +44,28 @@ export default function BookingCard({ booking, onBookingCancelled }) {
       onClick={() => navigate(`/my-bookings/${booking.booking_id}`)} // מעבר לעמוד הפרטים בלחיצה על הכרטיס
     >
       <div className="booking-card-header">
-        <h3>הזמנה #{booking.booking_id}</h3>
+        <h3>{UI_MESSAGES.booking.bookingLabel}{booking.booking_id}</h3>
         {/* החזרתי את הסטטוסים המקוריים שלך (confirmed / cancelled) באותיות קטנות */}
         <span className={`booking-status-tag ${booking.status}`}>
-          {booking.status === 'confirmed' ? 'confirmed' : 'cancelled'}
+          {booking.status === 'confirmed' ? UI_MESSAGES.booking.bookingConfirmed : UI_MESSAGES.booking.bookingCancelled}
         </span>
       </div>
 
       <div className="booking-card-body">
-        <p><strong>טיסה מספר:</strong> {booking.flight_number}</p>
-        <p><strong>מסלול:</strong> {booking.departure_city} ← {booking.arrival_city}</p>
-        <p><strong>מועד המראה:</strong> {new Date(booking.departure_time).toLocaleString('he-IL')}</p>
+        <p><strong>{UI_MESSAGES.booking.flightNumberLabel}</strong> {booking.flight_number}</p>
+        <p><strong>{UI_MESSAGES.booking.routeLabel}</strong> {booking.departure_city} ← {booking.arrival_city}</p>
+        <p><strong>{UI_MESSAGES.booking.departureTimeLabel}</strong> {new Date(booking.departure_time).toLocaleString('he-IL')}</p>
         
         {booking.return_flight_number && (
           <>
-            <p style={{ marginTop: '8px', fontWeight: 'bold' }}>✈️ טיסת חזור:</p>
-            <p><strong>טיסה מספר:</strong> {booking.return_flight_number}</p>
-            <p><strong>מועד המראה חזור:</strong> {new Date(booking.return_departure_time).toLocaleString('he-IL')}</p>
+            <p style={{ marginTop: '8px', fontWeight: 'bold' }}>{UI_MESSAGES.booking.returnFlightLabel}</p>
+            <p><strong>{UI_MESSAGES.booking.flightNumberLabel}</strong> {booking.return_flight_number}</p>
+            <p><strong>{UI_MESSAGES.booking.returnDepartureLabel}</strong> {new Date(booking.return_departure_time).toLocaleString('he-IL')}</p>
           </>
         )}
         
         <p style={{ marginTop: '10px', fontWeight: 'bold', color: '#1a202c' }}>
-          סך הכל שולם: ₪{booking.total_price}
+          {UI_MESSAGES.booking.totalPaidLabel} ₪{booking.total_price}
         </p>
 
         {/* כפתור הביטול המבודד */}
@@ -74,7 +75,7 @@ export default function BookingCard({ booking, onBookingCancelled }) {
             onClick={handleCancelClick}
             disabled={loading}
           >
-            {loading ? 'מבטל...' : '❌ ביטול הזמנה'}
+            {loading ? UI_MESSAGES.booking.cancellingButton : UI_MESSAGES.booking.cancelButton}
           </button>
         )}
       </div>
