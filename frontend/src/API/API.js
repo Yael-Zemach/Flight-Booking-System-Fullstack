@@ -17,24 +17,41 @@ async function request(url, options = {}) {
   });
 
  //double protection
-  if (!res.ok) {
+ if (!res.ok) {
     let errorMessage = "API Error";
     
     try {
-      // קוראים את הסטרים פעם אחת בלבד כטקסט
       const errorText = await res.text(); 
       
       try {
-        // מנסים לראות אם זה בעצם JSON עם הודעת שגיאה מסודרת
         const errorData = JSON.parse(errorText);
         errorMessage = errorData.message || errorMessage;
       } catch (e) {
-        // אם זה לא JSON, פשוט לוקחים את הטקסט הגולמי שהשרת החזיר (למשל "Not Found")
         errorMessage = errorText || errorMessage;
       }
     } catch (readError) {
       console.error("Failed to read response body", readError);
     }
+
+    // ==========================================
+    // טיפול אוטומטי בפקיעת טוקן (ללא Promise)
+    // ==========================================
+    if (
+        res.status === 401 || 
+        errorMessage === 'הטוקן אינו תקין או שפג תוקפו' || 
+        errorMessage === 'גישה נדחתה: נא להתחבר למערכת'
+    ) {
+        // מוחקים את כל נתוני המשתמש מהדפדפן
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        
+        // מעבירים את המשתמש לעמוד התחברות
+        window.location.href = "/login";
+        
+        // זורקים שגיאה רגילה כדי לעצור את המשך הקוד 
+        throw new Error("Session expired. Logging out.");
+    }
+    // ==========================================
 
     throw new Error(errorMessage);
   }
