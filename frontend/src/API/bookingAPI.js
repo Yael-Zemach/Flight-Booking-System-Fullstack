@@ -47,3 +47,6 @@ export const adminUpdateBookingFull = (bookingId, bookingData) =>
     });
     export const payForBooking = (bookingId) =>
     api.post(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}/${bookingId}/pay`, {});
+    // הוסיפי את הפונקציה הזו לקובץ ה-API שלך בפרונטנד
+export const cancelOwnBooking = (bookingId) =>
+    api.patch(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}/${bookingId}/cancel`);

@@ -6,7 +6,8 @@ import {
     handleAdminUpdateStatus,
     handleAdminUpdateBooking,
     handleGetBookingById,
-    handleProcessPayment // 🌟 ייבוא ההנדלר החדש
+    handleProcessPayment,
+    handleCancelOwnBooking // 🌟 ייבוא ההנדלר החדש
 } from '../controllers/bookingsController.js';
 import { API_ROUTES } from '../constants/apiRoutes.js';
 
@@ -18,6 +19,8 @@ router.get('/my-bookings/:bookingId', authenticateToken, handleGetBookingById);
 // --- שאר הראוטים הקיימים שלך נשארים ללא שינוי ---
 router.get(API_ROUTES.BOOKINGS.MY_BOOKINGS, authenticateToken, handleGetBookings);
 router.post(API_ROUTES.BOOKINGS.MY_BOOKINGS, authenticateToken, handleCreateBooking);
+// הוסיפי את השורה הזו באזור הראוטים של המשתמש (מצידו של My Bookings)
+router.patch(`${API_ROUTES.BOOKINGS.MY_BOOKINGS}/:bookingId/cancel`, authenticateToken, handleCancelOwnBooking);
 
 router.get(API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS, authenticateToken, isAdmin, verifyAdminTarget, handleGetBookings);
 router.post(API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS, authenticateToken, isAdmin, verifyAdminTarget, handleCreateBooking);

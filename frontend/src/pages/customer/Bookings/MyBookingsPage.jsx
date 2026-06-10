@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getMyBookings } from '../../../API/bookingAPI';
-import BookingCard from '../../../components/client/Bookings/BookingCard.jsx';
+import BookingCard from '../../../components/client/bookings/BookingCard';
 import '../../../style/Bookings/MyBookingsPage.css'; 
 
 export default function MyBookingsPage() {
@@ -8,30 +8,29 @@ export default function MyBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // סטייטים לניהול הדפדוד
+  // ניהול דפדוד (שיניתי ללימיט של 2 לצורך הבדיקה שלך, תשני חזרה ל-10 כשיהיה מוכן)
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const LIMIT = 4; 
 
+  const fetchBookings = async () => {
+    try {
+      setLoading(true);
+      const data = await getMyBookings(page, LIMIT);
+      
+      setBookings(data.bookings || []);
+      setTotalCount(data.totalCount || 0);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        setLoading(true);
-        const data = await getMyBookings(page, LIMIT);
-        
-        setBookings(data.bookings || []);
-        setTotalCount(data.totalCount || 0);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchBookings();
-  }, [page]); 
+  }, [page]); // יתרענן אוטומטית בכל פעם שהמשתמש לוחץ על עמוד אחר
 
-  // חישוב סך כל העמודים
   const totalPages = Math.ceil(totalCount / LIMIT);
 
   if (loading && bookings.length === 0) return <div className="bookings-loading">טוען את ההזמנות שלך...</div>;
@@ -47,14 +46,18 @@ export default function MyBookingsPage() {
         <p className="no-bookings-message">לא נמצאו הזמנות במערכת.</p>
       ) : (
         <>
-          {/* 🌟 שימוש בקלאס דינמי נקי במקום אינליין סטייל לטעינה */}
+          {/* רשימת כרטיסי הטיסה */}
           <div className={`bookings-list ${loading ? 'is-loading' : ''}`}>
             {bookings.map(booking => (
-              <BookingCard key={booking.booking_id} booking={booking} />
+              <BookingCard 
+                key={booking.booking_id} 
+                booking={booking} 
+                onBookingCancelled={fetchBookings} // 🌟 קריאה מחודשת לשרת כדי לעדכן את העמוד מיד לאחר ביטול מוצלח
+              />
             ))}
           </div>
 
-          {/* 🌟 כפתורי הניווט החדשים עם קלאסים נקיים מה-CSS */}
+          {/* כפתורי הניווט בין העמודים */}
           {totalPages > 1 && (
             <div className="pagination-container">
               <button 

@@ -58,4 +58,40 @@ export async function processBookingPayment(bookingId) {
     }
     return true;
 }
+export async function cancelBookingByUser(bookingId, userId) {
+    // 1. שליפת פרטי ההזמנה כדי לבדוק שיוך וזמנים
+    const booking = await bookingsModel.getBookingDetailsForValidation(bookingId);
+    
+    if (!booking) {
+        const error = new Error("ההזמנה לא נמצאה במערכת");
+        error.status = 404;
+        throw error;
+    }
+
+    if (booking.user_id !== userId) {
+        const error = new Error("אין לך הרשאה לבטל הזמנה זו");
+        error.status = 403;
+        throw error;
+    }
+
+    if (booking.status === 'cancelled') {
+        const error = new Error("ההזמנה כבר מבוטלת");
+        error.status = 400;
+        throw error;
+    }
+
+    // 2. 🌟 בדיקת ה-24 שעות (ההבדל בין זמן ההמראה לזמן הנוכחי)
+    const departureTime = new Date(booking.departure_time);
+    const now = new Date();
+    const millisecondsIn24Hours = 24 * 60 * 60 * 1000;
+
+    if (departureTime - now < millisecondsIn24Hours) {
+        const error = new Error("לא ניתן לבטל טיסה פחות מ-24 שעות לפני מועד ההמראה");
+        error.status = 400;
+        throw error;
+    }
+
+    // 3. אם הכל תקין - מעדכנים את הסטטוס ל-cancelled
+    return await bookingsModel.updateBookingStatus(bookingId, 'cancelled');
+}
 

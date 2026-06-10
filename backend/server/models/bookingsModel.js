@@ -129,6 +129,7 @@ export async function updateBookingStatus(bookingId, newStatus) {
     return result.affectedRows > 0;
 }
 
+
 export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, totalPrice, status, passengersArray) {
     const connection = await pool.getConnection();
     try {
@@ -153,4 +154,14 @@ export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, 
     } finally {
         connection.release();
     }
+}
+export async function getBookingDetailsForValidation(bookingId) {
+    const query = `
+        SELECT b.user_id, b.status, f.departure_time 
+        FROM Bookings b
+        JOIN Flights f ON b.flight_id = f.flight_id
+        WHERE b.booking_id = ?
+    `;
+    const [rows] = await pool.query(query, [bookingId]);
+    return rows[0] || null;
 }

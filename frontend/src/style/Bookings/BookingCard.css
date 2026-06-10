@@ -52,3 +52,31 @@
 .booking-card-body p {
   margin: 4px 0;
 }
+
+/* ==========================================================================
+   🌟 הסטייל החדש עבור כפתור הביטול בתוך הכרטיס
+   ========================================================================== */
+.cancel-booking-btn {
+  display: block;
+  margin-top: 15px;
+  background-color: #fff5f5;
+  border: 1px solid #feb2b2;
+  color: #c53030;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-booking-btn:hover:not(:disabled) {
+  background-color: #ffe5e5;
+  border-color: #fc8181;
+  color: #9b2c2c;
+}
+
+.cancel-booking-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

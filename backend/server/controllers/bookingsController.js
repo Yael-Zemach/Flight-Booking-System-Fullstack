@@ -116,3 +116,21 @@ export async function handleProcessPayment(req, res) {
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
     }
 }
+export async function handleCancelOwnBooking(req, res) {
+    const { bookingId } = req.params;
+    const userId = req.user.userId; // מגיע מהטוקן המאומת
+
+    try {
+        await bookingsService.cancelBookingByUser(bookingId, userId);
+        return res.status(200).json({ message: "ההזמנה בוטלה בהצלחה" });
+    } catch (error) {
+        console.error("Error cancelling booking:", error);
+        
+        // אם מדובר בשגיאה לוגית (כמו פחות מ-24 שעות או הזמנה לא שלך)
+        if (error.status) {
+            return res.status(error.status).json({ message: error.message });
+        }
+        
+        return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
+    }
+}
