@@ -1,4 +1,4 @@
-import { updateUser } from '../models/usersModel.js';
+import { updateUser, getUserByEmail } from '../models/usersModel.js';
 import { MESSAGES } from '../constants/messages.js';
 
 
@@ -34,7 +34,7 @@ export const handleGetUserIdByEmail = async (req, res) => {
         }
         
         // החזרת ה-ID בלבד כדי לא לחשוף מידע רגיש
-        res.status(200).json({ userId: user.id }); 
+        res.status(200).json({ userId: user.user_id }); 
     } catch (error) {
         res.status(500).json({ message: "שגיאה בחיפוש משתמש" });
     }

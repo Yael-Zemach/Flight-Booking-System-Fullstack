@@ -21,7 +21,7 @@ export default function AdminNavbar() {
       <nav className="nav-links-container">
         <NavLink to="/admin/dashboard" className="nav-link-item">Dashboard</NavLink>
         <NavLink to="/admin/flights" className="nav-link-item">Manage Flights</NavLink>
-        <NavLink to="/admin/bookings" className="nav-link-item">Manage Airports</NavLink>
+        <NavLink to="/admin/airports" className="nav-link-item">Manage Airports</NavLink>
 <NavLink to="/admin/users-service" className="nav-link-item">Users</NavLink>      </nav>
       {/* צד ימין - פרופיל מנהל והתנתקות */}
       <div className="nav-user-actions">

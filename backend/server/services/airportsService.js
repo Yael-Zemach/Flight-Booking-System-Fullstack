@@ -1,23 +1,33 @@
 import * as airportsModel from '../models/airportsModel.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 
-// 1. לוגיקת יצירת שדה תעופה
-export async function createNewAirport(airportData) {
-    const { airport_code, airport_name, city, country, image_url } = airportData;
+export async function createNewAirport(bodyData, fileData) {
+    let finalImageUrl = '';
 
-    if (!airport_code || !airport_name || !city || !country || !image_url) {
-        throw new Error(ERROR_CODES.MISSING_DATA);
+    // אופציה א': הגיע קובץ פיזי ממולטר - כאן הסרביס מרכיב את ה-URL!
+    if (fileData) {
+        const cleanPath = fileData.path.replace(/\\/g, '/');
+        // בעתיד אפשר להחליף את localhost במשתנה סביבה: process.env.BASE_URL
+        finalImageUrl = `http://localhost:3000/${cleanPath}`; 
+    } 
+    // אופציה ב': הגיע קישור URL ישיר מהטקסט
+    else if (bodyData.image_url) {
+        finalImageUrl = bodyData.image_url.trim();
     }
 
-    // בדיקה שקוד שדה התעופה ייחודי (למשל, שלא ינסו ליצור שוב את TLV)
-    const existingAirport = await airportsModel.getAirportByCode(airport_code);
-    if (existingAirport) {
-        throw new Error(ERROR_CODES.CODE_ALREADY_EXISTS);
-    }
+    // בונים את האובייקט הסופי שיישלח ל-Model/DB
+    const finalAirportObject = {
+        airport_code: bodyData.airport_code,
+        airport_name: bodyData.airport_name,
+        city: bodyData.city,
+        country: bodyData.country,
+        description: bodyData.description,
+        image_url: finalImageUrl // ה-URL המורכב והמוכן
+    };
 
-    return await airportsModel.insertAirport(airport_code, airport_name, city, country, image_url);
+    // קריאה ל-Model שיבצע את שאילתת ה-SQL INSERT
+    return await airportsModel.insertAirport(finalAirportObject);
 }
-
 // 2. לוגיקת עדכון תמונה
 export async function updateAirportImage(airportId, imageUrl) {
     if (!imageUrl) {

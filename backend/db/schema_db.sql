@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Airports (
     airport_name VARCHAR(100) NOT NULL,
     city VARCHAR(50) NOT NULL,
     country VARCHAR(50) NOT NULL,
-    image_url VARCHAR(255) NOT NULL,
+    image_url TEXT NOT NULL,
     description TEXT
 );
 

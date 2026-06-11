@@ -1,0 +1,343 @@
+/* === עיצוב ארכיטקטוני רספונסיבי ומקובע - ניהול שדות תעופה === */
+
+/* ברירת מחדל למסכים רחבים (מחשבים): נעילה מלאה וגלילה פנימית בלבד */
+.admin-flights-fixed-layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px); 
+  max-height: calc(100vh - 70px);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 25px;
+  background-color: #f8fafc;
+  zoom: 102%; 
+  font-size: 14px; 
+  overflow: hidden !important; /* חוסם גלגלת כללית במחשב */
+}
+
+/* כותרת הדף */
+.admin-flights-header {
+  flex-shrink: 0;
+  margin-bottom: 6px;
+}
+.admin-flights-title {
+  margin: 2px 0;
+  font-size: 20px;
+  color: #0f172a;
+}
+
+/* הודעות מערכת */
+.alert-message {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* === 2. טופס הוספה קומפקטי ומיושר === */
+.form-section-compact {
+  flex-shrink: 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.form-section-compact h4 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* גריד שורתי למחשב */
+.compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 8px 14px;
+  align-items: flex-end;
+}
+
+.form-group-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.form-group-compact label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.form-group-compact input, .compact-select {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  height: 34px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.form-file-input-compact {
+  padding: 4px 6px !important;
+  border: 1px dashed #2563eb !important;
+  height: 34px;
+}
+
+.submit-btn-compact {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  height: 34px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.submit-btn-compact:hover {
+  background-color: #1d4ed8;
+}
+
+/* === 3. שורת חיפוש === */
+.search-section-compact {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  background: #edf2f7;
+  padding: 6px 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  gap: 8px;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.search-input-field {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+}
+
+/* === 4. אזור הרשימה והכרטיסים === */
+.table-section-scrollable {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 15px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.table-section-scrollable h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+/* חלון הגלילה האנכי הפנימי */
+.flights-table-wrapper {
+  flex: 1;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-right: 4px;
+}
+
+.airport-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* עיצוב כרטיס שדה תעופה דו-שורתי */
+.airport-custom-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.airport-card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.airport-info-item {
+  font-size: 14px;
+  color: #334155;
+  text-align: right;
+}
+.airport-info-item.code {
+  flex: 0 0 55px;
+  color: #2563eb;
+}
+.airport-info-item.name {
+  flex: 2;
+  font-weight: 500;
+}
+.airport-info-item.location {
+  flex: 2;
+}
+.airport-info-item.thumb {
+  flex: 0 0 100px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.airport-table-thumbnail {
+  width: 90px;  
+  height: 58px; 
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.airport-card-bottom-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 6px;
+  width: 100%;
+}
+
+.actions-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.upload-file-label {
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  background: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+.upload-file-label input[type=file] {
+  position: absolute;
+  left: 0; top: 0; opacity: 0;
+}
+
+.edit-btn-inline {
+  background: #f0fdf4;
+  border: 1px solid #16a34a;
+  color: #16a34a;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn-inline {
+  background: #fef2f2;
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: auto;
+}
+
+/* === 🌟 5. התאמה רספונסיבית מוחלטת ומעוצבת (מובייל וטאבלט) 🌟 === */
+
+@media (max-width: 1024px) {
+  /* א. פתיחת גלגלת כללית של הדף רק במסכים קטנים כדי לאפשר פריסה רחבה */
+  .admin-flights-fixed-layout {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important; /* מאפשרים גלילה טבעית של הדף */
+    padding: 15px;
+  }
+
+  /* ב. קיבוע טופס ההוספה והחיפוש בראש המסך – שלא יברחו לעולם מתחת לנבבאר! */
+  .form-section-compact {
+    position: sticky;
+    top: 0;
+    z-index: 100; /* שומר עליו מעל רשימת שדות התעופה בזמן גלילה */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* צל אלגנטי כשהוא צף */
+  }
+
+  .search-section-compact {
+    position: sticky;
+    top: 110px; /* מתקבע בדיוק מתחת לטופס הצף */
+    z-index: 99;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  /* ג. ארגון שדות הטופס מחדש לגריד מסודר, אלגנטי ויציב של 2 עמודות */
+  .compact-grid {
+    grid-template-columns: repeat(2, 1fr) !important; /* 2 עמודות קבועות ומיושרות */
+    gap: 12px;
+  }
+
+  /* ד. שחרור חניקת הגובה של הטבלה למטה */
+  .table-section-scrollable {
+    overflow: visible !important;
+    height: auto !important;
+    margin-top: 10px;
+  }
+
+  .flights-table-wrapper {
+    overflow-y: visible !important;
+  }
+}
+
+@media (max-width: 550px) {
+  /* ה. במסכים סופר קטנים (מובייל צר), נעבור לעמודה אחת נקייה כדי שהשדות לא ייחנקו לרוחב */
+  .compact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  /* פיצול שורת הנתונים העליונה של שדה התעופה בשביל מראה כרטיס מושלם */
+  .airport-card-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .airport-info-item.thumb {
+    width: 100%;
+    justify-content: center;
+    margin-top: 5px;
+  }
+  
+  .airport-card-bottom-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .cancel-btn-inline {
+    margin-right: 0;
+    width: 100%;
+    text-align: center;
+  }
+}

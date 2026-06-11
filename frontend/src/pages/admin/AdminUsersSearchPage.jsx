@@ -11,21 +11,21 @@ export default function AdminUsersSearchPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-// בתוך AdminUsersSearchPage.jsx
-  const handleSearchSubmit = async (e) => {
+const handleSearchSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      // כאן את צריכה להחליף את הכתובת לכתובת שקיימת בשרת שלך!
       const response = await getUserIdByEmail(email); 
-      const userId = response.data.userId;
+      // ✅ התיקון: ניגשים ישירות ל-userId מתוך התשובה
+      const userId = response.userId;
+      
       navigate(`/admin/users-service/${userId}/bookings`);
       
     } catch (err) {
-      // 🌟 התיקון: הצגת השגיאה המדויקת שמגיעה מהשרת
-      const message = err.response?.data?.message || "שגיאת תקשורת עם השרת";
+      // ✅ התיקון: ה-api.js שלך זורק Error רגיל, אז ניגשים ישירות ל-err.message
+      const message = err.message || "שגיאת תקשורת עם השרת";
       setError(`❌ ${message}`);
     } finally {
       setLoading(false);

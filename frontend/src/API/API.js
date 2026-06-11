@@ -1,84 +1,51 @@
-const API_BASE = "http://localhost:3000";
+// src/API/API.js - הגרסה הסופית, הקלה והנקייה
+
+const API_BASE = "http://localhost:3000"; 
 
 async function request(url, options = {}) {
-  const token = localStorage.getItem("token"); 
-  const headers = {
-    "Content-Type": "application/json",
-  };
+  const token = localStorage.getItem("token");
+  const headers = {};
+  const isFormData = options.body instanceof FormData;
+
+  // 1. הגדרת סוג המידע כברירת מחדל
+  if (!isFormData) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  // 2. הוספת טוקן האבטחה במידה וקיים
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
-  const res = await fetch(`${API_BASE}${url}`, {
+
+  const fetchOptions = {
     ...options,
-    headers: {
-      ...headers,
-      ...options.headers,
-    },
-  });
+    headers: { ...headers, ...options.headers },
+  };
 
- //double protection
- if (!res.ok) {
-    let errorMessage = "API Error";
-    
-    try {
-      const errorText = await res.text(); 
-      
-      try {
-        const errorData = JSON.parse(errorText);
-        errorMessage = errorData.message || errorMessage;
-      } catch (e) {
-        errorMessage = errorText || errorMessage;
-      }
-    } catch (readError) {
-      console.error("Failed to read response body", readError);
-    }
-
-    // ==========================================
-    // טיפול אוטומטי בפקיעת טוקן (ללא Promise)
-    // ==========================================
-    if (
-        res.status === 401 || 
-        errorMessage === 'הטוקן אינו תקין או שפג תוקפו' || 
-        errorMessage === 'גישה נדחתה: נא להתחבר למערכת'
-    ) {
-        // מוחקים את כל נתוני המשתמש מהדפדפן
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        
-        // מעבירים את המשתמש לעמוד התחברות
-        window.location.href = "/login";
-        
-        // זורקים שגיאה רגילה כדי לעצור את המשך הקוד 
-        throw new Error("Session expired. Logging out.");
-    }
-    // ==========================================
-
-    throw new Error(errorMessage);
+  // 3. הפיכת אובייקט לטקסט JSON באופן אוטומטי, או ניקוי עבור מולטר
+  if (isFormData) {
+    delete fetchOptions.headers["Content-Type"];
+  } else if (options.body && typeof options.body === "object") {
+    fetchOptions.body = JSON.stringify(options.body);
   }
-  // לבדוק אם DELETE או PATCH/PUT מסוימים החזירו 204 No Content
-  if (res.status === 204) return true;
-  return res.json();
+
+  // 4. ביצוע בקשת הרשת בפועל
+  const res = await fetch(`${API_BASE}${url}`, fetchOptions);
+
+  // 5. טיפול בסיסי בשגיאות - אם השרת מחזיר שגיאה, זורקים אותה החוצה
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Request failed");
+  }
+
+  // 6. החזרת נתונים במידה ויש, או סיום מוצלח
+  return res.status !== 204 ? await res.json() : null;
 }
 
 export const api = {
-  get: (url) => request(url),
-  post: (url, data) =>
-    request(url, {
-      method: "POST",
-      body: JSON.stringify(data),
-    }), 
-  put: (url, data) =>
-    request(url, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
-  patch: (url, data) =>
-    request(url, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    }),
-  delete: (url) =>
-    request(url, {
-      method: "DELETE",
-    }),
+  get: (url, options) => request(url, { ...options, method: "GET" }),
+  post: (url, body, options) => request(url, { ...options, method: "POST", body }),
+  put: (url, body, options) => request(url, { ...options, method: "PUT", body }),
+  patch: (url, body, options) => request(url, { ...options, method: "PATCH", body }),
+  delete: (url, options) => request(url, { ...options, method: "DELETE" }),
 };

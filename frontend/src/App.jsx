@@ -73,6 +73,7 @@ import BookingProcessPage from './pages/customer/Bookings/BookingProcessPage.jsx
 import AdminDashboardPage from './pages/admin/AdminDashboardPage.jsx';
 import DestinationPage from './pages/customer/DestinationPage.jsx';
 import AdminFlightsPage from './pages/admin/AdminFlightsPage.jsx';
+import AdminAirportsPage from './pages/admin/AdminAirportsPage.jsx';
 import AdminUsersSearchPage from './pages/admin/AdminUsersSearchPage.jsx';
 import AdminUserActionsDashboard from './pages/admin/AdminUserActionsDashboard.jsx';
 import './App.css';
@@ -105,6 +106,11 @@ function App() {
             path="/admin/flights"
             element={<ProtectedRoute element={<AdminFlightsPage />} requiredRole="admin" />}
           />
+          <Route
+            path="/admin/airports"
+            element={<ProtectedRoute element={<AdminAirportsPage />} requiredRole="admin" />}
+          />
+
 
           {/* הפלו המעודכן: חיפוש משתמש לפי מייל -> מעבר לעמוד הפעולות המוגבלות */}
           <Route
