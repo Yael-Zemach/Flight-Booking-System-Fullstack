@@ -70,3 +70,13 @@ export async function handleAdminCancelFlight(req, res) {
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
     }
 }
+export async function handleGetAdminFlights(req, res) {
+    try {
+        const { date } = req.query;
+        const flights = await flightsService.getAdminFlightsByDate(date);
+        return res.status(200).json(flights);
+    } catch (error) {
+        console.error("Error fetching admin flights:", error);
+        return res.status(500).json({ message: "שגיאה בשרת בעת שליפת הטיסות" });
+    }
+}

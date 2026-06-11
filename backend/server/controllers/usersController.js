@@ -23,3 +23,19 @@ export async function handleUpdateUser(req, res) {
         return res.status(500).json({ message: MESSAGES.USERS.UPDATE_ERROR });
     }
 }
+export const handleGetUserIdByEmail = async (req, res) => {
+    const { email } = req.query; // אנחנו מחפשים אימייל ב-Query
+    try {
+        // שימוש במודל הקיים שלך שכבר יודע לשלוף לפי אימייל
+        const user = await getUserByEmail(email);
+        
+        if (!user) {
+            return res.status(404).json({ message: "משתמש לא נמצא" });
+        }
+        
+        // החזרת ה-ID בלבד כדי לא לחשוף מידע רגיש
+        res.status(200).json({ userId: user.id }); 
+    } catch (error) {
+        res.status(500).json({ message: "שגיאה בחיפוש משתמש" });
+    }
+};

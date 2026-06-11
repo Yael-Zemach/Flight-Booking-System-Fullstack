@@ -30,6 +30,8 @@ export const API_ROUTES = {
     BASE: '/api/users',
     PROFILE: '/profile',
     ADMIN_USER: '/admin/users/:id',
+    BY_EMAIL: '/by-email' // 🌟 ודאי
+
   },
 };
 

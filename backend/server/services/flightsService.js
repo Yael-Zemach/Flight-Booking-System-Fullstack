@@ -149,3 +149,9 @@ export async function cancelFlight(flightId) {
         throw error;
     }
 }
+export async function getAdminFlightsByDate(date) {
+    if (!date) {
+        throw new Error("חובה לספק תאריך (date) כדי לקבל את לוח הטיסות.");
+    }
+    return await flightsModel.getFlightsByDateForAdmin(date);
+}

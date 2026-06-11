@@ -18,4 +18,7 @@ export const flightsApi = {
     cancelFlight: (flightId) => {
         return api.patch(`${API_ROUTES.FLIGHTS.BASE}${API_ROUTES.FLIGHTS.ADMIN_CANCEL.replace(':id', flightId)}`);
     },
+getAdminFlightsByDate: (date) => {
+        return api.get(`${API_ROUTES.FLIGHTS.BASE}${API_ROUTES.FLIGHTS.ADMIN}?date=${date}`);
+    },
 };

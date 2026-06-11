@@ -1,0 +1,420 @@
+/* ==========================================================================
+   🔒 קונטיינר ראשי - ממורכז, שומר על השוליים הריקים בצדדים ומקובע לגובה המסך
+   ========================================================================== */
+.admin-flights-fixed-layout {
+  display: flex;
+  flex-direction: column;
+  
+  /* נועל את גובה האזור בדיוק לפי גובה המסך שנותר פנוי (מונע גלילה של כל העמוד) */
+  height: calc(100vh - 140px);
+  max-height: calc(100vh - 140px);
+  
+  /* 🌟 החזרת השוליים הריקים בצדדים: מגבילים רוחב וממרכזים את כל הבלוק */
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto;    
+  
+  box-sizing: border-box;
+  direction: rtl !important; /* יישור עמודות וטקסט מימין לשמאל */
+  overflow: hidden; /* חוסם הופעת גלגלת דפדפן כללית */
+}
+
+/* 🌟 תיקון ראש העמוד - מאפשר מרכוז מוחלט של הכותרת */
+.admin-flights-header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 🌟 ממקם את הכותרת בדיוק במרכז האמצעי של העמוד */
+  position: relative;      /* 🌟 מאפשר לכפתור הצידי להתמקם ביחס אליו */
+  flex-shrink: 0;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+/* 🌟 הוצאת הכפתור מזרימת ה-Flex כדי שלא יזיז את הכותרת מהאמצע */
+.back-btn {
+  position: absolute;
+  right: 0; /* 🌟 מקבע את כפתור החזרה תמיד לקצה הימני המדויק של הקונטיינר */
+  background: #64748b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.back-btn:hover {
+  background: #475569;
+}
+
+.admin-flights-title {
+  color: #1e293b;
+  margin: 0;
+  font-size: 22px;
+  text-align: center;
+}
+
+/* הודעות מערכת */
+.alert-message {
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.alert-message.success {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+.alert-message.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* ==========================================================================
+   📌 אזור הטופס - יציב לחלוטין בראש העמוד, לא זז לעולם
+   ========================================================================== */
+.form-section {
+  background: #ffffff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+  flex-shrink: 0; /* מונע מהטופס להיגלל עם הטיסות */
+}
+
+.form-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 5px;
+}
+
+/* גריד גמיש ורספונסיבי לחלוטין לטופס */
+.admin-flight-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #475569;
+}
+
+.admin-flight-form input,
+.admin-flight-form select {
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  background-color: #ffffff;
+  text-align: right;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-flight-form select:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.form-action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.submit-btn, .cancel-edit-btn {
+  padding: 9px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.submit-btn {
+  background-color: #2563eb;
+  color: white;
+}
+.cancel-edit-btn {
+  background-color: #64748b;
+  color: white;
+}
+
+/* ==========================================================================
+   🔄 אזור הטיסות - החלק היחיד שמכיל גלגלת אנכית פנימית (ללא גלילה לרוחב!)
+   ========================================================================== */
+.table-section-scrollable {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px 20px;
+  border: 1px solid #e2e8f0;
+  min-height: 0; /* קריטי לאפשר גלילה פנימית בלבד במבנה פלקס */
+  overflow: hidden;
+}
+
+.table-controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.table-controls-header h3 {
+  margin: 0;
+  font-size: 15px;
+  color: #334155;
+}
+
+.date-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-filter-group label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #475569;
+}
+
+.date-filter-group input {
+  padding: 5px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* חלון הגלילה הפנימי של הטיסות */
+.flights-table-overflow-wrapper {
+  flex: 1;
+  overflow-y: auto; /* מאפשר גלגלת למעלה ולמטה */
+  overflow-x: hidden; /* מבטל לחלוטין את הגלילה לרוחב המיותרת */
+  border: 1px solid #f1f5f9;
+  border-radius: 6px;
+}
+
+.flights-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  table-layout: fixed; /* 🌟 מפתח הזהב: מכריח את העמודות להתחלק לפי אחוזים קבועים ולא להימחץ החוצה מהמסך! */
+}
+
+/* 🌟 הגדרת חלוקת אחוזים מדויקת לעמודות כדי לתת לפעולות ולסטטוס את המקום המקסימלי */
+.flights-table th:nth-child(1), .flights-table td:nth-child(1) { width: 12%; } /* מספר טיסה */
+.flights-table th:nth-child(2), .flights-table td:nth-child(2) { width: 18%; } /* מוצא ויעד */
+.flights-table th:nth-child(3), .flights-table td:nth-child(3) { width: 14%; } /* זמן המראה */
+.flights-table th:nth-child(4), .flights-table td:nth-child(4) { width: 11%; } /* מחיר */
+.flights-table th:nth-child(5), .flights-table td:nth-child(5) { width: 15%; } /* מושבים פנויים */
+.flights-table th:nth-child(6), .flights-table td:nth-child(6) { width: 13%; } /* סטטוס */
+.flights-table th:nth-child(7), .flights-table td:nth-child(7) { width: 17%; } /* פעולות */
+
+/* כותרות דביקות שנשארות צפות למעלה בזמן גלילה */
+.flights-table th {
+  position: sticky;
+  top: 0;
+  background-color: #f8fafc;
+  color: #475569;
+  padding: 12px 8px;
+  font-weight: bold;
+  border-bottom: 2px solid #e2e8f0;
+  z-index: 2;
+}
+
+.flights-table td {
+  padding: 14px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.row-editing {
+  background-color: #eff6ff !important;
+}
+
+/* תצוגת שדות התעופה ללא עיוותי כיווניות של הדפדפן */
+.airport-route-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-start;
+  white-space: nowrap;
+}
+
+.airport-origin-code {
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.route-arrow {
+  color: #2563eb;
+  font-size: 12px;
+}
+
+.airport-destination-code {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.table-actions-container {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-start;
+}
+
+.edit-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cancel-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+.cancel-btn:disabled {
+  background-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.no-flights-text, .loading-text {
+  color: #64748b;
+  font-style: italic;
+  padding: 15px 0;
+}
+
+/* ==========================================================================
+   📱 מדיה קוואריז למסכים בינוניים וצרים (כמו מצב הלפטוף המכווץ שלך)
+   ========================================================================== */
+@media (max-width: 1150px) {
+  .admin-flights-fixed-layout {
+    padding: 15px 20px; /* צמצום הפדינג החיצוני הכללי של הדף לפנות מקום */
+  }
+
+  .flights-table {
+    font-size: 13px;
+  }
+
+  .flights-table td {
+    padding: 12px 4px; /* צמצום קל של הריפוד בשורות כדי שהכל ייכנס למסך */
+  }
+
+  .edit-btn, .cancel-btn {
+    padding: 5px 8px; /* התאמת גודל כפתורי הפעולה */
+    font-size: 11px;
+  }
+
+  .airport-route-display {
+    gap: 4px;
+  }
+}
+
+/* 📱 התאמה מלאה למסכי מובייל וטאבלטים קטנים - הפיכת הטבלה לכרטיסים אנכיים */
+@media (max-width: 768px) {
+  .admin-flights-fixed-layout {
+    height: auto;
+    max-height: none;
+    overflow: visible; 
+  }
+  .table-section-scrollable {
+    overflow: visible;
+  }
+  .flights-table-overflow-wrapper {
+    overflow: visible;
+    border: none;
+  }
+  
+  .flights-table, 
+  .flights-table thead, 
+  .flights-table tbody, 
+  .flights-table th, 
+  .flights-table td, 
+  .flights-table tr {
+    display: block;
+    width: 100% !important;
+  }
+  
+  .flights-table thead {
+    display: none; /* העלמת כותרות הטבלה במובייל */
+  }
+  
+  .flights-table tr {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  
+  .flights-table td {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 8px 5px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: left;
+  }
+  
+  .flights-table td:last-child {
+    border-bottom: none;
+  }
+  
+  /* הזרקת לייבל דינמי לכל שורה במובייל */
+  .flights-table td:nth-child(1)::before { content: "מספר טיסה:"; font-weight: bold; color: #64748b; }
+  .flights-table td:nth-child(2)::before { content: "מסלול:"; font-weight: bold; color: #64748b; }
+  .flights-table td:nth-child(3)::before { content: "זמן המראה:"; font-weight: bold; color: #64748b; }
+  .flights-table td:nth-child(4)::before { content: "מחיר:"; font-weight: bold; color: #64748b; }
+  .flights-table td:nth-child(5)::before { content: "מושבים פנויים:"; font-weight: bold; color: #64748b; }
+  .flights-table td:nth-child(6)::before { content: "סטטוס:"; font-weight: bold; color: #64748b; }
+  .flights-table td:nth-child(7)::before { content: "פעולות:"; font-weight: bold; color: #64748b; }
+  
+  .table-actions-container {
+    justify-content: flex-end;
+  }
+  
+  .admin-flight-form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .admin-flight-form {
+    grid-template-columns: 1fr;
+  }
+}

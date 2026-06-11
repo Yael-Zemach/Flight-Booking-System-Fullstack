@@ -86,3 +86,30 @@ export async function cancelFlightAndBookings(flightId) {
         connection.release();
     }
 }
+
+export async function getFlightsByDateForAdmin(date) {
+    const sqlQuery = `
+        SELECT 
+            f.flight_id,
+            f.flight_number,
+            f.departure_airport_id, -- 🌟 הוספה חשובה לעריכה
+            f.arrival_airport_id,   -- 🌟 הוספה חשובה לעריכה
+            f.departure_time,
+            f.arrival_time,
+            f.price,
+            f.seats_available,
+            f.status,
+            dep.airport_code AS departure_code,
+            dep.city AS departure_city,
+            arr.airport_code AS arrival_code,
+            arr.city AS arrival_city
+        FROM flights f
+        JOIN airports dep ON f.departure_airport_id = dep.airport_id
+        JOIN airports arr ON f.arrival_airport_id = arr.airport_id
+        WHERE DATE(f.departure_time) = ?
+        ORDER BY f.departure_time ASC
+    `;
+    
+    const [rows] = await pool.query(sqlQuery, [date]);
+    return rows;
+}

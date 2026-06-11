@@ -15,3 +15,6 @@ export const adminUpdateUser = (userId, userData) =>
         name: userData.name,
         email: userData.email,
     });
+
+    export const getUserIdByEmail = (email) => 
+    api.get(`${API_ROUTES.USERS.BASE}${API_ROUTES.USERS.BY_EMAIL}?email=${email}`);

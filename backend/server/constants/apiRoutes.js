@@ -4,12 +4,11 @@ export const API_ROUTES = {
         REGISTER: '/register',
         LOGIN: '/login'
     },
-    FLIGHTS: {
-        SEARCH: '/search'
-    },
+ 
     USERS: {
         PROFILE: '/profile',
-        ADMIN_USER: '/admin/users/:id'
+        ADMIN_USER: '/admin/users/:id',
+        BY_EMAIL: '/by-email' // 🌟 ודאי
     },
     BOOKINGS: {
         MY_BOOKINGS: '/my-bookings',
