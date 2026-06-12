@@ -1,0 +1,132 @@
+/* Auth.css - עיצוב משותף לעמודי התחברות והרשמה */
+
+.auth-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* תמונת רקע של שמיים/מטוס עם שכבת כהות */
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop') no-repeat center center/cover;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* פס עיטור כחול בחלק העליון של הכרטיסייה */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background-color: #0284c7;
+}
+
+.auth-container h2 {
+  color: #0369a1;
+  font-size: 28px;
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+/* עיצוב כל שדות הקלט (אינפוטים) בתוך הטופס */
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  background-color: #f9fafb;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #0284c7;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+/* כפתור השליחה הראשי */
+.auth-btn {
+  background-color: #0284c7;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s, transform 0.1s;
+  width: 100%;
+}
+
+.auth-btn:hover:not(:disabled) {
+  background-color: #0369a1;
+}
+
+.auth-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.auth-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* הודעת שגיאה */
+.error-msg {
+  color: #dc2626;
+  background-color: #fee2e2;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 5px 0 0 0;
+  font-weight: 500;
+}
+
+/* טקסט ההחלפה למטה (אין חשבון? / יש חשבון?) */
+.auth-switch-text {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.auth-switch-text a {
+  color: #0284c7;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 5px;
+  transition: color 0.2s;
+}
+
+.auth-switch-text a:hover {
+  color: #0369a1;
+  text-decoration: underline;
+}
