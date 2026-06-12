@@ -1,4 +1,5 @@
-/* Navbar.css */
+/* === קובץ סטייל נבבר מלא - רספונסיבי ללא שינוי קוד ריאקט === */
+
 .app-header-nav {
   display: flex;
   justify-content: space-between;
@@ -66,7 +67,7 @@
   position: relative;
 }
 
-/* 🌟 כפתור אווטאר פרופיל - בסיס עגול */
+/* כפתור אווטאר פרופיל - בסיס עגול */
 .nav-avatar-btn {
   width: 42px;
   height: 42px;
@@ -82,7 +83,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* 🌟 מצב: משתמש מחובר (רקע כחול הייטק עם האות הראשונה בלבן) */
+/* מצב: משתמש מחובר */
 .nav-avatar-btn.logged-in {
   background-color: #ef4444;
   color: #ffffff;
@@ -94,7 +95,7 @@
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
 
-/* 🌟 מצב: אורח מנותק (אפור נקי עם האייקון 👤) */
+/* מצב: אורח מנותק */
 .nav-avatar-btn.guest {
   background-color: #f1f5f9;
   color: #64748b;
@@ -123,4 +124,37 @@
 .nav-logout-btn:hover {
   background-color: #ef4444;
   color: white;
+}
+
+/* ========================================== */
+/* 🌟 חוקי התאמה למובייל ומסכים קטנים 🌟 */
+/* ========================================== */
+@media (max-width: 768px) {
+  .app-header-nav {
+    height: auto; /* 1. משחרר את ה-80px שחנק את האלמנטים במובייל */
+    min-height: 80px;
+    flex-direction: column; /* 2. הופך את המבנה משורה לטור - הלינקים למעלה, הפרופיל למטה */
+    padding: 15px 20px;
+    gap: 15px; /* 3. מייצר מרווח אוויר קבוע ואחיד בין השורות החדשות */
+  }
+
+  .nav-links-container {
+    flex-wrap: wrap; /* 4. מאפשר ללינקים לרדת שורה בצורה אוטומטית ומעוגלת אם אין מקום */
+    justify-content: center; /* ממרכז את הלינקים במסך */
+    gap: 10px 20px;
+    width: 100%;
+  }
+
+  .nav-link-item {
+    font-size: 15px; /* הקטנה קלה של הפונט להתאמה למסך קטן */
+    padding: 5px 0;
+  }
+
+  .nav-user-actions {
+    width: 100%;
+    justify-content: center; /* 5. ממרכז את כפתורי האווטאר והתנתקות בתחתית */
+    border-top: 1px solid #f1f5f9; /* קו הפרדה עדין ואסתטי בינם לבין הלינקים */
+    padding-top: 12px;
+    gap: 15px;
+  }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AirportAutocomplete from '../common/Flights/AirportAutocomplete.jsx';
-import FlightDatePicker from '../common/Flights/FlightDatePicker.jsx'; // 🌟 ייבוא רכיב התאריך המשותף
+import FlightDatePicker from '../common/Flights/FlightDatePicker.jsx'; 
 
 export default function AdminFlightForm({ airports, editingFlight, onCancelEdit, onSubmit, loading }) {
     const [formData, setFormData] = useState({
@@ -10,6 +10,17 @@ export default function AdminFlightForm({ airports, editingFlight, onCancelEdit,
 
     const tlvAirport = airports.find(ap => ap.airport_code === 'TLV');
     const tlvId = tlvAirport ? String(tlvAirport.airport_id) : '';
+
+    // 🌟 פונקציית עזר חדשה: מחזירה את הזמן הנוכחי המדויק בפורמט שאינפוט מסוג datetime-local דורש (YYYY-MM-DDTHH:mm)
+    const getNowDateTimeString = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
 
     const formatDateTimeForInput = (dateString) => {
         if (!dateString) return '';
@@ -48,6 +59,20 @@ export default function AdminFlightForm({ airports, editingFlight, onCancelEdit,
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // 🌟 ולידציה אקטיבית א': מניעת שליחת זמן המראה מהעבר (במקרה של הקלדה ידנית)
+        const nowStr = getNowDateTimeString();
+        if (formData.departure_time < nowStr) {
+            alert('⚠️ שגיאה: לא ניתן ליצור או לערוך טיסה עם זמן המראה בעבר!');
+            return;
+        }
+
+        // 🌟 ולידציה אקטיבית ב': מניעת מצב שבו זמן הנחיתה קודם או שווה לזמן ההמראה
+        if (formData.arrival_time <= formData.departure_time) {
+            alert('⚠️ שגיאה: זמן הנחיתה חייב להיות מאוחר יותר מזמן ההמראה!');
+            return;
+        }
+
         onSubmit(formData);
     };
 
@@ -81,21 +106,23 @@ export default function AdminFlightForm({ airports, editingFlight, onCancelEdit,
                     onChange={(ap) => setFormData(p => ({ ...p, arrival_airport_id: ap ? String(ap.airport_id) : '' }))}
                 />
 
-                {/* 🌟 שימוש ברכיב המשותף עבור זמן המראה (כולל שעות ודקות) */}
+                {/* 🌟 עדכון א': הוספת המאפיין min שמבוסס על השעה הנוכחית של הדפדפן ברגע זה */}
                 <FlightDatePicker 
                     label="זמן המראה"
-                    type="datetime-local" // משתנה לטובת שילוב שעות ודקות עבור האדמין
+                    type="datetime-local" 
                     value={formData.departure_time}
                     onChange={(e) => setFormData(p => ({ ...p, departure_time: e.target.value }))}
-                    className="form-group" // שומר על ה-class המקורי של האדמין
+                    min={getNowDateTimeString()} 
+                    className="form-group" 
                 />
 
-                {/* 🌟 שימוש ברכיב המשותף עבור זמן נחיתה (כולל שעות ודקות) */}
+                {/* 🌟 עדכון ב': הוספת המאפיין min שמבוסס על זמן ההמראה שנבחר! (מונע נחיתה לפני המראה) */}
                 <FlightDatePicker 
                     label="זמן נחיתה"
                     type="datetime-local"
                     value={formData.arrival_time}
                     onChange={(e) => setFormData(p => ({ ...p, arrival_time: e.target.value }))}
+                    min={formData.departure_time || getNowDateTimeString()} 
                     className="form-group"
                 />
 

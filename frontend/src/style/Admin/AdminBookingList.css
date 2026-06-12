@@ -1,0 +1,13 @@
+admin-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.no-data-msg {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin-top: 40px;
+}

@@ -1,3 +1,4 @@
+// services/flightsService.js
 import * as flightsModel from '../models/flightsModel.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 import { TRIP_TYPES } from '../constants/tripTypes.js';
@@ -97,6 +98,7 @@ export async function findRelevantFlights(tripType, origin, dest, departDate, re
     };
 }
 
+// 🌟 פונקציית יצירת טיסה - מעודכנת
 export async function createNewFlight(flightData) {
     const { flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available } = flightData;
 
@@ -106,6 +108,12 @@ export async function createNewFlight(flightData) {
     if (departure_airport_id === arrival_airport_id) {
         throw new Error(ERROR_CODES.INVALID_AIRPORTS);
     }
+    
+    // 🌟 הבדיקה החדשה: מניעת יצירת טיסה עם זמן המראה בעבר
+    if (new Date(departure_time) < new Date()) {
+        throw new Error('DEPARTURE_TIME_IN_PAST');
+    }
+
     if (new Date(departure_time) >= new Date(arrival_time)) {
         throw new Error(ERROR_CODES.INVALID_DATES);
     }
@@ -115,6 +123,7 @@ export async function createNewFlight(flightData) {
     );
 }
 
+// 🌟 פונקציית עדכון טיסה קיימת - מעודכנת
 export async function updateExistingFlight(flightId, flightData) {
     const { flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, price, seats_available } = flightData;
 
@@ -124,6 +133,12 @@ export async function updateExistingFlight(flightId, flightData) {
     if (departure_airport_id === arrival_airport_id) {
         throw new Error(ERROR_CODES.INVALID_AIRPORTS);
     }
+
+    // 🌟 הבדיקה החדשה: מניעת עדכון טיסה לזמן המראה בעבר
+    if (new Date(departure_time) < new Date()) {
+        throw new Error('DEPARTURE_TIME_IN_PAST');
+    }
+
     if (new Date(departure_time) >= new Date(arrival_time)) {
         throw new Error(ERROR_CODES.INVALID_DATES);
     }

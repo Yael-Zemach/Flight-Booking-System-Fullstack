@@ -9,15 +9,56 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
     
     const [isProcessing, setIsProcessing] = useState(false);
 
+    // 🌟 1. ולידציה למספר כרטיס אשראי: רק מספרים
+    const handleCardNumberChange = (e) => {
+        const value = e.target.value.replace(/\D/g, ''); // מוחק כל תו שהוא לא מספר
+        setCardNumber(value);
+    };
+
+    // 🌟 2. ולידציה והוספת סלאש אוטומטי לתוקף (MM/YY)
+    const handleExpiryChange = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // משאיר רק מספרים
+        
+        // אם המשתמש הקליד יותר מ-2 ספרות, נדחף סלאש באמצע באופן אוטומטי
+        if (value.length > 2) {
+            value = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+        }
+        setExpiry(value);
+    };
+
+    // 🌟 3. ולידציה ל-CVV: רק מספרים עד 3 ספרות
+    const handleCvvChange = (e) => {
+        const value = e.target.value.replace(/\D/g, ''); // משאיר רק מספרים
+        setCvv(value);
+    };
+
+    // 🌟 4. ולידציה לשם: רק אותיות (בעברית/אנגלית) ורווחים, בלי מספרים או תווים מיוחדים
+    const handleNameChange = (e) => {
+        const value = e.target.value.replace(/[0-9!@#$%^&*()_+=[\]{};':"\\|,.<>/?~`-]/g, '');
+        setNameOnCard(value);
+    };
+
     const handlePayment = (e) => {
         e.preventDefault();
         
-        // כאן אנחנו נכנסים למצב סליקה מדומה
+        // בדיקת בטיחות קטנה נוספת לפני השליחה
+        if (cardNumber.length < 16) {
+            alert('מספר כרטיס אשראי חייב להכיל 16 ספרות');
+            return;
+        }
+        if (expiry.length < 5) {
+            alert('תוקף הכרטיס אינו תקין (MM/YY)');
+            return;
+        }
+        if (cvv.length < 3) {
+            alert('קוד CVV חייב להכיל 3 ספרות');
+            return;
+        }
+
         setIsProcessing(true);
 
-        // שימוש ב-setTimeout כדי לדמות המתנה לתשובה מחברת האשראי (2 שניות)
+        // סימולציית התקשרות מול שרת הסליקה
         setTimeout(() => {
-            // התשלום אושר "וירטואלית" - אנחנו מדווחים לאבא (BookingProcessPage)
             onPaymentSuccess();
         }, 2000); 
     };
@@ -35,9 +76,9 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                     <input 
                         type="text" 
                         maxLength="16"
-                        placeholder="0000 0000 0000 0000"
+                        placeholder="0000000000000000"
                         value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
+                        onChange={handleCardNumberChange} // 🌟 שימוש בפונקציה המסננת
                         required
                         disabled={isProcessing}
                         className="payment-input"
@@ -52,7 +93,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                             maxLength="5"
                             placeholder="12/25"
                             value={expiry}
-                            onChange={(e) => setExpiry(e.target.value)}
+                            onChange={handleExpiryChange} // 🌟 שימוש בפונקציה המסננת
                             required
                             disabled={isProcessing}
                             className="payment-input"
@@ -65,7 +106,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                             maxLength="3"
                             placeholder="123"
                             value={cvv}
-                            onChange={(e) => setCvv(e.target.value)}
+                            onChange={handleCvvChange} // 🌟 שימוש בפונקציה המסננת
                             required
                             disabled={isProcessing}
                             className="payment-input"
@@ -77,8 +118,9 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                     <label>שם בעל הכרטיס (כפי שמופיע על הכרטיס)</label>
                     <input 
                         type="text" 
+                        placeholder="John Doe"
                         value={nameOnCard}
-                        onChange={(e) => setNameOnCard(e.target.value)}
+                        onChange={handleNameChange} // 🌟 שימוש בפונקציה המסננת
                         required
                         disabled={isProcessing}
                         className="payment-input"

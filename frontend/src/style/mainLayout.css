@@ -15,3 +15,102 @@
   width: 100%;
   box-sizing: border-box;
 }
+/* === 🌟 מערכת בלונים צצים גלובלית לאדמין (Toast Notifications) 🌟 === */
+
+/* המיכל הראשי שמקבע את ערימת ההתראות בפינה השמאלית העליונה של המסך */
+.admin-toast-fixed-holder {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 999999 !important; /* ערך גבוה במיוחד כדי שיצוף מעל כל טבלה, טופס או כרטיס באתר */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+  max-width: 85vw;
+  pointer-events: none; /* מונע מהמיכל הנסתר לחסום קליקים על אלמנטים שנמצאים מתחתיו */
+}
+
+/* כרטיס בלון בודד */
+.custom-toast-balloon {
+  pointer-events: auto; /* מחזיר את אפשרות הלחיצה רק לתוך הבלון עצמו (עבור כפתור ה-X) */
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); /* צל עמוק ומודרני */
+  border-right: 5px solid #cbd5e1; /* ברירת מחדל של קו אפור דקורטיבי בצד ימין */
+  direction: rtl; /* שומר על כיוון עברית תקין בפנים */
+  box-sizing: border-box;
+  
+  /* הפעלת האנימציה: מחליק פנימה מצד שמאל ב-0.35 שניות */
+  animation: toastIncoming 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* עיצוב וצביעת הקו הצידי לפי סוג האירוע */
+.custom-toast-balloon.success {
+  border-right: 5px solid #10b981; /* קו ירוק בולט להזמנה מוצלחת */
+}
+.custom-toast-balloon.cancel {
+  border-right: 5px solid #ef4444; /* קו אדום בולט לביטול */
+}
+
+/* אזור האייקון (✅ או ❌) */
+.toast-balloon-icon {
+  font-size: 18px;
+  margin-top: 2px;
+}
+
+/* אזור הטקסטים והכותרות */
+.toast-balloon-text-side {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  text-align: right; /* יישור לימין עבור הטקסט בעברית */
+}
+
+.toast-balloon-text-side h5 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.toast-balloon-text-side p {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* כפתור ה-X הקטן לסגירה ידנית */
+.toast-balloon-x-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+  margin-top: -2px;
+  transition: color 0.15s;
+}
+
+.toast-balloon-x-btn:hover {
+  color: #475569;
+}
+
+/* 🌟 אנימציית החלקה חלקה פנימה והחוצה מצד שמאל של המסך */
+@keyframes toastIncoming {
+  from {
+    transform: translateX(-130%); /* מתחיל מחוץ למסך בצד שמאל */
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0); /* מתקבע בפינה המיועדת לו */
+    opacity: 1;
+  }
+}

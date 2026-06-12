@@ -1,6 +1,7 @@
 import * as bookingsService from '../services/bookingsService.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 import { MESSAGES } from '../constants/messages.js';
+import { io } from '../app.js';
 
 // 🌟 ההנדלר החדש בקונטרולר - מטפל בשליפה ותרגום השגיאות לקליינט
 export async function handleGetBookingById(req, res) {
@@ -46,13 +47,13 @@ export async function handleGetBookings(req, res) {
 
 export async function handleCreateBooking(req, res) {
     const targetUserId = req.params.id ? parseInt(req.params.id) : req.user.userId;
-    
-    // 🌟 שליפת returnFlightId מה-body שקיבלנו מהפרונטנט
     const { flightId, returnFlightId, totalPrice, passengers } = req.body; 
     
     try {
-        // 🌟 העברת הפרמטר החדש לשירות
         const bookingId = await bookingsService.createNewBooking(targetUserId, flightId, returnFlightId, totalPrice, passengers);
+        
+        // ✂️ שורת ה-io.emit נמחקה מכאן בהצלחה! (כדי שלא תתריע כשההזמנה עדיין פנדינג)
+        
         return res.status(201).json({ 
             message: MESSAGES.BOOKINGS.CREATE_SUCCESS, 
             bookingId: bookingId 
@@ -62,6 +63,37 @@ export async function handleCreateBooking(req, res) {
             return res.status(400).json({ message: MESSAGES.BOOKINGS.MISSING_DATA });
         }
         console.error("Error creating booking:", error);
+        return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
+    }
+}
+
+// 🌟 הפונקציה המעודכנת שמטפלת בתשלום - מעוררת עכשיו את הסוקט!
+export async function handleProcessPayment(req, res) {
+    const bookingId = parseInt(req.params.bookingId);
+
+    if (!bookingId || isNaN(bookingId)) {
+        return res.status(400).json({ message: "Invalid or missing booking ID." });
+    }
+
+    try {
+        // 🌟 קוראים לשירות ומקבלים בחזרה את פרטי ההזמנה ששולמו עכשיו
+        const bookingData = await bookingsService.processBookingPayment(bookingId);
+
+        // 🌟 שורת הקסם החדשה: מעוררים את האדמין בזמן אמת רק אחרי תשלום מוצלח!
+        io.emit('new_booking_created', {
+            bookingId: bookingId,
+            
+        });
+
+        return res.status(200).json({ message: "Payment successful. Booking confirmed!" });
+    } catch (error) {
+        console.error("Payment error:", error);
+        if (error.message === "PAYMENT_FAILED") {
+            return res.status(402).json({ message: "Payment declined by issuing bank." });
+        }
+        if (error.message === ERROR_CODES.NOT_FOUND) {
+            return res.status(404).json({ message: "Booking not found." });
+        }
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
     }
 }
@@ -84,13 +116,43 @@ export async function handleAdminUpdateStatus(req, res) {
     }
 }
 
+
+export async function handleCancelOwnBooking(req, res) {
+    const { bookingId } = req.params;
+    const userId = req.user.userId; 
+
+    try {
+        await bookingsService.cancelBookingByUser(bookingId, userId);
+        
+        // 🌟 שורת הקסם: משדרים בזמן אמת שהזמנה בוטלה במערכת
+        io.emit('booking_cancelled', {
+            bookingId: bookingId
+        });
+
+        return res.status(200).json({ message: "ההזמנה בוטלה בהצלחה" });
+    } catch (error) {
+        console.error("Error cancelling booking:", error);
+        
+        if (error.status) {
+            return res.status(error.status).json({ message: error.message });
+        }
+        
+        return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
+    }
+}
 export async function handleAdminUpdateBooking(req, res) {
     const bookingId = parseInt(req.params.bookingId);
-    const { flightId, totalPrice, status, passengers } = req.body;
+    // חילוץ כל הפרמטרים שהמודאל בריאקט שולח ב-payload
+    const { flightId, returnFlightId, totalPrice, status, passengers } = req.body;
+    
     try {
-        await bookingsService.updateBookingFull(bookingId, flightId, totalPrice, status, passengers);
+        await bookingsService.updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, status, passengers);
         return res.status(200).json({ message: MESSAGES.BOOKINGS.ADMIN_UPDATE_SUCCESS }); 
     } catch (error) {
+        // תפיסת השגיאה של המושבים והחזרת תשובה ברורה לפרונטאנד
+        if (error.message === 'NOT_ENOUGH_SEATS') {
+            return res.status(400).json({ message: "שגיאת שמירה: אין מספיק מושבים פנויים בטיסה זו להוספת הנוסעים." });
+        }
         if (error.message === ERROR_CODES.ADMIN_UPDATE_FAILED) {
             return res.status(400).json({ message: MESSAGES.BOOKINGS.ADMIN_UPDATE_FAILED });
         }
@@ -98,39 +160,19 @@ export async function handleAdminUpdateBooking(req, res) {
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
     }
 }
-export async function handleProcessPayment(req, res) {
+
+
+// 🌟 הוספת הנדלר חדש לביטול של אדמין
+export async function handleAdminCancelBooking(req, res) {
     const bookingId = parseInt(req.params.bookingId);
-
-    if (!bookingId || isNaN(bookingId)) {
-        return res.status(400).json({ message: "Invalid or missing booking ID." });
-    }
-
     try {
-        await bookingsService.processBookingPayment(bookingId);
-        return res.status(200).json({ message: "Payment successful. Booking confirmed!" });
+        await bookingsService.cancelBookingByAdmin(bookingId);
+        return res.status(200).json({ message: "ההזמנה בוטלה בהצלחה (מושבים הוחזרו)" });
     } catch (error) {
-        console.error("Payment error:", error);
-        if (error.message === "PAYMENT_FAILED") {
-            return res.status(402).json({ message: "Payment declined by issuing bank." });
+        if (error.message === ERROR_CODES.NOT_FOUND) {
+            return res.status(404).json({ message: MESSAGES.BOOKINGS.NOT_FOUND_OR_CANCELLED }); 
         }
-        return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
-    }
-}
-export async function handleCancelOwnBooking(req, res) {
-    const { bookingId } = req.params;
-    const userId = req.user.userId; // מגיע מהטוקן המאומת
-
-    try {
-        await bookingsService.cancelBookingByUser(bookingId, userId);
-        return res.status(200).json({ message: "ההזמנה בוטלה בהצלחה" });
-    } catch (error) {
-        console.error("Error cancelling booking:", error);
-        
-        // אם מדובר בשגיאה לוגית (כמו פחות מ-24 שעות או הזמנה לא שלך)
-        if (error.status) {
-            return res.status(error.status).json({ message: error.message });
-        }
-        
-        return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
+        console.error("Error cancelling booking by admin:", error);
+        return res.status(500).json({ message: error.message || MESSAGES.SERVER.INTERNAL_ERROR });
     }
 }

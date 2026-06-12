@@ -1,7 +1,9 @@
+// controllers/flightsController.js
 import { AIRPORT_CODES } from '../constants/airportCodes.js';
 import { MESSAGES } from '../constants/messages.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 import * as flightsService from '../services/flightsService.js';
+
 export async function searchFlights(req, res) {
     try {
         const { tripType, origin, dest, departDate, returnDate, passengers } = req.query;
@@ -22,7 +24,7 @@ export async function searchFlights(req, res) {
     }
 }
 
-
+// טיפול ביצירת טיסה (POST) - מעודכן
 export async function handleAdminCreateFlight(req, res) {
     try {
         const flightId = await flightsService.createNewFlight(req.body);
@@ -31,6 +33,10 @@ export async function handleAdminCreateFlight(req, res) {
             flightId: flightId 
         });
     } catch (error) {
+        // 🌟 תפיסת שגיאת זמן המראה בעבר בזמן יצירה
+        if (error.message === 'DEPARTURE_TIME_IN_PAST') {
+            return res.status(400).json({ message: "לא ניתן ליצור טיסה עם זמן המראה שכבר עבר!" });
+        }
         if (error.message === ERROR_CODES.MISSING_DATA) return res.status(400).json({ message: MESSAGES.FLIGHTS.MISSING_DATA });
         if (error.message === ERROR_CODES.INVALID_AIRPORTS) return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_AIRPORTS });
         if (error.message === ERROR_CODES.INVALID_DATES) return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_DATES });
@@ -40,6 +46,7 @@ export async function handleAdminCreateFlight(req, res) {
     }
 }
 
+// טיפול בעדכון טיסה (PUT) - מעודכן
 export async function handleAdminUpdateFlight(req, res) {
     const flightId = parseInt(req.params.id);
     
@@ -47,6 +54,10 @@ export async function handleAdminUpdateFlight(req, res) {
         await flightsService.updateExistingFlight(flightId, req.body);
         return res.status(200).json({ message: MESSAGES.FLIGHTS.UPDATE_SUCCESS });
     } catch (error) {
+        // 🌟 תפיסת שגיאת זמן המראה בעבר בזמן עדכון
+        if (error.message === 'DEPARTURE_TIME_IN_PAST') {
+            return res.status(400).json({ message: "לא ניתן לעדכן את הטיסה לזמן המראה שכבר עבר!" });
+        }
         if (error.message === ERROR_CODES.NOT_FOUND) return res.status(404).json({ message: MESSAGES.FLIGHTS.NOT_FOUND });
         if (error.message === ERROR_CODES.MISSING_DATA) return res.status(400).json({ message: MESSAGES.FLIGHTS.MISSING_DATA });
         if (error.message === ERROR_CODES.INVALID_AIRPORTS) return res.status(400).json({ message: MESSAGES.FLIGHTS.INVALID_AIRPORTS });
@@ -62,6 +73,7 @@ export async function handleAdminCancelFlight(req, res) {
     
     try {
         await flightsService.cancelFlight(flightId);
+
         return res.status(200).json({ message: MESSAGES.FLIGHTS.CANCEL_SUCCESS });
     } catch (error) {
         if (error.message === ERROR_CODES.ALREADY_CANCELLED) return res.status(400).json({ message: MESSAGES.FLIGHTS.ALREADY_CANCELLED });
@@ -70,6 +82,7 @@ export async function handleAdminCancelFlight(req, res) {
         return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
     }
 }
+
 export async function handleGetAdminFlights(req, res) {
     try {
         const { date } = req.query;

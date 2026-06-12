@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import { authenticateToken, isAdmin, verifyAdminTarget } from '../middleware/authMiddleware.js';
-import { 
-    handleGetBookings, 
-    handleCreateBooking, 
+import {
+    handleGetBookings,
+    handleCreateBooking,
     handleAdminUpdateStatus,
     handleAdminUpdateBooking,
     handleGetBookingById,
     handleProcessPayment,
-    handleCancelOwnBooking // 🌟 ייבוא ההנדלר החדש
+    handleCancelOwnBooking,
+    handleAdminCancelBooking // 🌟 להוסיף לייבוא // 🌟 ייבוא ההנדלר החדש
 } from '../controllers/bookingsController.js';
 import { API_ROUTES } from '../constants/apiRoutes.js';
 
@@ -28,5 +29,5 @@ router.post(API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS, authenticateToken, isAdmin,
 router.patch(API_ROUTES.BOOKINGS.ADMIN_UPDATE_STATUS, authenticateToken, isAdmin, verifyAdminTarget, handleAdminUpdateStatus);
 router.post(API_ROUTES.BOOKINGS.MY_BOOKINGS_PAY, authenticateToken, handleProcessPayment);
 router.put(API_ROUTES.BOOKINGS.ADMIN_UPDATE_BOOKING, authenticateToken, isAdmin, verifyAdminTarget, handleAdminUpdateBooking);
-
+router.patch(API_ROUTES.BOOKINGS.ADMIN_CANCEL_BOOKING, authenticateToken,isAdmin,verifyAdminTarget, handleAdminCancelBooking);
 export default router;

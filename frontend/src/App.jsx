@@ -76,6 +76,7 @@ import AdminFlightsPage from './pages/admin/AdminFlightsPage.jsx';
 import AdminAirportsPage from './pages/admin/AdminAirportsPage.jsx';
 import AdminUsersSearchPage from './pages/admin/AdminUsersSearchPage.jsx';
 import AdminUserActionsDashboard from './pages/admin/AdminUserActionsDashboard.jsx';
+import AdminUserBookingsPage from './pages/admin/AdminUserBookingsPage.jsx';
 import './App.css';
 
 function App() {
@@ -96,8 +97,8 @@ function App() {
           <Route path="/my-bookings" element={<ProtectedRoute element={<MyBookingsPage />} />} />
           <Route path="/my-bookings/:bookingId" element={<ProtectedRoute element={<BookingDetailsPage />} />} />
         </Route>
-        {/* 🔌 בלוק 2: אזור ההנהלה (מקבל את הנבבר של האדמין) */}
-        <Route element={<MainLayout NavbarComponent={AdminNavbar} />}>
+        
+<Route element={<MainLayout NavbarComponent={AdminNavbar} isAdminLayout={true} />}>
           <Route
             path="/admin/dashboard"
             element={<ProtectedRoute element={<AdminDashboardPage />} requiredRole="admin" />}
@@ -125,8 +126,9 @@ function App() {
           {/* הראוטים הגנריים היחידים שנשארים עבור האדמין: צפייה, עריכה וביטול הזמנות קיימות */}
           <Route
             path="/admin/users-service/:userId/bookings"
-            element={<ProtectedRoute element={<MyBookingsPage />} requiredRole="admin" />}
+            element={<ProtectedRoute element={<AdminUserBookingsPage />} requiredRole="admin" />}
           />
+
           <Route
             path="/admin/users-service/:userId/bookings/:bookingId"
             element={<ProtectedRoute element={<BookingDetailsPage />} requiredRole="admin" />}

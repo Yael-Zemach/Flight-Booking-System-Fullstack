@@ -31,22 +31,40 @@ export const adminCreateUserBooking = (userId, bookingData) =>
 // עדכון סטטוס הזמנה בלבד (אדמין - משתמש ב-PATCH)
 export const adminUpdateBookingStatus = (bookingId, status) =>
     api.patch(
-        `${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_BOOKING_BY_ID.replace(':bookingId', bookingId)}/status`,
+        `${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_BOOKING_BY_ID.replace(':bookingId', bookingId)}/status` ,
         {
             status, // למשל 'CONFIRMED' או 'CANCELLED'
         }
     );
 
 // עדכון מלא של הזמנה ופרטי הנוסעים שלה (אדמין - משתמש ב-PUT)
-export const adminUpdateBookingFull = (bookingId, bookingData) =>
-    api.put(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_BOOKING_BY_ID.replace(':bookingId', bookingId)}`, {
-        flightId: bookingData.flightId,
+// עדכון מלא של הזמנה ופרטי הנוסעים שלה (אדמין - משתמש ב-PUT)
+// // 🌟 הוספנו את userId לפרמטרים ול-replace ב-URL
+// export const adminUpdateBookingFull = (userId, bookingId, bookingData) =>
+//     api.put(${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_BOOKING_BY_ID.replace(':id', userId).replace(':bookingId', bookingId)}, {
+//         flightId: bookingData.flightId,
+//         returnFlightId: bookingData.returnFlightId, // 🌟 וידאנו שזה נשלח לשרת
+//         totalPrice: bookingData.totalPrice,
+//         status: bookingData.status,
+//         passengers: bookingData.passengers,
+//     });
+
+
+
+    // עדכון מלא של הזמנה ופרטי הנוסעים שלה (אדמין - משתמש ב-PUT)
+export const adminUpdateBookingFull = (userId, bookingId, bookingData) =>
+    api.put(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_BOOKING_BY_ID.replace(':id', userId).replace(':bookingId', bookingId)}`, {
+        flightId: bookingData.flightId,             // מוודא שה-ID של טיסת ההלוך נשלח
+        returnFlightId: bookingData.returnFlightId, // מוודא שה-ID של טיסת החזור נשלח
         totalPrice: bookingData.totalPrice,
         status: bookingData.status,
-        passengers: bookingData.passengers, // כולל ה-passenger_id לכל נוסע קיים
+        passengers: bookingData.passengers,
     });
     export const payForBooking = (bookingId) =>
     api.post(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}/${bookingId}/pay`, {});
     // הוסיפי את הפונקציה הזו לקובץ ה-API שלך בפרונטנד
 export const cancelOwnBooking = (bookingId) =>
     api.patch(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.MY_BOOKINGS}/${bookingId}/cancel`);
+// עדכון נתיב ביטול של אדמין - שולח בקשה לנתיב שיצרנו בשרת
+export const adminCancelBooking = (userId, bookingId) =>
+    api.patch(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_BOOKING_BY_ID.replace(':id', userId).replace(':bookingId', bookingId)}/cancel`);

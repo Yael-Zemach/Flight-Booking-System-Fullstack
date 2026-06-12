@@ -2,6 +2,10 @@ import * as bookingsModel from '../models/bookingsModel.js';
 import { BOOKING_STATUS } from '../constants/bookingStatus.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 
+
+
+
+
 // 🌟 הפונקציה החדשה בסרביס שמנהלת את האבטחה והשגיאות
 export async function getBookingDetails(bookingId, userId, userRole) {
     const booking = await bookingsModel.getBookingById(bookingId);
@@ -41,12 +45,42 @@ export async function updateStatusByAdmin(bookingId, newStatus) {
     return success;
 }
 
-export async function updateBookingFull(bookingId, flightId, totalPrice, status, passengers) {
-    const success = await bookingsModel.updateBookingByAdmin(bookingId, flightId, totalPrice, status, passengers);
+// export async function updateBookingFull(bookingId, flightId, totalPrice, status, passengers) {
+//     const success = await bookingsModel.updateBookingByAdmin(bookingId, flightId, totalPrice, status, passengers);
+//     if (!success) {
+//         throw new Error(ERROR_CODES.ADMIN_UPDATE_FAILED);
+//     }
+//     return success;
+// }
+
+
+// services/bookingsService.js
+
+// services/bookingsService.js [צד השרת]
+
+export async function updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, status, passengers) {
+    const success = await bookingsModel.updateBookingByAdmin(
+        bookingId, flightId, returnFlightId, totalPrice, status, passengers
+    );
     if (!success) {
         throw new Error(ERROR_CODES.ADMIN_UPDATE_FAILED);
     }
     return success;
+}
+
+// 🌟 פונקציה חדשה: ביטול הזמנה ע"י אדמין בלי בדיקת זמנים
+export async function cancelBookingByAdmin(bookingId) {
+    const booking = await bookingsModel.getBookingById(bookingId);
+    
+    if (!booking) {
+        throw new Error(ERROR_CODES.NOT_FOUND);
+    }
+    if (booking.status === 'cancelled') {
+        throw new Error("ההזמנה כבר מבוטלת");
+    }
+
+    // קריאה למודל לביצוע הטרנזקציה (שינוי סטטוס והחזרת מושבים)
+    return await bookingsModel.cancelBookingAdminTransaction(bookingId);
 }
 
 export async function processBookingPayment(bookingId) {
@@ -94,4 +128,3 @@ export async function cancelBookingByUser(bookingId, userId) {
     // 3. אם הכל תקין - מעדכנים את הסטטוס ל-cancelled
     return await bookingsModel.updateBookingStatus(bookingId, 'cancelled');
 }
-
