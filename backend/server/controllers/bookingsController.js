@@ -32,7 +32,7 @@ export async function handleGetBookings(req, res) {
     
     // חילוץ פרמטרי הדפדוד עם ערכי ברירת מחדל (עמוד 1, 10 פריטים)
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 9;
 
     try {
         const { bookings, totalCount } = await bookingsService.getUserBookings(targetUserId, page, limit);

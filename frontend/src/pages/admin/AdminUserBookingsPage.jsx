@@ -21,7 +21,7 @@ export default function AdminUserBookingsPage() {
   const fetchUserBookings = async () => {
     try {
       setLoading(true);
-      const data = await adminGetUserBookings(userId, page, 10);
+      const data = await adminGetUserBookings(userId, page, 9);
       setBookings(data.bookings || []);
       setTotalCount(data.totalCount || 0);
     } catch (err) {

@@ -17,7 +17,7 @@ export const createBooking = (bookingData) =>
         passengers: bookingData.passengers, // מערך של אובייקטים (נוסעים)
     });
 // שליפת הזמנות של משתמש ספציפי לפי ה-ID שלו
-export const adminGetUserBookings = (userId, page = 1, limit = 10) =>
+export const adminGetUserBookings = (userId, page = 1, limit = 9) =>
     api.get(`${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_USER_BOOKINGS.replace(':id', userId)}?page=${page}&limit=${limit}`);
 // יצירת הזמנה עבור משתמש ספציפי על ידי האדמין
 export const adminCreateUserBooking = (userId, bookingData) =>
