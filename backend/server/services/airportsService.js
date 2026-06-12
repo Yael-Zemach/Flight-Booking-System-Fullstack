@@ -1,6 +1,5 @@
 import * as airportsModel from '../models/airportsModel.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
-
 export async function createNewAirport(bodyData, fileData) {
     let finalImageUrl = '';
 
@@ -26,7 +25,14 @@ export async function createNewAirport(bodyData, fileData) {
     };
 
     // קריאה ל-Model שיבצע את שאילתת ה-SQL INSERT
-    return await airportsModel.insertAirport(finalAirportObject);
+    return await airportsModel.insertAirport(
+    finalAirportObject.airport_code,
+    finalAirportObject.airport_name,
+    finalAirportObject.city,
+    finalAirportObject.country,
+    finalAirportObject.image_url,
+    finalAirportObject.description
+);
 }
 // 2. לוגיקת עדכון תמונה
 export async function updateAirportImage(airportId, imageUrl) {

@@ -1,0 +1,37 @@
+/* סידור הכותרת והכפתור אחד מול השני */
+.bookings-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.bookings-page-titles h1 {
+  margin: 0 0 5px 0;
+  color: #1f2937;
+}
+
+.bookings-page-titles p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+/* עיצוב כפתור החזרה למראה נקי וללא דריסה של טקסט */
+.back-to-search-btn {
+  background-color: #4b5563;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  height: fit-content;
+}
+
+.back-to-search-btn:hover {
+  background-color: #374151;
+}
