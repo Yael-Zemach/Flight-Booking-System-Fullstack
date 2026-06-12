@@ -58,7 +58,7 @@ export async function updateStatusByAdmin(bookingId, newStatus) {
 
 // services/bookingsService.js [צד השרת]
 
-export async function updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, status, passengers) {
+export async function updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, passengers) {
     const success = await bookingsModel.updateBookingByAdmin(
         bookingId, flightId, returnFlightId, totalPrice, passengers
     );

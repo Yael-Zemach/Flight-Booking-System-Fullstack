@@ -57,7 +57,6 @@ export const adminUpdateBookingFull = (userId, bookingId, bookingData) =>
         flightId: bookingData.flightId,             // מוודא שה-ID של טיסת ההלוך נשלח
         returnFlightId: bookingData.returnFlightId, // מוודא שה-ID של טיסת החזור נשלח
         totalPrice: bookingData.totalPrice,
-        status: bookingData.status,
         passengers: bookingData.passengers,
     });
     export const payForBooking = (bookingId) =>

@@ -58,7 +58,6 @@ export default function AdminEditBookingModal({ userId, booking, onClose, onSucc
                 flightId: booking.flight_id,
                 returnFlightId: booking.return_flight_id || null,
                 totalPrice: Number(totalPrice),
-                status: status,
                 passengers: cleanedPassengers
             };
 
