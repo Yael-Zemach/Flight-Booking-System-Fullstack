@@ -64,3 +64,16 @@
   background: #9ca3af;
   cursor: not-allowed;
 }
+
+/* הוסיפי בתחתית הקובץ */
+@media (max-width: 480px) {
+    .payment-grid {
+        grid-template-columns: 1fr; /* תוקף ו-CVV נפרסים לרוחב מלא */
+        gap: 12px;
+    }
+    
+    .payment-step-container {
+        padding: 15px;
+        margin: 0 10px;
+    }
+}

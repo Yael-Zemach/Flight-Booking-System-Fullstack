@@ -75,3 +75,26 @@
     background-color: #007bff;
     color: #ffffff;
 }
+
+
+@media (max-width: 640px) {
+    .flight-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        text-align: right;
+    }
+    
+    .flight-price-zone {
+        align-items: flex-start;
+        border-top: 1px dashed #e0e0e0;
+        padding-top: 12px;
+        width: 100%;
+    }
+    
+    .select-flight-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 15px;
+    }
+}

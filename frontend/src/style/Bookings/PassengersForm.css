@@ -58,3 +58,17 @@
   cursor: pointer;
   font-size: 16px;
 }
+@media (max-width: 600px) {
+    .passenger-card-grid {
+        grid-template-columns: 1fr; /* מעבר לעמודה אחת מלאה */
+        gap: 12px;
+    }
+    
+    .passengers-form {
+        padding: 15px;
+    }
+    
+    .passenger-card {
+        padding: 12px;
+    }
+}

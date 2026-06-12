@@ -102,3 +102,17 @@
     background: #2563eb;
     color: white;
 }
+
+@media (max-width: 768px) {
+    .destinations-container {
+        padding: 20px 15px;
+    }
+    
+    .destinations-title {
+        font-size: 26px;
+    }
+    
+    .destinations-grid {
+        gap: 20px;
+    }
+}

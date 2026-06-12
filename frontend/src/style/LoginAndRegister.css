@@ -130,3 +130,16 @@
   color: #0369a1;
   text-decoration: underline;
 }
+
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 25px 15px;
+        margin: 0 10px;
+    }
+    
+    .auth-container h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+}

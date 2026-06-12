@@ -143,3 +143,27 @@
     font-weight: bold;
     color: #333; /* או כל צבע שמתאים לאתר שלך */
 }
+
+
+@media (max-width: 600px) {
+    .admin-modal-content {
+        padding: 20px 15px;
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .admin-modal-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .admin-modal-pax-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .admin-modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

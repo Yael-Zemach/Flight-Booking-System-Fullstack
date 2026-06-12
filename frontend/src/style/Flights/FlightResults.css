@@ -10,7 +10,6 @@
     margin-bottom: 20px;
     font-weight: 500;
 }
-
 .results-columns-wrapper {
     display: flex;
     gap: 25px;
@@ -19,7 +18,19 @@
 
 .results-column {
     flex: 1;
-    min-width: '300px';
+    min-width: 300px; /* תוקן מ-'300px' שהיה שגורם לשגיאה */
+}
+
+/* התאמה למובייל */
+@media (max-width: 768px) {
+    .results-columns-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .results-column {
+        min-width: 100%;
+    }
 }
 
 .column-title-outbound {
