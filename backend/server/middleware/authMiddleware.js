@@ -19,7 +19,7 @@ export function authenticateToken(req, res, next) {
     jwt.verify(token, JWT_CONFIG.SECRET, (err, decodedUser) => {
         if (err) {
             console.error("JWT Verification Error:", err.message); 
-            return res.status(403).json({ message: MESSAGES.AUTHORIZATION.INVALID_OR_EXPIRED_TOKEN });
+            return res.status(401).json({ message: MESSAGES.AUTHORIZATION.INVALID_OR_EXPIRED_TOKEN });
         }
 
         req.user = decodedUser; 

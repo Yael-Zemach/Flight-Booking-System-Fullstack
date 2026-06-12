@@ -137,3 +137,9 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.admin-modal-text-status {
+    display: block;
+    padding: 8px 0;
+    font-weight: bold;
+    color: #333; /* או כל צבע שמתאים לאתר שלך */
+}

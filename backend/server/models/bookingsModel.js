@@ -210,7 +210,7 @@ export async function updateBookingStatus(bookingId, newStatus) {
 //     }
 // }
 
-export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, totalPrice, status, passengersArray) {
+export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, totalPrice, passengersArray) {
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
@@ -250,8 +250,8 @@ export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, 
 
         // 5. עדכון פרטי ההזמנה הכלליים ב-DB (כולל המחיר הסופי המעודכן והסטטוס)
         await connection.query(
-            'UPDATE Bookings SET flight_id = ?, return_flight_id = ?, total_price = ?, status = ? WHERE booking_id = ?',
-            [flightId, returnFlightId, totalPrice, status, bookingId]
+            'UPDATE Bookings SET flight_id = ?, return_flight_id = ?, total_price = ? WHERE booking_id = ?',
+            [flightId, returnFlightId, totalPrice, bookingId]
         );
 
         // 6. ביצוע השינויים הדינמיים בטבלת הנוסעים (Passengers)

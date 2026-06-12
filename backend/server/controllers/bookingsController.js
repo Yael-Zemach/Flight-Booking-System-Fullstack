@@ -143,10 +143,10 @@ export async function handleCancelOwnBooking(req, res) {
 export async function handleAdminUpdateBooking(req, res) {
     const bookingId = parseInt(req.params.bookingId);
     // חילוץ כל הפרמטרים שהמודאל בריאקט שולח ב-payload
-    const { flightId, returnFlightId, totalPrice, status, passengers } = req.body;
+    const { flightId, returnFlightId, totalPrice, passengers } = req.body;
     
     try {
-        await bookingsService.updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, status, passengers);
+        await bookingsService.updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, passengers);
         return res.status(200).json({ message: MESSAGES.BOOKINGS.ADMIN_UPDATE_SUCCESS }); 
     } catch (error) {
         // תפיסת השגיאה של המושבים והחזרת תשובה ברורה לפרונטאנד

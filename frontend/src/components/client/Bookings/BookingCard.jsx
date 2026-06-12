@@ -65,7 +65,7 @@ export default function BookingCard({ booking, onBookingCancelled }) {
         )}
         
         <p style={{ marginTop: '10px', fontWeight: 'bold', color: '#1a202c' }}>
-          {UI_MESSAGES.booking.totalPaidLabel} ₪{booking.total_price}
+          {UI_MESSAGES.booking.totalPaidLabel} ${booking.total_price}
         </p>
 
         {/* כפתור הביטול המבודד */}

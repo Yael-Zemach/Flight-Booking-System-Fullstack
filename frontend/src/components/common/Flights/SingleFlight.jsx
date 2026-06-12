@@ -16,7 +16,7 @@ const SingleFlight = ({ flight, onSelect, isSelected }) => {
             <div>
                 <span className="flight-badge">{flight.flight_number}</span>
                 <span className="flight-route">{flight.departure_code} ({flight.departure_city})</span> 
-                <span className="flight-arrow">⬅️</span>
+                <span className="flight-arrow">➡️</span>
                 <span className="flight-route">{flight.arrival_code} ({flight.arrival_city})</span>
                 
                 <div className="flight-times">

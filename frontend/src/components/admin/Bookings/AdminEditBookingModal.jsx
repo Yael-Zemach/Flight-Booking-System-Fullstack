@@ -26,8 +26,8 @@ export default function AdminEditBookingModal({ userId, booking, onClose, onSucc
 
     // 🌟 תיקון 1: עדכון סטייט בצורה אימוטבילית (Immutable) עם .map() כדי למנוע באגים ברינדור
     const handlePassengerChange = (index, field, value) => {
-        setPassengers(prevPassengers => 
-            prevPassengers.map((pax, i) => 
+        setPassengers(prevPassengers =>
+            prevPassengers.map((pax, i) =>
                 i === index ? { ...pax, [field]: value } : pax
             )
         );
@@ -56,7 +56,7 @@ export default function AdminEditBookingModal({ userId, booking, onClose, onSucc
             }));
             const payload = {
                 flightId: booking.flight_id,
-                returnFlightId: booking.return_flight_number ? booking.return_flight_id : null,
+                returnFlightId: booking.return_flight_id || null,
                 totalPrice: Number(totalPrice),
                 status: status,
                 passengers: cleanedPassengers
@@ -76,6 +76,14 @@ export default function AdminEditBookingModal({ userId, booking, onClose, onSucc
         <div className="admin-modal-overlay">
             <div className="admin-modal-content">
                 <h3>✏️ עריכת הזמנה #{booking.booking_id}</h3>
+                {/* 🌟 שינוי: הוספת סיכום קטן של פרטי הטיסה (הלוך/חזור) בתוך המודאל לקבלת קונטקסט */}
+                <div className="admin-modal-flight-summary" style={{ marginBottom: '15px', fontSize: '14px', color: '#555' }}>
+                  <p><strong>🛫 טיסת הלוך:</strong> {booking.flight_number} ({booking.departure_city} ⬅️ {booking.arrival_city})</p>
+                  {booking.return_flight_number && (
+                    <p><strong>🛬 טיסת חזור:</strong> {booking.return_flight_number} ({booking.return_departure_city} ⬅️ {booking.return_arrival_city})</p>
+                  )}
+                </div>
+
 
                 {error && <div className="admin-modal-error">{error}</div>}
 
@@ -83,10 +91,11 @@ export default function AdminEditBookingModal({ userId, booking, onClose, onSucc
                     <div className="admin-modal-row">
                         <div className="admin-modal-col">
                             <label>סטטוס ההזמנה:</label>
-                            <select className="admin-modal-input" value={status} onChange={(e) => setStatus(e.target.value)}>
-                                <option value="confirmed">מאושרת (Confirmed)</option>
-                                <option value="cancelled">מבוטלת (Cancelled)</option>
-                            </select>
+                            <span className="admin-modal-text-status">
+                                {status === 'confirmed' && 'מאושרת (Confirmed)'}
+                                {status === 'cancelled' && 'מבוטלת (Cancelled)'}
+                                {status === 'pending' && 'ממתינה (Pending)'}
+                            </span>
                         </div>
 
                         <div className="admin-modal-col">

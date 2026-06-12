@@ -60,7 +60,7 @@ export async function updateStatusByAdmin(bookingId, newStatus) {
 
 export async function updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, status, passengers) {
     const success = await bookingsModel.updateBookingByAdmin(
-        bookingId, flightId, returnFlightId, totalPrice, status, passengers
+        bookingId, flightId, returnFlightId, totalPrice, passengers
     );
     if (!success) {
         throw new Error(ERROR_CODES.ADMIN_UPDATE_FAILED);
@@ -126,5 +126,5 @@ export async function cancelBookingByUser(bookingId, userId) {
     }
 
     // 3. אם הכל תקין - מעדכנים את הסטטוס ל-cancelled
-    return await bookingsModel.updateBookingStatus(bookingId, 'cancelled');
+    return await bookingsModel.cancelBookingAdminTransaction(bookingId);
 }
