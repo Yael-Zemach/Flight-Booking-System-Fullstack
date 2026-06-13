@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Bookings/PaymentStep.css';
 
 export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
@@ -43,15 +44,15 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
         
         // בדיקת בטיחות קטנה נוספת לפני השליחה
         if (cardNumber.length < 16) {
-            alert('מספר כרטיס אשראי חייב להכיל 16 ספרות');
+            alert(UI_MESSAGES.payment.cardNumberError);
             return;
         }
         if (expiry.length < 5) {
-            alert('תוקף הכרטיס אינו תקין (MM/YY)');
+            alert(UI_MESSAGES.payment.expiryError);
             return;
         }
         if (cvv.length < 3) {
-            alert('קוד CVV חייב להכיל 3 ספרות');
+            alert(UI_MESSAGES.payment.cvvError);
             return;
         }
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UI_MESSAGES } from '../../constants/messages.js';
 
 export default function AdminAirportRow({ airport, onDelete, onUpdateImage }) {
     const [isUploading, setIsUploading] = useState(false);
@@ -9,7 +10,7 @@ export default function AdminAirportRow({ airport, onDelete, onUpdateImage }) {
         try {
             setIsUploading(true);
             await onUpdateImage(airport.airport_id, false, file);
-            alert('התמונה עודכנה בהצלחה!');
+            alert(UI_MESSAGES.admin.airportImageUpdated);
         } catch (err) {} finally { setIsUploading(false); }
     };
 
@@ -19,7 +20,7 @@ export default function AdminAirportRow({ airport, onDelete, onUpdateImage }) {
         try {
             setIsUploading(true);
             await onUpdateImage(airport.airport_id, true, newUrl.trim());
-            alert('הקישור עודכן בהצלחה!');
+            alert(UI_MESSAGES.admin.airportLinkUpdated);
         } catch (err) {} finally { setIsUploading(false); }
     };
 

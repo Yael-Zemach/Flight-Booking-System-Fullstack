@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllAirports } from '../../API/airportsAPI';
+import { UI_MESSAGES } from '../../constants/messages.js';
 import DestinationGrid from '../../components/client/Destinations/destinationGrid';
 import '../../style/destinationStyle.css';
 
@@ -17,7 +18,7 @@ export default function DestinationPage() {
                 const data = await getAllAirports();
                 setDestinations(data);
             } catch (err) {
-                setError(err.message || 'Failed to load destinations');
+                setError(err.message || UI_MESSAGES.destinations.failedToLoad);
             } finally {
                 setLoading(false);
             }

@@ -1,6 +1,7 @@
 import * as bookingsModel from '../models/bookingsModel.js';
 import { BOOKING_STATUS } from '../constants/bookingStatus.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
+import { MESSAGES } from '../constants/messages.js';
 
 
 
@@ -17,7 +18,7 @@ export async function getBookingDetails(bookingId, userId, userRole) {
 
     // שגיאה 403: המשתמש הוא לא אדמין, וההזמנה לא שייכת לו!
     if (userRole !== 'admin' && booking.user_id !== userId) {
-        throw new Error('FORBIDDEN'); 
+        throw new Error(ERROR_CODES.FORBIDDEN); 
     }
 
     return booking;
@@ -75,8 +76,8 @@ export async function cancelBookingByAdmin(bookingId) {
     if (!booking) {
         throw new Error(ERROR_CODES.NOT_FOUND);
     }
-    if (booking.status === 'cancelled') {
-        throw new Error("ההזמנה כבר מבוטלת");
+    if (booking.status === BOOKING_STATUS.CANCELLED) {
+        throw new Error(ERROR_CODES.ALREADY_CANCELLED);
     }
 
     // קריאה למודל לביצוע הטרנזקציה (שינוי סטטוס והחזרת מושבים)
@@ -97,19 +98,19 @@ export async function cancelBookingByUser(bookingId, userId) {
     const booking = await bookingsModel.getBookingDetailsForValidation(bookingId);
     
     if (!booking) {
-        const error = new Error("ההזמנה לא נמצאה במערכת");
+        const error = new Error(MESSAGES.BOOKINGS.NOT_FOUND);
         error.status = 404;
         throw error;
     }
 
     if (booking.user_id !== userId) {
-        const error = new Error("אין לך הרשאה לבטל הזמנה זו");
+        const error = new Error(MESSAGES.BOOKINGS.NOT_YOUR_BOOKING);
         error.status = 403;
         throw error;
     }
 
-    if (booking.status === 'cancelled') {
-        const error = new Error("ההזמנה כבר מבוטלת");
+    if (booking.status === BOOKING_STATUS.CANCELLED) {
+        const error = new Error(MESSAGES.BOOKINGS.ALREADY_CANCELLED);
         error.status = 400;
         throw error;
     }
@@ -120,11 +121,21 @@ export async function cancelBookingByUser(bookingId, userId) {
     const millisecondsIn24Hours = 24 * 60 * 60 * 1000;
 
     if (departureTime - now < millisecondsIn24Hours) {
-        const error = new Error("לא ניתן לבטל טיסה פחות מ-24 שעות לפני מועד ההמראה");
+        const error = new Error(MESSAGES.BOOKINGS.CANNOT_CANCEL_24_HOURS);
         error.status = 400;
         throw error;
     }
 
     // 3. אם הכל תקין - מעדכנים את הסטטוס ל-cancelled
     return await bookingsModel.cancelBookingAdminTransaction(bookingId);
+}
+export async function checkAndCleanExpiredBookings() {
+    try {
+        const deletedCount = await bookingsModel.clearExpiredPendingBookings(15);
+        if (deletedCount > 0) {
+            console.log(`[Background Task] Successfully cleaned up ${deletedCount} expired pending bookings and restored seats.`);
+        }
+    } catch (error) {
+        console.error("Error running background cleaning for expired bookings:", error);
+    }
 }

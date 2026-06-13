@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getBookingById } from '../../../API/bookingAPI'; 
+import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Bookings/BookingDetailsPage.css'; 
 
 export default function BookingDetailsPage() {

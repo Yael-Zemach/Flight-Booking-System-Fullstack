@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { adminCancelBooking } from '../../../API/bookingAPI';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Admin/AdminBookingCard.css';
 
 export default function AdminBookingCard({ booking, userId, onRefresh, onEditClick }) {
@@ -12,10 +13,10 @@ export default function AdminBookingCard({ booking, userId, onRefresh, onEditCli
     try {
       setIsCancelling(true);
       await adminCancelBooking(userId, booking.booking_id);
-      alert('ההזמנה בוטלה בהצלחה.');
+      alert(UI_MESSAGES.admin.bookingCancelledSuccess);
       onRefresh(); 
     } catch (error) {
-      alert(error.message || 'שגיאה בביטול ההזמנה');
+      alert(error.message || UI_MESSAGES.admin.bookingCancelError);
     } finally {
       setIsCancelling(false);
     }

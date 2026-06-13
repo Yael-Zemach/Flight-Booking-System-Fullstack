@@ -4,6 +4,7 @@ import { getAllAirports, createAirport, deleteAirport, updateAirportImage } from
 import AdminAirportForm from '../../components/admin/AdminAirportForm.jsx';
 import AdminAirportsTable from '../../components/admin/AdminAirportsTable.jsx';
 import AdminAirportSearch from '../../components/admin/AdminAirportSearch.jsx';
+import { UI_MESSAGES } from '../../constants/messages.js';
 
 import '../../style/AdminFlightsPage.css'; 
 import '../../style/AdminAirportsPage.css'; 
@@ -22,7 +23,7 @@ export default function AdminAirportsPage() {
             const data = await getAllAirports();
             setAirports(data || []);
         } catch (err) {
-            setSystemMessage({ type: 'error', text: 'שגיאה בטעינת שדות התעופה: ' + err.message });
+            setSystemMessage({ type: 'error', text: UI_MESSAGES.admin.airportLoadError + err.message });
         } finally {
             setLoading(false);
         }
@@ -37,11 +38,11 @@ export default function AdminAirportsPage() {
         try {
             setActionLoading(true);
             const response = await createAirport(formData);
-            setSystemMessage({ type: 'success', text: response?.message || 'שדה התעופה נוסף בהצלחה!' });
+            setSystemMessage({ type: 'success', text: response?.message || UI_MESSAGES.admin.airportAddedSuccess });
             successCallback(); 
             fetchAirportsData(); 
         } catch (err) {
-            setSystemMessage({ type: 'error', text: err.message || 'הוספת שדה התעופה נכשלה.' });
+            setSystemMessage({ type: 'error', text: err.message || UI_MESSAGES.admin.airportAddFailed });
         } finally {
             setActionLoading(false);
         }
@@ -57,22 +58,22 @@ export default function AdminAirportsPage() {
                 formData.append('image', dataValue);
             }
             const response = await updateAirportImage(airportId, formData);
-            setSystemMessage({ type: 'success', text: response?.message || 'התמונה עודכנה בהצלחה!' });
+            setSystemMessage({ type: 'success', text: response?.message || UI_MESSAGES.admin.airportImageUpdated });
             fetchAirportsData(); 
         } catch (err) {
-            setSystemMessage({ type: 'error', text: 'עדכון התמונה נכשל: ' + err.message });
+            setSystemMessage({ type: 'error', text: UI_MESSAGES.admin.airportImageUpdateFailed + err.message });
         }
     };
 
     const handleDeleteAirportClick = async (airportId) => {
-        if (!window.confirm('האם את בטוחה שברצונך למחוק שדה תעופה זה?')) return;
+        if (!window.confirm(UI_MESSAGES.admin.airportDeleteConfirm)) return;
         setSystemMessage({ type: '', text: '' });
         try {
             const response = await deleteAirport(airportId);
-            setSystemMessage({ type: 'success', text: response?.message || 'שדה התעופה נמחק.' });
+            setSystemMessage({ type: 'success', text: response?.message || UI_MESSAGES.admin.airportDeleted });
             fetchAirportsData();
         } catch (err) {
-            setSystemMessage({ type: 'error', text: err.message || 'מחיקת השדה נכשלה.' });
+            setSystemMessage({ type: 'error', text: err.message || UI_MESSAGES.admin.airportDeleteFailed });
         }
     };
 

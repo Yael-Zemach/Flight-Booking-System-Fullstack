@@ -5,12 +5,13 @@ import { createServer } from 'http'; // 🌟 חדש: ייבוא ספריית ה-
 import { Server } from 'socket.io';  // 🌟 חדש: ייבוא מחלקת השרת של Socket.io
 import { API_ROUTES } from './constants/apiRoutes.js';
 import { MESSAGES } from './constants/messages.js';
-
+import { checkAndCleanExpiredBookings } from './services/bookingsService.js';
 import flightsRouter from './routes/flightsRoute.js';
 import authRouter from './routes/authRoutes.js';
 import usersRoutes from './routes/usersRoutes.js'; 
 import bookingsRoutes from './routes/bookingRoutes.js';
 import airportsRoutes from './routes/airportsRoutes.js';
+
 
 const app = express();
 const baseUrl = API_ROUTES.BASE;
@@ -58,6 +59,12 @@ app.use((err, req, res, next) => {
 });
 
 // 🌟 4. שינוי מרכזי: מעכשיו מפעילים את httpServer.listen ולא את app.listen
+// 🌟 4. שינוי מרכזי: מעכשיו מפעילים את httpServer.listen ולא את app.listen
 httpServer.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT} with WebSockets enabled!`);
+
+  // הפעלת מנגנון סריקה וניקוי אוטומטי של הזמנות פנדינג נטושות כל 15 דקות
+  setInterval(() => {
+      checkAndCleanExpiredBookings();
+  }, 15 * 60 * 1000);
 });

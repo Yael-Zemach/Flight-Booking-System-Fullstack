@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../Hooks/authContext.jsx";
+import { UI_MESSAGES } from "../../constants/messages.js";
 import ProfileEditForm from "./profileEditForm.jsx";
 import "../../style/profilePopUp.css";
 

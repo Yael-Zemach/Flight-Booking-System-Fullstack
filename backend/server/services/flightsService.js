@@ -1,6 +1,7 @@
 // services/flightsService.js
 import * as flightsModel from '../models/flightsModel.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
+import { MESSAGES } from '../constants/messages.js';
 import { TRIP_TYPES } from '../constants/tripTypes.js';
 
 // פונקציית עזר להוספה/החסרה של ימים לתאריך
@@ -111,7 +112,7 @@ export async function createNewFlight(flightData) {
     
     // 🌟 הבדיקה החדשה: מניעת יצירת טיסה עם זמן המראה בעבר
     if (new Date(departure_time) < new Date()) {
-        throw new Error('DEPARTURE_TIME_IN_PAST');
+        throw new Error(ERROR_CODES.DEPARTURE_TIME_IN_PAST);
     }
 
     if (new Date(departure_time) >= new Date(arrival_time)) {
@@ -136,7 +137,7 @@ export async function updateExistingFlight(flightId, flightData) {
 
     // 🌟 הבדיקה החדשה: מניעת עדכון טיסה לזמן המראה בעבר
     if (new Date(departure_time) < new Date()) {
-        throw new Error('DEPARTURE_TIME_IN_PAST');
+        throw new Error(ERROR_CODES.DEPARTURE_TIME_IN_PAST);
     }
 
     if (new Date(departure_time) >= new Date(arrival_time)) {
@@ -164,9 +165,10 @@ export async function cancelFlight(flightId) {
         throw error;
     }
 }
+
 export async function getAdminFlightsByDate(date) {
     if (!date) {
-        throw new Error("חובה לספק תאריך (date) כדי לקבל את לוח הטיסות.");
+        throw new Error(MESSAGES.FLIGHTS.DATE_REQUIRED);
     }
     return await flightsModel.getFlightsByDateForAdmin(date);
 }

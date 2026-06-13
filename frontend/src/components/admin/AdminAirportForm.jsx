@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UI_MESSAGES } from '../../constants/messages.js';
 
 export default function AdminAirportForm({ onSubmit, loading }) {
     const [airportCode, setAirportCode] = useState('');
@@ -22,13 +23,13 @@ export default function AdminAirportForm({ onSubmit, loading }) {
 
         if (uploadType === 'file') {
             if (!selectedFile) {
-                alert('חובה לבחור קובץ תמונה מהמחשב!');
+                alert(UI_MESSAGES.admin.airportImageRequired);
                 return;
             }
             formData.append('image', selectedFile);
         } else {
             if (!imageUrlInput.trim()) {
-                alert('חובה להזין כתובת URL של תמונה!');
+                alert(UI_MESSAGES.admin.airportUrlRequired);
                 return;
             }
             formData.append('image_url', imageUrlInput.trim());

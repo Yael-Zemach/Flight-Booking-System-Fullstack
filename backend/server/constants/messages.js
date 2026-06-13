@@ -23,6 +23,8 @@ export const MESSAGES = {
     FLIGHTS: {
         TLV_REQUIRED: 'טיסות חייבות להמריא או לנחות ב-TLV.',
         SEARCH_ERROR: 'שגיאה פנימית בעת חיפוש הטיסות.',
+        DEPARTURE_TIME_IN_PAST: 'לא ניתן ליצור או לעדכן טיסה עם זמן המראה בעבר.',
+        DATE_REQUIRED: 'חובה לספק תאריך (date) כדי לקבל את לוח הטיסות.',
         CREATE_SUCCESS: 'הטיסה נוצרה בהצלחה',
         UPDATE_SUCCESS: 'הטיסה עודכנה בהצלחה',
         CANCEL_SUCCESS: 'הטיסה בוטלה בהצלחה וכל ההזמנות הקשורות עודכנו',
@@ -41,8 +43,12 @@ export const MESSAGES = {
         MISSING_DATA: 'חסרים נתוני טיסה או נוסעים',
         CREATE_SUCCESS: 'ההזמנה בוצעה בהצלחה',
         CANCEL_SUCCESS: 'ההזמנה בוטלה בהצלחה',
+        NOT_FOUND: 'ההזמנה לא נמצאה במערכת',
         NOT_FOUND_OR_CANCELLED: 'ההזמנה לא נמצאה או שכבר בוטלה',
         INVALID_STATUS: 'סטטוס לא תקין לעדכון הזמנה',
+        ALREADY_CANCELLED: 'ההזמנה כבר מבוטלת',
+        NOT_YOUR_BOOKING: 'אין לך הרשאה לבטל הזמנה זו',
+        CANNOT_CANCEL_24_HOURS: 'לא ניתן לבטל טיסה פחות מ-24 שעות לפני מועד ההמראה',
         ADMIN_UPDATE_SUCCESS: 'ההזמנה והנוסעים עודכנו בהצלחה',
         ADMIN_UPDATE_FAILED: 'עדכון ההזמנה נכשל'
     },

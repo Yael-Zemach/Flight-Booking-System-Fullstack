@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { adminUpdateBookingFull } from '../../../API/bookingAPI';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Admin/AdminEditBookingModal.css';
 
 const formatDateForInput = (dateVal) => {
@@ -62,10 +63,10 @@ export default function AdminEditBookingModal({ userId, booking, onClose, onSucc
             };
 
             await adminUpdateBookingFull(userId, booking.booking_id, payload);
-            alert('ההזמנה עודכנה בהצלחה!');
+            alert(UI_MESSAGES.admin.bookingUpdateSuccess);
             onSuccess();
         } catch (err) {
-            setError(err.message || 'שגיאה בעדכון ההזמנה');
+            setError(err.message || UI_MESSAGES.admin.bookingUpdateError);
         } finally {
             setLoading(false);
         }

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { login as apiLogin, register as apiRegister } from "../API/authAPI.js";
+import { UI_MESSAGES } from "../constants/messages.js";
 const AuthContext = createContext(null);
 
 
@@ -65,7 +66,7 @@ export function AuthProvider({ children }) {
             localStorage.setItem("token", result.token);
 
             // גם כאן, מחזירים את סוג המשתמש (CUSTOMER) ישירות לדף הרגיסטר
-            return { ok: true, userType: myUser.userType, msg: result.message || "נרשמת בהצלחה!" };
+            return { ok: true, userType: myUser.userType, msg: result.message || UI_MESSAGES.auth.registrationSuccess };
         } catch (err) {
             return { ok: false, msg: err.message };
         }

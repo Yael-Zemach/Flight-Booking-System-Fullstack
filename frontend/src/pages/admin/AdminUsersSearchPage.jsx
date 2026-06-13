@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserIdByEmail } from '../../API/userAPI'; 
-import '../../style/AdminUserSearchPage.css'; // ייבוא קובץ העיצוב החדש
+import { UI_MESSAGES } from '../../constants/messages.js';
+import '../../style/AdminUserSearchPage.css';
 
 
 

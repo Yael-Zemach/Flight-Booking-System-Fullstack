@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { UI_MESSAGES } from '../../constants/messages.js';
 import AirportAutocomplete from '../common/Flights/AirportAutocomplete.jsx';
 import FlightDatePicker from '../common/Flights/FlightDatePicker.jsx'; 
 
@@ -63,13 +64,13 @@ export default function AdminFlightForm({ airports, editingFlight, onCancelEdit,
         // 🌟 ולידציה אקטיבית א': מניעת שליחת זמן המראה מהעבר (במקרה של הקלדה ידנית)
         const nowStr = getNowDateTimeString();
         if (formData.departure_time < nowStr) {
-            alert('⚠️ שגיאה: לא ניתן ליצור או לערוך טיסה עם זמן המראה בעבר!');
+            alert(UI_MESSAGES.admin.flightPastDepartureError);
             return;
         }
 
         // 🌟 ולידציה אקטיבית ב': מניעת מצב שבו זמן הנחיתה קודם או שווה לזמן ההמראה
         if (formData.arrival_time <= formData.departure_time) {
-            alert('⚠️ שגיאה: זמן הנחיתה חייב להיות מאוחר יותר מזמן ההמראה!');
+            alert(UI_MESSAGES.admin.flightArrivalError);
             return;
         }
 

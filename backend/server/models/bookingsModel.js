@@ -1,5 +1,6 @@
 import pool from '../config/database.js';
 import { BOOKING_STATUS } from '../constants/bookingStatus.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 import { updateFlightSeats } from './flightsModel.js';
 import { insertPassenger, updatePassengerDetails } from './passengersModel.js';
 
@@ -46,8 +47,7 @@ export async function getBookingsByUserId(userId, page, limit) {
     const offset = (page - 1) * limit;
 
     // 2. שאילתה א': ספירת סך כל ההזמנות הקיימות ליוזר (כדי לדעת כמה עמודים יש בסך הכל)
-    const countQuery = 'SELECT COUNT(*) AS total FROM Bookings WHERE user_id = ?';
-    const [countResult] = await pool.query(countQuery, [userId]);
+const countQuery = "SELECT COUNT(*) AS total FROM Bookings WHERE user_id = ? AND status != 'pending'";    const [countResult] = await pool.query(countQuery, [userId]);
     const totalCount = countResult[0].total;
 
     // 3. שאילתה ב': שליפת ההזמנות עצמן עבור העמוד הנוכחי בלבד
@@ -67,8 +67,8 @@ b.booking_id, b.flight_id, b.return_flight_id, b.booking_time, b.total_price, b.
         LEFT JOIN Flights rf ON b.return_flight_id = rf.flight_id
         LEFT JOIN Airports rdep ON rf.departure_airport_id = rdep.airport_id
         LEFT JOIN Airports rarr ON rf.arrival_airport_id = rarr.airport_id
-        WHERE b.user_id = ? 
-        ORDER BY b.booking_time DESC
+       WHERE b.user_id = ? AND b.status != 'pending' 
+ORDER BY b.booking_time DESC
         LIMIT ? OFFSET ?;
     `;
 
@@ -87,7 +87,6 @@ b.booking_id, b.flight_id, b.return_flight_id, b.booking_time, b.total_price, b.
     // מחזירים את התוצאה המשולבת
     return { bookings, totalCount };
 }
-
 export async function createBookingWithPassengers(userId, flightId, returnFlightId, totalPrice, passengersArray) {
     const connection = await pool.getConnection();
     try {
@@ -237,13 +236,13 @@ export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, 
         if (seatDelta > 0) {
             const [flightRows] = await connection.query('SELECT seats_available FROM Flights WHERE flight_id = ?', [flightId]);
             if (!flightRows.length || flightRows[0].seats_available < seatDelta) {
-                throw new Error('NOT_ENOUGH_SEATS');
+                throw new Error(ERROR_CODES.NOT_ENOUGH_SEATS);
             }
 
             if (returnFlightId) {
                 const [returnFlightRows] = await connection.query('SELECT seats_available FROM Flights WHERE flight_id = ?', [returnFlightId]);
                 if (!returnFlightRows.length || returnFlightRows[0].seats_available < seatDelta) {
-                    throw new Error('NOT_ENOUGH_SEATS');
+                    throw new Error(ERROR_CODES.NOT_ENOUGH_SEATS);
                 }
             }
         }
@@ -302,13 +301,13 @@ export async function cancelBookingAdminTransaction(bookingId) {
         const [bookings] = await connection.query('SELECT flight_id, return_flight_id FROM Bookings WHERE booking_id = ?', [bookingId]);
         const [passengers] = await connection.query('SELECT passenger_id FROM Passengers WHERE booking_id = ?', [bookingId]);
 
-        if (!bookings.length) throw new Error("NOT_FOUND");
+        if (!bookings.length) throw new Error(ERROR_CODES.NOT_FOUND);
 
         const { flight_id, return_flight_id } = bookings[0];
         const paxCount = passengers.length;
 
         // עדכון הסטטוס
-        await connection.query('UPDATE Bookings SET status = ? WHERE booking_id = ?', ['cancelled', bookingId]);
+        await connection.query('UPDATE Bookings SET status = ? WHERE booking_id = ?', [BOOKING_STATUS.CANCELLED, bookingId]);
 
         // החזרת המקומות לטיסה (+paxCount מגדיל את מספר המושבים הפנויים)
         await updateFlightSeats(connection, flight_id, paxCount);
@@ -334,4 +333,54 @@ export async function getBookingDetailsForValidation(bookingId) {
     `;
     const [rows] = await pool.query(query, [bookingId]);
     return rows[0] || null;
+}
+export async function clearExpiredPendingBookings(minutesExpired) {
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+
+        // 1. שליפת כל ההזמנות בסטטוס פנדינג שנוצרו לפני יותר מ-15 דקות
+        const [expiredBookings] = await connection.query(
+            `SELECT booking_id, flight_id, return_flight_id 
+             FROM Bookings 
+             WHERE status = ? AND booking_time < NOW() - INTERVAL ? MINUTE`,
+            [BOOKING_STATUS.PENDING, minutesExpired]
+        );
+
+        // אם אין הזמנות שפג תוקפן, עוצרים ומסיימים
+        if (expiredBookings.length === 0) {
+            await connection.commit();
+            return 0;
+        }
+
+        // 2. לולאה על ההזמנות שפגו לצורך החזרת מלאי ומחיקה
+        for (const booking of expiredBookings) {
+            // שליפת כמות הנוסעים של הזמנה זו כדי לדעת כמה מושבים להחזיר
+            const [passengers] = await connection.query(
+                'SELECT COUNT(*) AS count FROM Passengers WHERE booking_id = ?',
+                [booking.booking_id]
+            );
+            const paxCount = passengers[0].count;
+
+            if (paxCount > 0) {
+                // החזרת המושבים לטיסת הלוך ולטיסת חזור (אם קיימת)
+                await updateFlightSeats(connection, booking.flight_id, paxCount);
+                if (booking.return_flight_id) {
+                    await updateFlightSeats(connection, booking.return_flight_id, paxCount);
+                }
+            }
+
+            // מחיקת הנוסעים וההזמנה עצמה מבסיס הנתונים (מנקה לחלוטין)
+            await connection.query('DELETE FROM Passengers WHERE booking_id = ?', [booking.booking_id]);
+            await connection.query('DELETE FROM Bookings WHERE booking_id = ?', [booking.booking_id]);
+        }
+
+        await connection.commit();
+        return expiredBookings.length;
+    } catch (error) {
+        await connection.rollback();
+        throw error;
+    } finally {
+        connection.release();
+    }
 }

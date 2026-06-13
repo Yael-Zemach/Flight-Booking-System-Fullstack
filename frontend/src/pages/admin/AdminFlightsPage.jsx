@@ -4,6 +4,7 @@ import { useAdminData } from '../../Hooks/useAdminData.jsx';
 import { flightsApi } from '../../API/flightsAPI.js';
 import AdminFlightForm from '../../components/admin/AdminFlightForm.jsx';
 import AdminFlightsTable from '../../components/admin/AdminFlightsTable.jsx';
+import { UI_MESSAGES } from '../../constants/messages.js';
 import '../../style/AdminFlightsPage.css';
 
 export default function AdminFlightsPage() {
@@ -30,11 +31,11 @@ export default function AdminFlightsPage() {
 
             if (editingFlight) {
                 const response = await flightsApi.updateFlight(editingFlight.flight_id, dataToSend);
-                setMessage({ type: 'success', text: response.message || 'הטיסה עודכנה בהצלחה!' });
+                setMessage({ type: 'success', text: response.message || UI_MESSAGES.admin.flightUpdatedSuccess });
                 setEditingFlight(null);
             } else {
                 const response = await flightsApi.createFlight(dataToSend);
-                setMessage({ type: 'success', text: response.message || 'הטיסה נוספה בהצלחה!' });
+                setMessage({ type: 'success', text: response.message || UI_MESSAGES.admin.flightCreatedSuccess });
             }
             refreshData();
         } catch (error) {
@@ -43,10 +44,10 @@ export default function AdminFlightsPage() {
     };
 
     const handleCancelFlightClick = async (flightId) => {
-        if (!window.confirm('האם לבטל טיסה זו ואת כל כרטיסיה?')) return;
+        if (!window.confirm(UI_MESSAGES.admin.flightCancelConfirm)) return;
         try {
             const response = await flightsApi.cancelFlight(flightId);
-            setMessage({ type: 'success', text: response.message || 'הטיסה בוטלה.' });
+            setMessage({ type: 'success', text: response.message || UI_MESSAGES.admin.flightCancelled });
             refreshData();
         } catch (err) {
             setMessage({ type: 'error', text: err.message });
