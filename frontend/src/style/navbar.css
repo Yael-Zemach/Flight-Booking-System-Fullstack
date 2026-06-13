@@ -1,21 +1,24 @@
-/* === קובץ סטייל נבבר מלא - רספונסיבי ללא שינוי קוד ריאקט === */
+/* === קובץ סטייל נבבר מלא - רספונסיבי ומתוח לקצוות המוחלטים === */
 
 .app-header-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* דוחף את הקישורים ואת אזור הפרופיל לקצוות הקיצוניים ביותר */
   align-items: center;
-  padding: 0 40px;
+  padding: 0 40px; /* מרחק קבוע קטן מהקצה של המסך */
   height: 80px;
   background-color: #ffffff;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04); /* צללית רכה מאוד מתחת לתפריט */
   position: sticky;
   top: 0;
   z-index: 50;
+  width: 100%;
+  direction: ltr; /* מבטיח שהקישורים ייזרקו לשמאל המוחלט, והפרופיל לימין המוחלט */
 }
 
 .nav-links-container {
   display: flex;
   gap: 30px;
+  direction: ltr;
 }
 
 .nav-link-item {
@@ -33,7 +36,7 @@
   color: #2563eb; /* כחול הייטק */
 }
 
-/* פס כחול שמופיע באנימציה כשמרחפים על לינק */
+/* פס כחול שמופיע באנימציה כשמרחפים על לינק או כשהוא אקטיבי */
 .nav-link-item::after {
   content: '';
   position: absolute;
@@ -55,6 +58,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  direction: ltr;
 }
 
 .user-welcome-msg {
@@ -90,7 +94,7 @@
 }
 
 .nav-avatar-btn.logged-in:hover {
-  background-color: #ef4444; /* אדום יוקרתי */
+  background-color: #ef4444;
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
@@ -112,7 +116,7 @@
 /* כפתור התנתקות */
 .nav-logout-btn {
   background-color: transparent;
-  color: #ef4444; /* אדום יוקרתי */
+  color: #ef4444;
   border: 1px solid #ef4444;
   padding: 8px 16px;
   border-radius: 8px;
@@ -131,30 +135,66 @@
 /* ========================================== */
 @media (max-width: 768px) {
   .app-header-nav {
-    height: auto; /* 1. משחרר את ה-80px שחנק את האלמנטים במובייל */
+    height: auto;
     min-height: 80px;
-    flex-direction: column; /* 2. הופך את המבנה משורה לטור - הלינקים למעלה, הפרופיל למטה */
+    flex-direction: column; /* הופך את המבנה לטור במובייל ושומר על מרכוז נוח */
     padding: 15px 20px;
-    gap: 15px; /* 3. מייצר מרווח אוויר קבוע ואחיד בין השורות החדשות */
+    gap: 15px;
   }
 
   .nav-links-container {
-    flex-wrap: wrap; /* 4. מאפשר ללינקים לרדת שורה בצורה אוטומטית ומעוגלת אם אין מקום */
-    justify-content: center; /* ממרכז את הלינקים במסך */
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px 20px;
     width: 100%;
   }
 
   .nav-link-item {
-    font-size: 15px; /* הקטנה קלה של הפונט להתאמה למסך קטן */
+    font-size: 15px;
     padding: 5px 0;
   }
 
   .nav-user-actions {
     width: 100%;
-    justify-content: center; /* 5. ממרכז את כפתורי האווטאר והתנתקות בתחתית */
-    border-top: 1px solid #f1f5f9; /* קו הפרדה עדין ואסתטי בינם לבין הלינקים */
+    justify-content: center;
+    border-top: 1px solid #f1f5f9;
     padding-top: 12px;
     gap: 15px;
+  }
+}
+
+/* ========================================== */
+/* 🌟 התאמה למסכי פלזמה / מסכי ענק (2K/4K) 🌟 */
+/* ========================================== */
+@media (min-width: 1400px) {
+  .app-header-nav {
+    padding: 0 60px; /* שומר על הצמדה לקצוות הפיזיים של המסך גם במסכים רחבים */
+  }
+}
+
+@media (min-width: 2560px) {
+  .app-header-nav {
+    padding: 0 80px; /* מרווח קבוע מעט רחב יותר לפלזמות, אך עדיין צמוד לחלוטין לצדדים */
+    height: 100px; /* הגבהה קלה לנראות מרחוק */
+  }
+  
+  /* הגדלת רכיבי הטקסט והאינטראקציה לפלזמה (נשאר בדיוק כמו שביקשת) */
+  .nav-link-item {
+    font-size: 19px;
+  }
+  
+  .user-welcome-msg {
+    font-size: 18px;
+  }
+  
+  .nav-avatar-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+  }
+  
+  .nav-logout-btn {
+    padding: 10px 22px;
+    font-size: 16px;
   }
 }

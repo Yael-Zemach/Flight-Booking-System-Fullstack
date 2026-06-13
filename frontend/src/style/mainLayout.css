@@ -114,3 +114,18 @@
     opacity: 1;
   }
 }
+
+/* הוסיפי בתחתית הקובץ src/style/mainLayout.css */
+
+@media (min-width: 2560px) {
+  /* פתיחת רוחב האתר לחוויית פריסה יוקרתית ורחבה יותר במסכי ענק */
+  .main-content {
+    max-width: 1600px;
+    padding: 60px 40px;
+  }
+  
+  /* הגדלת בסיס קנה המידה של הגופנים לטובת קריאות מושלמת מרחוק */
+  body {
+    font-size: 18px;
+  }
+}

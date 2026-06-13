@@ -1,4 +1,4 @@
-/* Auth.css - עיצוב משותף לעמודי התחברות והרשמה */
+/* === LoginAndRegister.css - עיצוב רספונסיבי גלובלי לכל סוגי המסכים === */
 
 .auth-page-wrapper {
   min-height: 100vh;
@@ -10,6 +10,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .auth-container {
@@ -18,50 +19,36 @@
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   width: 100%;
-  max-width: 420px;
+  max-width: 420px; /* רוחב אידיאלי למסכי מחשב רגילים */
   text-align: center;
   position: relative;
   overflow: hidden;
-}
-
-/* פס עיטור כחול בחלק העליון של הכרטיסייה */
-.auth-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background-color: #0284c7;
+  box-sizing: border-box;
 }
 
 .auth-container h2 {
-  color: #0369a1;
-  font-size: 28px;
   margin-top: 0;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
+  color: #1f2937;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px; /* מרווח אחיד ונקי בין שדות הקלט */
 }
 
-.input-group {
-  width: 100%;
-}
-
-/* עיצוב כל שדות הקלט (אינפוטים) בתוך הטופס */
 .auth-form input {
   width: 100%;
-  padding: 12px;
+  padding: 12px 16px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 15px;
-  box-sizing: border-box;
   transition: all 0.3s ease;
   background-color: #f9fafb;
+  box-sizing: border-box;
 }
 
 .auth-form input:focus {
@@ -102,18 +89,18 @@
 
 /* הודעת שגיאה */
 .error-msg {
-  color: #dc2626;
-  background-color: #fee2e2;
+  color: #ef4444;
+  background-color: #fef2f2;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
-  margin: 5px 0 0 0;
-  font-weight: 500;
+  margin: 10px 0 0 0;
+  border: 1px solid #fee2e2;
 }
 
-/* טקסט ההחלפה למטה (אין חשבון? / יש חשבון?) */
+/* קישורים למטה (מעבר בין התחברות להרשמה) */
 .auth-switch-text {
-  margin-top: 25px;
+  margin-top: 24px;
   font-size: 14px;
   color: #4b5563;
 }
@@ -121,25 +108,98 @@
 .auth-switch-text a {
   color: #0284c7;
   text-decoration: none;
-  font-weight: bold;
-  margin-right: 5px;
-  transition: color 0.2s;
+  font-weight: 600;
 }
 
 .auth-switch-text a:hover {
-  color: #0369a1;
   text-decoration: underline;
 }
 
-
+/* =================================================== */
+/* 📱 1. חוקי התאמה למובייל (טלפונים חכמים וצפונה) 📱 */
+/* =================================================== */
 @media (max-width: 480px) {
-    .auth-container {
-        padding: 25px 15px;
-        margin: 0 10px;
-    }
-    
-    .auth-container h2 {
-        font-size: 22px;
-        margin-bottom: 15px;
-    }
+  .auth-page-wrapper {
+    padding: 12px;
+  }
+
+  .auth-container {
+    padding: 28px 20px; /* צמצום השוליים הפנימיים כדי להרוויח מקום יקר לטקסט */
+    border-radius: 10px;
+  }
+
+  .auth-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .auth-form input {
+    padding: 12px; /* גודל לחיצה אופטימלי ונוח למסכי מגע באצבע */
+    font-size: 14px;
+  }
+
+  .auth-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+/* =================================================== */
+/* 📟 2. חוקי התאמה ל-iPad וטאבלטים (מסכים בינוניים) 📟 */
+/* =================================================== */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .auth-container {
+    padding: 36px;
+    max-width: 390px; /* התאמה קומפקטית וטבעית יותר לרוחב הטאבלט */
+  }
+}
+/* =================================================== */
+/* 📺 חוקי התאמה מוגדלים למסכי פלזמה ומסכי ענק (4K) 📺 */
+/* =================================================== */
+@media (min-width: 2560px) {
+  .auth-container {
+    max-width: 750px;     /* הגדלה משמעותית של רוחב הריבוע כדי שייראה פרופורציונלי */
+    padding: 80px 70px;   /* שוליים פנימיים עמוקים ומרווחים */
+    border-radius: 24px;  /* עיגול פינות מודגש שמתאים לגודל החדש */
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35); /* צל עמוק ובולט יותר */
+  }
+
+  .auth-container h2 {
+    font-size: 48px;      /* כותרת גדולה וברורה לצפייה מרחוק */
+    margin-bottom: 50px;
+  }
+
+  .auth-form {
+    gap: 28px;            /* רווח מוגדל בין שדות הקלט */
+  }
+
+  .auth-form input {
+    padding: 22px 28px;   /* שדות קלט ענקיים ונוחים להקלדה וקריאה */
+    font-size: 22px;      /* גודל טקסט מוגדל בתוך האינפוטים */
+    border-radius: 12px;
+  }
+
+  /* התאמה לקבוצות קלט במידה ויש דיבים פנימיים */
+  .input-group input {
+    padding: 22px 28px;
+    font-size: 22px;
+  }
+
+  .auth-btn {
+    padding: 22px;
+    font-size: 24px;      /* כפתור כניסה/הרשמה ענק ודומיננטי */
+    border-radius: 12px;
+    margin-top: 25px;
+  }
+
+  .auth-switch-text {
+    font-size: 20px;      /* הגדלת הטקסט התחתון שמעביר בין הדפים */
+    margin-top: 45px;
+  }
+  
+  .error-msg {
+    font-size: 18px;      /* הגדלת הודעות השגיאה במידה ויופיעו */
+    padding: 16px;
+    border-radius: 10px;
+  }
 }

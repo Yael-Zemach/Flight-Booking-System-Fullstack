@@ -31,12 +31,10 @@ async function request(url, options = {}) {
 
   // 4. ביצוע בקשת הרשת בפועל
   const res = await fetch(`${API_BASE}${url}`, fetchOptions);
-if (res.status === 401) {
+if (res.status === 401 && !url.includes("/login")) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    // הפניה מיידית לעמוד הלוגין
     window.location.href = "/login";
-    // עצירת המשך הפונקציה
     return null; 
   }
   // 5. טיפול בסיסי בשגיאות - אם השרת מחזיר שגיאה, זורקים אותה החוצה

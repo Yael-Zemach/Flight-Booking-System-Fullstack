@@ -84,3 +84,28 @@
 .profile-close-btn:hover {
   background-color: #e2e8f0;
 }
+
+
+
+@media (max-width: 768px) {
+  .profile-popup-container {
+    right: auto;
+    left: 50%; /* ממרכז את הבלון ביחס לאווטאר */
+    transform: translateX(-50%);
+    width: 280px;
+    max-width: calc(100vw - 32px); /* מונע חריגה וגלישה מהמסך במובייל */
+    box-sizing: border-box;
+    animation: slideDownFadeMobile 0.25s ease-out forwards; /* אנימציה מותאמת למרכוז */
+  }
+}
+
+@keyframes slideDownFadeMobile {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

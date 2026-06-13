@@ -1,0 +1,81 @@
+/* === src/style/Flights/FlightSearchPage.css === */
+
+/* המיכל הראשי של כל אזור הסיכום */
+.floating-summary-bar {
+    display: flex;
+    flex-direction: column;   /* מסדר את האלמנטים אחד מתחת לשני בטור */
+    align-items: center;      /* ממרכז את התוכן והכפתור אופקית בתוך הקופסה */
+    justify-content: center;
+    text-align: center;       /* ממרכז את כל שורות המלל (הבחירה שלך, הלוך חזור) */
+    margin: 40px auto;        /* 🌟 קסם: ממרכז את כל הקופסה עצמה בדיוק באמצע הדף */
+    padding: 24px;
+    background-color: #ffffff; /* רקע לבן נקי שמפריד את הסיכום מהטיסות */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); /* צללית מודרנית ויוקרתית */
+    width: 100%;
+    max-width: 600px;         /* שומר על גודל כרטיס אלגנטי שלא יימרח במסכי פלזמה */
+    box-sizing: border-box;
+    gap: 12px;                /* מרווח אחיד בין הטקסטים לכפתור */
+    direction: rtl;           /* מחזיר את כיוון קריאת המלל לעברית תקינה בתוך התיבה */
+}
+
+/* כותרת "הבחירה שלך" */
+.summary-title {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+/* פירוט הטיסות (הלוך/חזור) */
+.summary-details {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+/* שורת סך הכל לתשלום */
+.summary-total-price {
+    font-size: 20px;
+    color: #2563eb; /* כחול בולט למחיר */
+    display: block;
+    margin: 8px 0;
+}
+
+/* כפתור "המשך להזמנה" / "נא לבחור טיסות" */
+.checkout-btn {
+    padding: 12px 35px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.2s ease;
+    width: auto;
+    min-width: 220px;        /* כפתור נוח וקריא ללחיצה */
+    cursor: not-allowed;
+    background-color: #9ca3af; /* צבע אפור כשהוא חסום */
+    color: #ffffff;
+}
+
+/* כשהכפתור מאופשר (הבחירה הושלמה) */
+.checkout-btn.enabled {
+    background-color: #2563eb; /* כחול הייטק */
+    cursor: pointer;
+}
+
+.checkout-btn.enabled:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* רספונסיביות למובייל - שהקופסה תיצמד יפה לצדדים בטלפון */
+@media (max-width: 640px) {
+    .floating-summary-bar {
+        margin: 25px 10px;
+        padding: 16px;
+        max-width: calc(100% - 20px);
+    }
+    .checkout-btn {
+        width: 100%; /* כפתור ברוחב מלא למובייל ללחיצה קלה עם האגודל */
+    }
+}
