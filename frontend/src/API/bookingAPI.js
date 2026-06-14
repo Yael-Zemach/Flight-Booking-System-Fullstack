@@ -37,18 +37,6 @@ export const adminUpdateBookingStatus = (bookingId, status) =>
         }
     );
 
-// עדכון מלא של הזמנה ופרטי הנוסעים שלה (אדמין - משתמש ב-PUT)
-// עדכון מלא של הזמנה ופרטי הנוסעים שלה (אדמין - משתמש ב-PUT)
-// // 🌟 הוספנו את userId לפרמטרים ול-replace ב-URL
-// export const adminUpdateBookingFull = (userId, bookingId, bookingData) =>
-//     api.put(${API_ROUTES.BOOKINGS.BASE}${API_ROUTES.BOOKINGS.ADMIN_BOOKING_BY_ID.replace(':id', userId).replace(':bookingId', bookingId)}, {
-//         flightId: bookingData.flightId,
-//         returnFlightId: bookingData.returnFlightId, // 🌟 וידאנו שזה נשלח לשרת
-//         totalPrice: bookingData.totalPrice,
-//         status: bookingData.status,
-//         passengers: bookingData.passengers,
-//     });
-
 
 
     // עדכון מלא של הזמנה ופרטי הנוסעים שלה (אדמין - משתמש ב-PUT)

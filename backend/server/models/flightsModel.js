@@ -15,10 +15,8 @@ export async function getFlightsByDateRange(originCode, destCode, startDate, end
         JOIN Airports arr ON f.arrival_airport_id = arr.airport_id
         WHERE dep.airport_code = ? 
           AND arr.airport_code = ?
-          -- חיפוש בטווח תאריכים
           AND DATE(f.departure_time) BETWEEN ? AND ? 
           AND f.seats_available >= ? 
-          -- מוודא שהטיסה לא עברה כבר, ושיש לפחות 3 שעות מעכשיו
           AND f.departure_time >= NOW() + INTERVAL 3 HOUR
         ORDER BY f.departure_time ASC
     `;
@@ -92,8 +90,8 @@ export async function getFlightsByDateForAdmin(date) {
         SELECT 
             f.flight_id,
             f.flight_number,
-            f.departure_airport_id, -- 🌟 הוספה חשובה לעריכה
-            f.arrival_airport_id,   -- 🌟 הוספה חשובה לעריכה
+            f.departure_airport_id,  
+            f.arrival_airport_id,   
             f.departure_time,
             f.arrival_time,
             f.price,

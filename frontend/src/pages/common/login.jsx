@@ -15,11 +15,15 @@ export default function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
+    if (!email.trim() || !password) {
+      setError(UI_MESSAGES.validation.fillAllFields);
+      return;
+    }
     setLoading(true); // חוסם את הכפתור ללחיצות כפולות
 
     // קריאה לקונטקסט - הוא כבר מטפל בשגיאות רשת ומחזיר אובייקט מסודר
     const result = await login(email.trim().toLowerCase(), password);
-    
+
     if (result.ok) {
       // ניווט מבוסס תפקיד (Role-Based) עם החלפת הדף בהיסטוריה כדי למנוע חזרה לאחור
       if (result.userType === "admin") {
@@ -39,7 +43,7 @@ export default function LoginPage() {
       <div className="auth-container">
         <div className="auth-card"></div>
         <h2>{UI_MESSAGES.auth.loginTitle}</h2>
-        
+
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
             <input
@@ -64,12 +68,12 @@ export default function LoginPage() {
           <button type="submit" disabled={loading} className="auth-btn">
             {loading ? UI_MESSAGES.auth.signingInButton : UI_MESSAGES.auth.signInButton}
           </button>
-          
+
           {error && <p className="error-msg">{error}</p>}
         </form>
 
         <p className="auth-switch-text">
-           {UI_MESSAGES.auth.noAccountText} <Link to="/register">{UI_MESSAGES.auth.signUpLink}</Link>
+          {UI_MESSAGES.auth.noAccountText} <Link to="/register">{UI_MESSAGES.auth.signUpLink}</Link>
         </p>
       </div>
     </div>
