@@ -16,14 +16,21 @@ const SearchForm = ({ airports, onSearch, prefilledDestination }) => {
     const todayStr = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
-        if (airports && airports.length > 0 && prefilledDestination) {
-            const destAirport = airports.find(ap => ap.city === prefilledDestination);
-            if (destAirport) {
+    if (airports && airports.length > 0 && prefilledDestination) {
+        const destAirport = airports.find(ap => ap.city === prefilledDestination);
+        
+        if (destAirport) {
+            
+            if (destAirport.airport_code === 'TLV') {
+                setDest('TLV');
+                setOrigin(''); 
+            } else {
                 setDest(destAirport.airport_code);
                 setOrigin('TLV');
             }
         }
-    }, [airports, prefilledDestination]);
+    }
+}, [airports, prefilledDestination]);
 
     const getAvailableDestinations = () => {
         if (!origin) return airports;
