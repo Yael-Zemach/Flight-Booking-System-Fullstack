@@ -133,6 +133,7 @@ function App() {
             path="/admin/users-service/:userId/bookings/:bookingId"
             element={<ProtectedRoute element={<BookingDetailsPage />} requiredRole="admin" />}
           />
+          <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
         </Route>
         {/* כל כתובת לא חוקית תחזיר לעמוד הבית */}
         <Route path="*" element={<Navigate to="/" replace />} />

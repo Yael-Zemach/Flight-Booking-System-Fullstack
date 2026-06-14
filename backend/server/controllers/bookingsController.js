@@ -6,13 +6,13 @@ import { io } from '../app.js';
 export async function handleGetBookingById(req, res) {
     const bookingId = parseInt(req.params.bookingId);
     const userId = req.user.userId;
-    const userRole = req.user.role;
+    const userRole = req.user.userType;
     try {
         const booking = await bookingsService.getBookingDetails(bookingId, userId, userRole);
         return res.status(200).json(booking);
     } catch (error) {
         if (error.message === ERROR_CODES.NOT_FOUND) {
-            return res.status(404).json({ message: MESSAGES.BOOKINGS.NOT_FOUND_OR_CANCELLED || "ההזמנה לא נמצאה" });
+            return res.status(404).json({ message: MESSAGES.BOOKINGS.NOT_FOUND_OR_CANCELLED });
         }
         if (error.message === 'FORBIDDEN') {
             return res.status(403).json({ message: "אין לך הרשאה לצפות בהזמנה זו" });
