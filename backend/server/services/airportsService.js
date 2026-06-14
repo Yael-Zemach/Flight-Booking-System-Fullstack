@@ -8,24 +8,29 @@ export async function createNewAirport(bodyData, fileData) {
         throw new Error(ERROR_CODES.MISSING_DATA); 
     }
     let finalImageUrl = '';
-
     if (fileData) {
         const cleanPath = fileData.path.replace(/\\/g, '/');
         finalImageUrl = `http://localhost:3000/${cleanPath}`; 
-    } 
-    
-    else if (bodyData.image_url) {
+    } else if (bodyData.image_url) {
         finalImageUrl = bodyData.image_url.trim();
     }
 
-    return await airportsModel.insertAirport(
-    bodyData.airport_code,
-    bodyData.airport_name,
-    bodyData.city,
-    bodyData.country,
-    bodyData.description,
-    finalImageUrl 
-);
+    try {
+        return await airportsModel.insertAirport(
+            bodyData.airport_code,
+            bodyData.airport_name,
+            bodyData.city,
+            bodyData.country,
+            finalImageUrl,        
+            bodyData.description 
+        );
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY' || error.errno === 1062) {
+            throw new Error('AIRPORT_CODE_EXISTS'); 
+        }
+        
+        throw error;
+    }
 }
 export async function updateAirportImage(airportId, bodyData, fileData) {
     let finalImageUrl = '';

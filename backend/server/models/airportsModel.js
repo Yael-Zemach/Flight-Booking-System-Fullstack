@@ -31,10 +31,6 @@ export async function countFlightsForAirport(airportId) {
     return rows[0].count;
 }
 
-export async function getAirportByCode(airportCode) {
-    const [rows] = await pool.query('SELECT airport_id FROM Airports WHERE airport_code = ?', [airportCode]);
-    return rows[0];
-}
 
 export async function getAllAirports() {
     const query = 'SELECT * FROM Airports ORDER BY country ASC, city ASC';

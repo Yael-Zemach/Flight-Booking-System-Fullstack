@@ -12,6 +12,9 @@ export async function handleAdminCreateAirport(req, res) {
             airportId: airportId 
         });
     } catch (error) {
+        if (error.message === 'AIRPORT_CODE_EXISTS') {
+            return res.status(400).json({ message: "קוד שדה תעופה זה כבר קיים במערכת! אנא בחרי קוד ייחודי אחר." });
+        }
         if (error.message === ERROR_CODES.MISSING_DATA) {
             return res.status(400).json({ message: MESSAGES.AIRPORTS.MISSING_DATA});
         }
