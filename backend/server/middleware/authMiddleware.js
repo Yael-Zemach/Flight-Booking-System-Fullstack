@@ -5,9 +5,6 @@ import { HTTP_HEADERS } from '../constants/httpHeaders.js';
 import { USER_TYPES } from '../constants/userTypes.js';
 import { MESSAGES } from '../constants/messages.js';
 
-// ========================================================
-// 1. אימות (Authentication) - לכולם
-// ========================================================
 export function authenticateToken(req, res, next) {
     const authHeader = req.headers[HTTP_HEADERS.AUTHORIZATION];
     let token = authHeader && authHeader.split(' ')[1];
@@ -27,9 +24,6 @@ export function authenticateToken(req, res, next) {
     });
 }
 
-// ========================================================
-// 2. הרשאה בסיסית לאדמין - האם מי שמבקש הוא אדמין?
-// ========================================================
 export function isAdmin(req, res, next) {
     if (req.user && req.user.userType === USER_TYPES.ADMIN) {
         return next(); 
@@ -38,34 +32,23 @@ export function isAdmin(req, res, next) {
     return res.status(403).json({ message: MESSAGES.AUTHORIZATION.ADMIN_ONLY });
 }
 
-// ========================================================
-// 3. הגנת יעד לאדמין - מונע מאדמין לערוך אדמין אחר
-// (יושם רק על ראוטים מסוג /admin/:id)
-// ========================================================
+
 export async function verifyAdminTarget(req, res, next) {
     try {
         const loggedInUserId = req.user.userId; 
-        
-        // בראוט של אדמין, אנחנו יודעים בוודאות שהיעד נמצא ב-URL!
         const targetUserId = parseInt(req.params.id); 
 
         if (!targetUserId || isNaN(targetUserId)) {
             return res.status(400).json({ message: MESSAGES.AUTHORIZATION.MISSING_USER_ID });
         }
 
-        // חוק 1: אדמין תמיד יכול לערוך את עצמו (גם דרך פאנל הניהול)
         if (loggedInUserId === targetUserId) {
             return next(); 
         }
-
-        // שליפת משתמש היעד מה-DB
         const targetUser = await getUserById(targetUserId);
-
         if (!targetUser) {
             return res.status(404).json({ message: MESSAGES.AUTHORIZATION.TARGET_USER_NOT_FOUND });
         }
-
-        // חוק 2: מותר לערוך רק לקוחות, אסור לערוך אדמין אחר
         if (targetUser.user_type === USER_TYPES.CUSTOMER) {
             return next(); 
         } else {

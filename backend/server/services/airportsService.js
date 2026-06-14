@@ -14,17 +14,15 @@ export async function createNewAirport(bodyData, fileData) {
         finalImageUrl = bodyData.image_url.trim();
     }
 
-    // בונים את האובייקט הסופי שיישלח ל-Model/DB
     const finalAirportObject = {
         airport_code: bodyData.airport_code,
         airport_name: bodyData.airport_name,
         city: bodyData.city,
         country: bodyData.country,
         description: bodyData.description,
-        image_url: finalImageUrl // ה-URL המורכב והמוכן
+        image_url: finalImageUrl 
     };
 
-    // קריאה ל-Model שיבצע את שאילתת ה-SQL INSERT
     return await airportsModel.insertAirport(
     finalAirportObject.airport_code,
     finalAirportObject.airport_name,
@@ -34,7 +32,6 @@ export async function createNewAirport(bodyData, fileData) {
     finalAirportObject.description
 );
 }
-// 2. לוגיקת עדכון תמונה
 export async function updateAirportImage(airportId, imageUrl) {
     if (!imageUrl) {
         throw new Error(ERROR_CODES.MISSING_DATA);
@@ -47,9 +44,7 @@ export async function updateAirportImage(airportId, imageUrl) {
     return success;
 }
 
-// 3. לוגיקת מחיקה בטוחה (מניעת אפקט הדומינו של ה-CASCADE)
 export async function deleteAirportSafely(airportId) {
-    // בדיקה האם קיימות טיסות שמשתמשות בשדה התעופה הזה (כהמראה או נחיתה)
     const activeFlightsCount = await airportsModel.countFlightsForAirport(airportId);
     if (activeFlightsCount > 0) {
         throw new Error(ERROR_CODES.CANNOT_DELETE_HAS_FLIGHTS);
