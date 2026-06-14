@@ -107,13 +107,6 @@ export async function createBookingWithPassengers(userId, flightId, returnFlight
     }
 }
 
-export async function updateBookingStatus(bookingId, newStatus) {
-    const [result] = await pool.query(
-        'UPDATE Bookings SET status = ? WHERE booking_id = ?',
-        [newStatus, bookingId]
-    );
-    return result.affectedRows > 0;
-}
 
 export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, totalPrice, passengersArray) {
     const connection = await pool.getConnection();

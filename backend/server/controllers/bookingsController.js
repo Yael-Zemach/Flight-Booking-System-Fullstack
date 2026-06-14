@@ -82,23 +82,6 @@ export async function handleProcessPayment(req, res) {
     }
 }
 
-export async function handleAdminUpdateStatus(req, res) {
-    const bookingId = parseInt(req.params.bookingId);
-    const { status } = req.body;
-    try {
-        await bookingsService.updateStatusByAdmin(bookingId, status);
-        return res.status(200).json({ message: MESSAGES.BOOKINGS.ADMIN_UPDATE_SUCCESS });
-    } catch (error) {
-        if (error.message === ERROR_CODES.NOT_FOUND) {
-            return res.status(404).json({ message: MESSAGES.BOOKINGS.NOT_FOUND_OR_CANCELLED });
-        }
-        if (error.message === ERROR_CODES.INVALID_STATUS) {
-            return res.status(400).json({ message: MESSAGES.BOOKINGS.INVALID_STATUS });
-        }
-        console.error("Error updating booking status:", error);
-        return res.status(500).json({ message: MESSAGES.SERVER.INTERNAL_ERROR });
-    }
-}
 
 
 export async function handleCancelOwnBooking(req, res) {

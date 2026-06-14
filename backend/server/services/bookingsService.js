@@ -26,16 +26,7 @@ export async function createNewBooking(userId, flightId, returnFlightId, totalPr
     return await bookingsModel.createBookingWithPassengers(userId, flightId, returnFlightId, totalPrice, passengers);
 }
 
-export async function updateStatusByAdmin(bookingId, newStatus) {
-    if (newStatus !== BOOKING_STATUS.CONFIRMED && newStatus !== BOOKING_STATUS.CANCELLED) {
-        throw new Error(ERROR_CODES.INVALID_STATUS);
-    }
-    const success = await bookingsModel.updateBookingStatus(bookingId, newStatus);
-    if (!success) {
-        throw new Error(ERROR_CODES.NOT_FOUND);
-    }
-    return success;
-}
+
 
 export async function updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, passengers) {
     const success = await bookingsModel.updateBookingByAdmin(
