@@ -1,4 +1,4 @@
-// models/passengersModel.js
+
 import pool from '../config/database.js';
 export async function insertPassenger(connection, bookingId, pax) {
     await connection.query(

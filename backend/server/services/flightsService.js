@@ -19,6 +19,9 @@ const isValidConnection = (outboundFlight, inboundFlight) => {
 };
 
 export async function findRelevantFlights(tripType, origin, dest, departDate, returnDate, passengers) {
+    if (origin !== 'TLV' && dest !== 'TLV') {
+        throw new Error(ERROR_CODES.INVALID_AIRPORTS || 'TLV_REQUIRED');
+    }
     let isFlexibleSearch = false; 
     let outbound = await flightsModel.getFlightsByDateRange(origin, dest, departDate, departDate, passengers);
     let inbound = [];

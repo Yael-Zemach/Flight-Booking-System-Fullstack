@@ -1,16 +1,32 @@
 import pool from '../config/database.js';
 
 export async function createUser(name, email, passwordHash, userType) {
-    const [userResult] = await pool.query(
-        'INSERT INTO Users (name, email, user_type) VALUES (?, ?, ?)',
-        [name, email, userType]
-    );
+    // 1. משיכת חיבור ייעודי מתוך ה-Pool
+    const connection = await pool.getConnection();
+    
+    try {
+      
+        await connection.beginTransaction();
+        const [userResult] = await connection.query(
+            'INSERT INTO Users (name, email, user_type) VALUES (?, ?, ?)',
+            [name, email, userType]
+        );
         const userId = userResult.insertId;
-    await pool.query(
-        'INSERT INTO hash_passwords (user_id, password_hash) VALUES (?, ?)',
-        [userId, passwordHash]
-    );
-    return userId;
+        await connection.query(
+            'INSERT INTO hash_passwords (user_id, password_hash) VALUES (?, ?)',
+            [userId, passwordHash]
+        );
+
+        await connection.commit();
+        return userId;
+
+    } catch (error) {
+        await connection.rollback();
+        throw error;
+        
+    } finally {
+        connection.release();
+    }
 }
 
 export async function getUserByEmail(email) {

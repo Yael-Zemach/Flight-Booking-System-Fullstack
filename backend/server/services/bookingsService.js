@@ -20,7 +20,7 @@ export async function getUserBookings(userId, page, limit) {
     return await bookingsModel.getBookingsByUserId(userId, page, limit);
 }
 export async function createNewBooking(userId, flightId, returnFlightId, totalPrice, passengers) {
-    if (!flightId || !passengers || passengers.length === 0) {
+   if (!flightId || !totalPrice || !passengers || passengers.length === 0) {
         throw new Error(ERROR_CODES.MISSING_DATA);
     }
     return await bookingsModel.createBookingWithPassengers(userId, flightId, returnFlightId, totalPrice, passengers);

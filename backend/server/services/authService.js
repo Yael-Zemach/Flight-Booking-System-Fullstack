@@ -6,6 +6,10 @@ import { USER_TYPES } from '../constants/userTypes.js';
 import { JWT_CONFIG } from '../constants/jwtConfig.js';
 
 export async function registerUser(name, email, password, userType = USER_TYPES.CUSTOMER) {
+    if (!name || !email || !password) {
+        throw new Error(ERROR_CODES.MISSING_DATA);
+    }
+    // ... שאר הלוגיקה של ההרשמה והצ
     const existingUser = await userModel.getUserByEmail(email);
     if (existingUser) {
         throw new Error(ERROR_CODES.EMAIL_EXISTS);
@@ -30,6 +34,9 @@ export async function registerUser(name, email, password, userType = USER_TYPES.
 
 
 export async function loginUser(email, password) {
+     if (!email || !password) {
+        throw new Error(ERROR_CODES.MISSING_DATA);
+    }
     const user = await userModel.getUserByEmail(email);
     if (!user) {
         throw new Error(ERROR_CODES.EMAIL_NOT_FOUND);

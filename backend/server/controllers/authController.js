@@ -5,10 +5,7 @@ import { MESSAGES } from '../constants/messages.js';
 export async function register(req, res) {
     const { name, email, password, userType } = req.body;
 
-    if (!name || !email || !password) {
-        return res.status(400).json({ message: MESSAGES.AUTH.REGISTRATION_REQUIRED_FIELDS });
-    }
-
+   
     try {
        
         const { user, token } = await authService.registerUser(name, email, password, userType);
@@ -18,6 +15,9 @@ export async function register(req, res) {
             token 
         });
     } catch (error) {
+        if (error.message === ERROR_CODES.MISSING_DATA) {
+            return res.status(400).json({ message: MESSAGES.AUTH.REGISTRATION_REQUIRED_FIELDS });
+        }
         if (error.message === ERROR_CODES.EMAIL_EXISTS) {
             return res.status(400).json({ message: MESSAGES.AUTH.EMAIL_ALREADY_EXISTS });
         }
@@ -29,9 +29,7 @@ export async function register(req, res) {
 export async function login(req, res) {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ message: MESSAGES.AUTH.LOGIN_REQUIRED_FIELDS });
-    }
+   
 
     try {
         const { user, token } = await authService.loginUser(email, password);
@@ -42,6 +40,9 @@ export async function login(req, res) {
             token 
         });
     } catch (error) {
+        if (error.message === ERROR_CODES.MISSING_DATA) {
+            return res.status(400).json({ message: MESSAGES.AUTH.REGISTRATION_REQUIRED_FIELDS });
+        }
     
         if (error.message === ERROR_CODES.EMAIL_NOT_FOUND) {
             return res.status(401).json({ message: MESSAGES.AUTH.EMAIL_NOT_FOUND });
