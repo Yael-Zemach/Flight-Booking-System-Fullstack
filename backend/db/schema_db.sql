@@ -68,19 +68,3 @@ CREATE TABLE IF NOT EXISTS Passengers (
 
 
 
--- CREATE OR REPLACE VIEW premium_users_status AS
--- SELECT 
---     u.user_id,
---     u.email,
---     u.name,
---     u.user_type,
---     COUNT(b.booking_id) AS bookings_count,
---     CASE 
---         WHEN u.user_type = 'admin' THEN 'admin'
---         WHEN COUNT(b.booking_id) >= 3 THEN 'premium'
---         ELSE 'customer'
---     END AS calculated_role
--- FROM Users u
--- LEFT JOIN Bookings b ON u.user_id = b.user_id 
---     AND b.booking_time >= NOW() - INTERVAL 1 YEAR
--- GROUP BY u.user_id;

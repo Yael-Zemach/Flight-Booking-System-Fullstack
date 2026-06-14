@@ -1,49 +1,50 @@
 import * as airportsModel from '../models/airportsModel.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 export async function createNewAirport(bodyData, fileData) {
+    if (!bodyData.airport_code || !bodyData.airport_name || !bodyData.city || !bodyData.country) {
+        throw new Error(ERROR_CODES.MISSING_DATA);
+    }
+    if (!fileData && !bodyData.image_url) {
+        throw new Error(ERROR_CODES.MISSING_DATA); 
+    }
     let finalImageUrl = '';
 
-    // אופציה א': הגיע קובץ פיזי ממולטר - כאן הסרביס מרכיב את ה-URL!
     if (fileData) {
         const cleanPath = fileData.path.replace(/\\/g, '/');
-        // בעתיד אפשר להחליף את localhost במשתנה סביבה: process.env.BASE_URL
         finalImageUrl = `http://localhost:3000/${cleanPath}`; 
     } 
-    // אופציה ב': הגיע קישור URL ישיר מהטקסט
+    
     else if (bodyData.image_url) {
         finalImageUrl = bodyData.image_url.trim();
     }
 
-    const finalAirportObject = {
-        airport_code: bodyData.airport_code,
-        airport_name: bodyData.airport_name,
-        city: bodyData.city,
-        country: bodyData.country,
-        description: bodyData.description,
-        image_url: finalImageUrl 
-    };
-
     return await airportsModel.insertAirport(
-    finalAirportObject.airport_code,
-    finalAirportObject.airport_name,
-    finalAirportObject.city,
-    finalAirportObject.country,
-    finalAirportObject.image_url,
-    finalAirportObject.description
+    bodyData.airport_code,
+    bodyData.airport_name,
+    bodyData.city,
+    bodyData.country,
+    bodyData.description,
+    finalImageUrl 
 );
 }
-export async function updateAirportImage(airportId, imageUrl) {
-    if (!imageUrl) {
+export async function updateAirportImage(airportId, bodyData, fileData) {
+    let finalImageUrl = '';
+    if (fileData) {
+        const cleanPath = fileData.path.replace(/\\/g, '/');
+        finalImageUrl = `http://localhost:3000/${cleanPath}`; 
+    } else if (bodyData.image_url) {
+        finalImageUrl = bodyData.image_url.trim();
+    }
+    if (!finalImageUrl) {
         throw new Error(ERROR_CODES.MISSING_DATA);
     }
 
-    const success = await airportsModel.updateAirportImageUrl(airportId, imageUrl);
+    const success = await airportsModel.updateAirportImageUrl(airportId, finalImageUrl);
     if (!success) {
         throw new Error(ERROR_CODES.NOT_FOUND);
     }
     return success;
 }
-
 export async function deleteAirportSafely(airportId) {
     const activeFlightsCount = await airportsModel.countFlightsForAirport(airportId);
     if (activeFlightsCount > 0) {
