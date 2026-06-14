@@ -106,6 +106,13 @@ export async function createBookingWithPassengers(userId, flightId, returnFlight
         connection.release();
     }
 }
+export async function updateBookingStatus(bookingId, newStatus) {
+    const [result] = await pool.query(
+        'UPDATE Bookings SET status = ? WHERE booking_id = ?',
+        [newStatus, bookingId]
+    );
+    return result.affectedRows > 0;
+}
 
 
 export async function updateBookingByAdmin(bookingId, flightId, returnFlightId, totalPrice, passengersArray) {
@@ -230,7 +237,7 @@ export async function clearExpiredPendingBookings(minutesExpired) {
                     await updateFlightSeats(connection, booking.return_flight_id, paxCount);
                 }
             }
-            await connection.query('DELETE FROM Passengers WHERE booking_id = ?', [booking.booking_id]);
+            // await connection.query('DELETE FROM Passengers WHERE booking_id = ?', [booking.booking_id]);
             await connection.query('DELETE FROM Bookings WHERE booking_id = ?', [booking.booking_id]);
         }
         await connection.commit();

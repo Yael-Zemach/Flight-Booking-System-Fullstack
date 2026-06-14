@@ -29,6 +29,9 @@ export async function createNewBooking(userId, flightId, returnFlightId, totalPr
 
 
 export async function updateBookingFull(bookingId, flightId, returnFlightId, totalPrice, passengers) {
+    if (!bookingId || !flightId || !totalPrice || !passengers || passengers.length === 0) {
+        throw new Error(ERROR_CODES.MISSING_DATA);
+    }
     const success = await bookingsModel.updateBookingByAdmin(
         bookingId, flightId, returnFlightId, totalPrice, passengers
     );
