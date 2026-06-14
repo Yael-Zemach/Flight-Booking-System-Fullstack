@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdminData } from '../../Hooks/useAdminData.jsx';
 import { flightsApi } from '../../API/flightsAPI.js';
-import AdminFlightForm from '../../components/admin/AdminFlightForm.jsx';
-import AdminFlightsTable from '../../components/admin/AdminFlightsTable.jsx';
+import AdminFlightForm from '../../components/admin/Flights/AdminFlightForm.jsx';
+import AdminFlightsTable from '../../components/admin/Flights/AdminFlightsTable.jsx';
 import { UI_MESSAGES } from '../../constants/messages.js';
 import '../../style/AdminFlightsPage.css';
 

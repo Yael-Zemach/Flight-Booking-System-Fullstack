@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllAirports } from '../../API/airportsAPI';
+import { getAllAirports } from '../../API/airportsAPI.js';
 import { UI_MESSAGES } from '../../constants/messages.js';
-import DestinationGrid from '../../components/client/Destinations/destinationGrid';
+import DestinationGrid from '../../components/client/Destinations/destinationGrid.jsx';
 import '../../style/destinationStyle.css';
 
 export default function DestinationPage() {

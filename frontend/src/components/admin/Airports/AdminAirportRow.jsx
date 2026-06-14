@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UI_MESSAGES } from '../../constants/messages.js';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 
 export default function AdminAirportRow({ airport, onDelete, onUpdateImage }) {
     const [isUploading, setIsUploading] = useState(false);

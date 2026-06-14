@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllAirports, createAirport, deleteAirport, updateAirportImage } from '../../API/airportsAPI.js';
-import AdminAirportForm from '../../components/admin/AdminAirportForm.jsx';
+import AdminAirportForm from '../../components/admin/Airports/AdminAirportForm.jsx';
 import AdminAirportsTable from '../../components/admin/AdminAirportsTable.jsx';
-import AdminAirportSearch from '../../components/admin/AdminAirportSearch.jsx';
+import AdminAirportSearch from '../../components/admin/Airports/AdminAirportSearch.jsx';
 import { UI_MESSAGES } from '../../constants/messages.js';
 
 import '../../style/AdminFlightsPage.css'; 

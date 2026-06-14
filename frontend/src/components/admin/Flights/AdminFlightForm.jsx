@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { UI_MESSAGES } from '../../constants/messages.js';
-import AirportAutocomplete from '../common/Flights/AirportAutocomplete.jsx';
-import FlightDatePicker from '../common/Flights/FlightDatePicker.jsx'; 
+import { UI_MESSAGES } from '../../../constants/messages.js';
+import AirportAutocomplete from '../../common/Flights/AirportAutocomplete.jsx';
+import FlightDatePicker from '../../common/Flights/FlightDatePicker.jsx'; 
 
 export default function AdminFlightForm({ airports, editingFlight, onCancelEdit, onSubmit, loading }) {
     const [formData, setFormData] = useState({

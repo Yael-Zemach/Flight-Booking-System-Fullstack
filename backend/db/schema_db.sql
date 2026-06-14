@@ -34,26 +34,26 @@ CREATE TABLE IF NOT EXISTS Flights (
     arrival_time DATETIME NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     seats_available INTEGER NOT NULL,
-    status ENUM('scheduled', 'cancelled') NOT NULL DEFAULT 'scheduled', -- העמודה החדשה!
+    status ENUM('scheduled', 'cancelled') NOT NULL DEFAULT 'scheduled',
     FOREIGN KEY (departure_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE,
     FOREIGN KEY (arrival_airport_id) REFERENCES Airports(airport_id) ON DELETE CASCADE
 );
 
--- 1. טבלת הזמנות (מייצגת את העסקה/ההזמנה הכללית)
+
 CREATE TABLE IF NOT EXISTS Bookings (
     booking_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    user_id INTEGER NOT NULL, -- מי המשתמש המחובר שביצע ושילם על ההזמנה
-    flight_id INTEGER NOT NULL, -- טיסת הלוך (חובה)
-    return_flight_id INTEGER NULL, -- 🌟 עמודה חדשה: טיסת חזור (אופציונלית, יכולה להיות NULL)
+    user_id INTEGER NOT NULL, 
+    flight_id INTEGER NOT NULL, 
+    return_flight_id INTEGER NULL, 
     booking_time DATETIME NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL, -- המחיר הכולל של כל הנוסעים ביחד
+    total_price DECIMAL(10, 2) NOT NULL, 
     status ENUM('pending', 'confirmed', 'cancelled') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE,
-    FOREIGN KEY (return_flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE -- 🌟 הקישור החדש של טיסת החזור
+    FOREIGN KEY (return_flight_id) REFERENCES Flights(flight_id) ON DELETE CASCADE 
 );
 
--- 2. טבלת נוסעים (חדשה - מייצגת את הכרטיסים והנוסעים בפועל)
+
 CREATE TABLE IF NOT EXISTS Passengers (
     passenger_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     booking_id INTEGER NOT NULL,

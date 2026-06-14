@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UI_MESSAGES } from '../../constants/messages.js';
+import { UI_MESSAGES } from '../../../constants/messages.js';
 
 export default function AdminAirportForm({ onSubmit, loading }) {
     const [airportCode, setAirportCode] = useState('');

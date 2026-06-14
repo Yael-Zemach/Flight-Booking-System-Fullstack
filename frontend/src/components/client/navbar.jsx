@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../Hooks/authContext.jsx";
 import { UI_MESSAGES } from "../../constants/messages.js";
-import ProfilePopup from "./profilePopUp.jsx";
+import ProfilePopup from "../common/profilePopUp.jsx";
 import "../../style/navbar.css";
 
 export default function Navbar() {

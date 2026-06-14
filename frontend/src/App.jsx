@@ -4,21 +4,17 @@ import LoginPage from './pages/common/login.jsx';
 import RegisterPage from './pages/common/register.jsx';
 import ProtectedRoute from './components/common/ProtectedRoute.jsx';
 import MainLayout from './components/common/mainLayout.jsx';
-
-// אל תשכחי לייבא את הנבברים כדי שתוכלי להעביר אותם ל-MainLayout!
 import ClientNavbar from './components/client/navbar.jsx';
 import AdminNavbar from './components/admin/navbarAdmin.jsx';
-
 import FlightSearchPage from './pages/common/FlightSearchPage.jsx';
 import MyBookingsPage from './pages/customer/Bookings/MyBookingsPage.jsx';
 import BookingDetailsPage from './pages/customer/Bookings/BookingDetailsPage.jsx';
 import BookingProcessPage from './pages/customer/Bookings/BookingProcessPage.jsx';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage.jsx';
-import DestinationPage from './pages/customer/DestinationPage.jsx';
+import DestinationPage from './pages/common/DestinationPage.jsx';
 import AdminFlightsPage from './pages/admin/AdminFlightsPage.jsx';
 import AdminAirportsPage from './pages/admin/AdminAirportsPage.jsx';
 import AdminUsersSearchPage from './pages/admin/AdminUsersSearchPage.jsx';
-
 import AdminUserBookingsPage from './pages/admin/AdminUserBookingsPage.jsx';
 import './App.css';
 
