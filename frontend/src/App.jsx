@@ -75,7 +75,7 @@ import DestinationPage from './pages/customer/DestinationPage.jsx';
 import AdminFlightsPage from './pages/admin/AdminFlightsPage.jsx';
 import AdminAirportsPage from './pages/admin/AdminAirportsPage.jsx';
 import AdminUsersSearchPage from './pages/admin/AdminUsersSearchPage.jsx';
-import AdminUserActionsDashboard from './pages/admin/AdminUserActionsDashboard.jsx';
+// import AdminUserActionsDashboard from './pages/admin/AdminUserActionsDashboard.jsx';
 import AdminUserBookingsPage from './pages/admin/AdminUserBookingsPage.jsx';
 import './App.css';
 
@@ -118,10 +118,10 @@ function App() {
             path="/admin/users-service"
             element={<ProtectedRoute element={<AdminUsersSearchPage />} requiredRole="admin" />}
           />
-          <Route
+          {/* <Route
             path="/admin/users-service/:userId"
             element={<ProtectedRoute element={<AdminUserActionsDashboard />} requiredRole="admin" />}
-          />
+          /> */}
 
           {/* הראוטים הגנריים היחידים שנשארים עבור האדמין: צפייה, עריכה וביטול הזמנות קיימות */}
           <Route

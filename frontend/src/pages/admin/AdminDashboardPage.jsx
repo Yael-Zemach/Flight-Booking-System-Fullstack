@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminOptionCard from './AdminOptionCard';
+import AdminOptionCard from '../../components/admin/AdminOptionCard.jsx'
 import { UI_MESSAGES } from '../../constants/messages.js';
 import '../../style/AdminDashboardPage.css';
 
