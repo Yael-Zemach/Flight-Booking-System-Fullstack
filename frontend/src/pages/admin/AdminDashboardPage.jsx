@@ -7,7 +7,6 @@ import '../../style/AdminDashboardPage.css';
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
 
-  // 🌟 מערך האופציות של המנהל - פשוט, נקי וקל להרחבה בעתיד!
   const adminOptions = [
     {
       id: 'flights',
@@ -34,7 +33,6 @@ export default function AdminDashboardPage() {
       </header>
 
       <main className="admin-cards-grid">
-        {/* 🌟 רצח בעיינים ללולאות קופי פסט - מרנדרים דינמית את הכרטיסים */}
         {adminOptions.map(option => (
           <AdminOptionCard
             key={option.id}

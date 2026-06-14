@@ -12,7 +12,6 @@ export function useAdminData(selectedDate) {
         setLoading(true);
         setError(null);
         try {
-            // 1. שדות תעופה שולפים תמיד (זו רשימה קטנה וקבועה)
             const airportsData = await getAllAirports();
             setAirports(airportsData);
 
@@ -28,7 +27,6 @@ export function useAdminData(selectedDate) {
         }
     };
 
-    // בכל פעם שהאדמין משנה תאריך במסך, ה-useEffect ירוץ ויביא רק את הטיסות של אותו יום
     useEffect(() => {
         loadAdminData();
     }, [selectedDate]);

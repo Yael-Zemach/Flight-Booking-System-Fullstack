@@ -1,4 +1,3 @@
-// services/flightsService.js
 import * as flightsModel from '../models/flightsModel.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 import { MESSAGES } from '../constants/messages.js';

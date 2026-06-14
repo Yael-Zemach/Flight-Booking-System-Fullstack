@@ -14,7 +14,6 @@ export function AuthProvider({ children }) {
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
-    // פונקציה לעדכון הסטייט המקומי וה-localStorage לאחר עריכת פרופיל
     function updateLocalUser(updatedFields) {
         setUser(prevUser => {
             const newUser = { ...prevUser, ...updatedFields };
@@ -65,7 +64,6 @@ export function AuthProvider({ children }) {
             localStorage.setItem("user", JSON.stringify(myUser));
             localStorage.setItem("token", result.token);
 
-            // גם כאן, מחזירים את סוג המשתמש (CUSTOMER) ישירות לדף הרגיסטר
             return { ok: true, userType: myUser.userType, msg: result.message || UI_MESSAGES.auth.registrationSuccess };
         } catch (err) {
             return { ok: false, msg: err.message };

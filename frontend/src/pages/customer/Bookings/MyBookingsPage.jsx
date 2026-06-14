@@ -9,7 +9,6 @@ export default function MyBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // ניהול דפדוד (שיניתי ללימיט של 2 לצורך הבדיקה שלך, תשני חזרה ל-10 כשיהיה מוכן)
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const LIMIT = 4; 

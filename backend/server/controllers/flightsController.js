@@ -1,4 +1,3 @@
-// controllers/flightsController.js
 import { AIRPORT_CODES } from '../constants/airportCodes.js';
 import { MESSAGES } from '../constants/messages.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';

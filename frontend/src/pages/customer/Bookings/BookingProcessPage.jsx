@@ -3,7 +3,6 @@ import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { createBooking, payForBooking } from '../../../API/bookingAPI.js';
 import { UI_MESSAGES } from '../../../constants/messages.js';
 
-// ייבוא הקומפוננטות ה"טיפשות"
 import PassengersForm from '../../../components/client/Bookings/PassengerForm.jsx';
 import PaymentStep from '../../../components/client/Bookings/PaymentStep.jsx';
 
@@ -13,14 +12,12 @@ export default function BookingProcessPage() {
     const location = useLocation();
     const navigate = useNavigate();
     
-    // 🌟 שליפת נתוני ההלוך (selectedOutbound) והחזור (selectedInbound) מה-state של החיפוש
     const { selectedOutbound, selectedInbound, searchPassengers, totalPrice } = location.state || {};
 
     const [step, setStep] = useState(1);
     const [bookingId, setBookingId] = useState(null);
     const [error, setError] = useState(null);
 
-    // הגנה: אם המשתמש הגיע לעמוד הזה ישירות מה-URL בלי לבחור טיסה
     if (!selectedOutbound) {
         return <Navigate to="/" replace />;
     }
@@ -29,7 +26,6 @@ export default function BookingProcessPage() {
         try {
             setError(null);
             
-            // 🌟 שליחת הבקשה לשרת עם שני מזהי הטיסות
             const response = await createBooking({
                 flightId: selectedOutbound.flight_id, 
                 returnFlightId: selectedInbound ? selectedInbound.flight_id : null, // שליחת חזור אם קיים

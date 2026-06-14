@@ -78,7 +78,6 @@ export default function AdminAirportsPage() {
     };
 
 const filteredAirports = airports.filter(airport => {
-    // אם אין חיפוש (searchTerm ריק) - יחזיר true ויציג את כל השורה
     if (!searchTerm || !searchTerm.trim()) return true;
 
     const term = searchTerm.toLowerCase();

@@ -237,7 +237,6 @@ export async function clearExpiredPendingBookings(minutesExpired) {
                     await updateFlightSeats(connection, booking.return_flight_id, paxCount);
                 }
             }
-            // await connection.query('DELETE FROM Passengers WHERE booking_id = ?', [booking.booking_id]);
             await connection.query('DELETE FROM Bookings WHERE booking_id = ?', [booking.booking_id]);
         }
         await connection.commit();

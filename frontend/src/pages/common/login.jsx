@@ -19,22 +19,19 @@ export default function LoginPage() {
       setError(UI_MESSAGES.validation.fillAllFields);
       return;
     }
-    setLoading(true); // חוסם את הכפתור ללחיצות כפולות
+    setLoading(true);
 
-    // קריאה לקונטקסט - הוא כבר מטפל בשגיאות רשת ומחזיר אובייקט מסודר
     const result = await login(email.trim().toLowerCase(), password);
 
     if (result.ok) {
-      // ניווט מבוסס תפקיד (Role-Based) עם החלפת הדף בהיסטוריה כדי למנוע חזרה לאחור
       if (result.userType === "admin") {
         navigate("/admin/dashboard", { replace: true });
       } else {
         navigate("/", { replace: true });
       }
     } else {
-      // השרת או הקונטקסט החזירו שגיאה מוגדרת - מציגים אותה למשתמש
       setError(result.msg);
-      setLoading(false); // משחרר את הכפתור רק במקרה של כישלון
+      setLoading(false);
     }
   };
 

@@ -16,7 +16,6 @@ export default function AdminUserBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // סטייט לניהול המודאל עריכה
   const [editingBooking, setEditingBooking] = useState(null);
 
   const fetchUserBookings = async () => {
@@ -32,29 +31,23 @@ export default function AdminUserBookingsPage() {
     }
   };
 
-  // 1. אפקט לשליפת נתונים ראשונית ובעת מעבר עמוד
   useEffect(() => {
     fetchUserBookings();
   }, [userId, page]);
 
-  // 2. 🌟 הבלוק החדש: האזנה לסוקט בזמן אמת כדי לרענן את המסך כשהלקוח מבצע שינוי
   useEffect(() => {
-    // התחברות לשרת ה-Backend שלך (שני את הפורט ל-3000 או למה שאת משתמשת בשרת)
     const socket = io('http://localhost:3000');
 
-    // א) האזנה לאירוע ביטול/מחיקת הזמנה על ידי הלקוח
     socket.on('booking_cancelled', (data) => {
       console.log("התקבל עדכון: הזמנה בוטלה. מרענן נתונים...");
       fetchUserBookings(); // 🔥 מפעיל מחדש את השליפה ומעדכן את הסטייט, מה שגורם לרינדור מחדש אוטומטי!
     });
 
-    // ב) האזנה לאירוע יצירת/תשלום הזמנה חדשה על ידי הלקוח
     socket.on('new_booking_created', (data) => {
       console.log("התקבל עדכון: הזמנה חדשה נוצרה במערכת. מרענן נתונים...");
       fetchUserBookings(); // 🔥 מפעיל מחדש את השליפה ומעדכן את הסטייט
     });
 
-    // ג) פונקציית ניקוי (Cleanup) - מתנתקת מהסוקט כשהאדמין עוזב את העמוד כדי למנוע כפל האזנות
     return () => {
       socket.disconnect();
     };
