@@ -18,17 +18,17 @@ export default function Navbar() {
 
   return (
     <header className="app-header-nav">
-      {/* צד שמאל - ניווט */}
+    
       <nav className="nav-links-container">
         <NavLink to="/" className="nav-link-item">Search Flights</NavLink>
         <NavLink to="/destinations" className="nav-link-item">Destinations</NavLink>
         {user && <NavLink to="/my-bookings" className="nav-link-item">My Bookings</NavLink>}
       </nav>
 
-      {/* צד ימין - פרופיל בלבד */}
+     
       <div className="nav-user-actions">
         {user ? (
-          /* מצב: משתמש מחובר (בלי ה-Welcome Message הישן) */
+          
           <>
             <div className="profile-menu-wrapper">
               <button 
@@ -47,7 +47,7 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          /* מצב: אורח מנותק */
+        
           <button 
             onClick={() => navigate("/login")} 
             className="nav-avatar-btn guest"

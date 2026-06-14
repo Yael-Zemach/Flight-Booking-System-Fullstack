@@ -92,16 +92,16 @@ const SearchForm = ({ airports, onSearch, prefilledDestination }) => {
                     onChange={(ap) => setDest(ap ? ap.airport_code : '')}
                 />
 
-                {/* 🌟 שימוש ברכיב המשותף עבור תאריך יציאה */}
+              
                 <FlightDatePicker 
                     label={UI_MESSAGES.search.departDateLabel}
                     value={departDate}
                     onChange={handleDepartDateChange}
                     min={todayStr}
-                    className="form-field-group" // שומר על ה-class המקורי של טופס הלקוח
+                    className="form-field-group" 
                 />
 
-                {/* 🌟 שימוש ברכיב המשותף עבור תאריך חזרה */}
+          
                 {tripType === 'round-trip' && (
                     <FlightDatePicker 
                         label={UI_MESSAGES.search.returnDateLabel}

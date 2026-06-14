@@ -1,5 +1,5 @@
 import React from 'react';
-import { UI_MESSAGES } from '../../../constants/messages.js';
+import { UI_MESSAGES } from '../../constants/messages.js';
 
 export default function DestinationCard({ destination, onBook }) {
     return (

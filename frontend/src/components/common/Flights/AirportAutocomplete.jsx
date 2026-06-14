@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 export default function AirportAutocomplete({ 
     airports, 
     value, 
-    idKey = 'airport_code', // ברירת מחדל לקוד (כמו TLV), האדמין יעביר 'airport_id'
+    idKey = 'airport_code', 
     onChange, 
     label, 
     placeholder, 
@@ -12,7 +12,6 @@ export default function AirportAutocomplete({
     const [searchVal, setSearchVal] = useState('');
     const [isOpen, setIsOpen] = useState(false);
 
-    // 1. מיון הרשימה שמתקבלת: הצבת תל אביב (TLV) תמיד ראשונה אבסולוטית
     const getSortedAirports = (list) => {
         if (!list || list.length === 0) return [];
         const tlv = list.find(ap => (ap.airport_code || '').trim().toUpperCase() === 'TLV');
@@ -21,7 +20,6 @@ export default function AirportAutocomplete({
         return tlv ? [tlv, ...others] : others;
     };
 
-    // 2. סנכרון תצוגת הטקסט באינפוט כאשר ה-value משתנה (למשל בטעינת עריכה או prefill)
     useEffect(() => {
         if (value && airports && airports.length > 0) {
             const selected = airports.find(ap => String(ap[idKey]) === String(value));
@@ -33,7 +31,7 @@ export default function AirportAutocomplete({
         setSearchVal('');
     }, [value, airports]);
 
-    // 3. סינון הרשימה בזמן אמת לפי מה שהמשתמש מקליד בתיבה
+    
     const sortedList = getSortedAirports(airports);
     const filteredList = sortedList.filter(ap => {
         const term = searchVal.toLowerCase();
@@ -46,7 +44,7 @@ export default function AirportAutocomplete({
     const handleSelect = (ap) => {
         setSearchVal(`${ap.city} (${ap.airport_code})`);
         setIsOpen(false);
-        onChange(ap); // מחזיר את אובייקט שדה התעופה השלם לקומפוננטת האב
+        onChange(ap); 
     };
 
     return (
@@ -58,15 +56,15 @@ export default function AirportAutocomplete({
                 value={searchVal}
                 onChange={(e) => {
                     setSearchVal(e.target.value);
-                    if (!e.target.value) onChange(null); // איפוס הבחירה אם מחקו הכל
+                    if (!e.target.value) onChange(null);
                 }}
                 onFocus={() => {
                     if (!disabled) {
                         setIsOpen(true);
-                        setSearchVal(''); // מרוקן זמנית בפוקוס כדי להציג את כל האפשרויות המותרות
+                        setSearchVal(''); 
                     }
                 }}
-                onBlur={() => setTimeout(() => setIsOpen(false), 200)} // השהייה קלה כדי לאפשר ללחיצה על ה-li להיתפס
+                onBlur={() => setTimeout(() => setIsOpen(false), 200)} 
                 disabled={disabled}
                 required
                 className="form-input-searchable"

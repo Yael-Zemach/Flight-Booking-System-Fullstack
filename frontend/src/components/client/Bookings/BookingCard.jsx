@@ -5,9 +5,9 @@ import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Bookings/BookingCard.css';
 export default function BookingCard({ booking, onBookingCancelled }) {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // הגדרת הניווט
+  const navigate = useNavigate(); 
 
-  // ולידציה מקומית - האם נותרו יותר מ-24 שעות להמראה
+  
   const canCancel = () => {
     if (booking.status !== 'confirmed') return false;
 
@@ -19,7 +19,7 @@ export default function BookingCard({ booking, onBookingCancelled }) {
   };
 
   const handleCancelClick = async (e) => {
-    e.stopPropagation(); // מונע מהלחיצה על הביטול לעבור לעמוד הפרטים!
+    e.stopPropagation(); 
 
     if (!window.confirm(UI_MESSAGES.booking.cancelConfirm)) return;
 
@@ -29,7 +29,7 @@ export default function BookingCard({ booking, onBookingCancelled }) {
       alert(UI_MESSAGES.booking.cancelSuccess);
 
       if (onBookingCancelled) {
-        onBookingCancelled(); // מרענן את העמוד
+        onBookingCancelled(); 
       }
     } catch (err) {
       alert(err.response?.data?.message || UI_MESSAGES.booking.cancelError);
@@ -41,11 +41,11 @@ export default function BookingCard({ booking, onBookingCancelled }) {
   return (
     <div
       className="booking-card"
-      onClick={() => navigate(`/my-bookings/${booking.booking_id}`)} // מעבר לעמוד הפרטים בלחיצה על הכרטיס
+      onClick={() => navigate(`/my-bookings/${booking.booking_id}`)} 
     >
       <div className="booking-card-header">
         <h3>{UI_MESSAGES.booking.bookingLabel}{booking.booking_id}</h3>
-        {/* החזרתי את הסטטוסים המקוריים שלך (confirmed / cancelled) באותיות קטנות */}
+  
         <span className={`booking-status-tag ${booking.status}`}>
           {booking.status === 'confirmed' && UI_MESSAGES.booking.bookingConfirmed}
           {booking.status === 'cancelled' && UI_MESSAGES.booking.bookingCancelled}
@@ -69,7 +69,7 @@ export default function BookingCard({ booking, onBookingCancelled }) {
           {UI_MESSAGES.booking.totalPaidLabel} ${booking.total_price}
         </p>
 
-        {/* כפתור הביטול המבודד */}
+       
         {canCancel() && (
           <button
             className="cancel-booking-btn"

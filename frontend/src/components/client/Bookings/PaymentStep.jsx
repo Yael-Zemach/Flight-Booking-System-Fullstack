@@ -10,30 +10,30 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
     
     const [isProcessing, setIsProcessing] = useState(false);
 
-    // 🌟 1. ולידציה למספר כרטיס אשראי: רק מספרים
+  
     const handleCardNumberChange = (e) => {
-        const value = e.target.value.replace(/\D/g, ''); // מוחק כל תו שהוא לא מספר
+        const value = e.target.value.replace(/\D/g, ''); 
         setCardNumber(value);
     };
 
-    // 🌟 2. ולידציה והוספת סלאש אוטומטי לתוקף (MM/YY)
+    
     const handleExpiryChange = (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // משאיר רק מספרים
+        let value = e.target.value.replace(/\D/g, ''); 
         
-        // אם המשתמש הקליד יותר מ-2 ספרות, נדחף סלאש באמצע באופן אוטומטי
+       
         if (value.length > 2) {
             value = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
         }
         setExpiry(value);
     };
 
-    // 🌟 3. ולידציה ל-CVV: רק מספרים עד 3 ספרות
+    
     const handleCvvChange = (e) => {
-        const value = e.target.value.replace(/\D/g, ''); // משאיר רק מספרים
+        const value = e.target.value.replace(/\D/g, ''); 
         setCvv(value);
     };
 
-    // 🌟 4. ולידציה לשם: רק אותיות (בעברית/אנגלית) ורווחים, בלי מספרים או תווים מיוחדים
+    
     const handleNameChange = (e) => {
         const value = e.target.value.replace(/[0-9!@#$%^&*()_+=[\]{};':"\\|,.<>/?~`-]/g, '');
         setNameOnCard(value);
@@ -42,7 +42,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
     const handlePayment = (e) => {
         e.preventDefault();
         
-        // בדיקת בטיחות קטנה נוספת לפני השליחה
+     
         if (cardNumber.length < 16) {
             alert(UI_MESSAGES.payment.cardNumberError);
             return;
@@ -58,7 +58,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
 
         setIsProcessing(true);
 
-        // סימולציית התקשרות מול שרת הסליקה
+        
         setTimeout(() => {
             onPaymentSuccess();
         }, 2000); 
@@ -79,7 +79,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                         maxLength="16"
                         placeholder="0000000000000000"
                         value={cardNumber}
-                        onChange={handleCardNumberChange} // 🌟 שימוש בפונקציה המסננת
+                        onChange={handleCardNumberChange} 
                         required
                         disabled={isProcessing}
                         className="payment-input"
@@ -94,7 +94,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                             maxLength="5"
                             placeholder="12/25"
                             value={expiry}
-                            onChange={handleExpiryChange} // 🌟 שימוש בפונקציה המסננת
+                            onChange={handleExpiryChange} 
                             required
                             disabled={isProcessing}
                             className="payment-input"
@@ -107,7 +107,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                             maxLength="3"
                             placeholder="123"
                             value={cvv}
-                            onChange={handleCvvChange} // 🌟 שימוש בפונקציה המסננת
+                            onChange={handleCvvChange} 
                             required
                             disabled={isProcessing}
                             className="payment-input"
@@ -121,7 +121,7 @@ export default function PaymentStep({ totalPrice, onPaymentSuccess }) {
                         type="text" 
                         placeholder="John Doe"
                         value={nameOnCard}
-                        onChange={handleNameChange} // 🌟 שימוש בפונקציה המסננת
+                        onChange={handleNameChange} 
                         required
                         disabled={isProcessing}
                         className="payment-input"

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../style/Flights/SingleFlight.css'; // ייבוא ה-CSS
+import '../../../style/Flights/SingleFlight.css'; 
 
 
 const SingleFlight = ({ flight, onSelect, isSelected }) => {
@@ -28,7 +28,7 @@ const SingleFlight = ({ flight, onSelect, isSelected }) => {
             <div className="flight-price-zone">
                 <div className="flight-price">{flight.price}$</div>
                 
-                {/* הנה התוספת שביקשת למשתמש קצה */}
+              
                 
                 <div className="flight-seats">נשארו {flight.seats_available} מושבים</div>
                 

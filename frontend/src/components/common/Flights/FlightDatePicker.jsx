@@ -4,11 +4,11 @@ export default function FlightDatePicker({
     label, 
     value, 
     onChange, 
-    type = 'date', // ברירת מחדל היא תאריך רגיל, האדמין יעביר 'datetime-local'
+    type = 'date', 
     min, 
     name, 
     required = true,
-    className = 'form-group' // מאפשר להעביר קלאס עוטף בהתאם לעיצוב הדף (הטופס של הלקוח או האדמין)
+    className = 'form-group' 
 }) {
     return (
         <div className={className}>

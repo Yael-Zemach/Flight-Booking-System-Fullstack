@@ -1,6 +1,6 @@
 import React from 'react';
 import SingleFlight from './SingleFlight.jsx';
-import '../../../style/Flights/FlightResults.css'; // ייבוא ה-CSS
+import '../../../style/Flights/FlightResults.css'; 
 
 const FlightResults = ({ results, selectedOutbound, selectedInbound, onSelectFlight }) => {
     const { isFlexible, outbound, inbound } = results;
@@ -18,7 +18,7 @@ const FlightResults = ({ results, selectedOutbound, selectedInbound, onSelectFli
             )}
             
             <div className="results-columns-wrapper">
-                {/* טור טיסות הלוך */}
+                
                 <div className="results-column">
                     <h3 className="column-title-outbound">🛫 טיסות הלוך ({outbound.length})</h3>
                     {outbound.map(flight => (
@@ -31,7 +31,7 @@ const FlightResults = ({ results, selectedOutbound, selectedInbound, onSelectFli
                     ))}
                 </div>
 
-                {/* טור טיסות חזור */}
+                
                 {inbound && inbound.length > 0 && (
                     <div className="results-column">
                         <h3 className="column-title-inbound">🛬 טיסות חזור ({inbound.length})</h3>
