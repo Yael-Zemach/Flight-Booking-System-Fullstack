@@ -8,10 +8,8 @@ export async function getBookingById(bookingId) {
     const query = `
         SELECT 
             b.booking_id, b.user_id, b.booking_time, b.total_price, b.status,
-            -- טיסת הלוך
             f.flight_number, f.departure_time, f.arrival_time,
             dep.city AS departure_city, arr.city AS arrival_city,
-            -- טיסת חזור (יכולה להיות NULL ולכן משתמשים ב-LEFT JOIN)
             rf.flight_number AS return_flight_number, 
             rf.departure_time AS return_departure_time, 
             rf.arrival_time AS return_arrival_time,
@@ -41,7 +39,8 @@ export async function getBookingById(bookingId) {
 
 export async function getBookingsByUserId(userId, page, limit) {
     const offset = (page - 1) * limit;
-    const countQuery = "SELECT COUNT(*) AS total FROM Bookings WHERE user_id = ? AND status != 'pending'"; const [countResult] = await pool.query(countQuery, [userId]);
+    const countQuery = "SELECT COUNT(*) AS total FROM Bookings WHERE user_id = ? AND status != 'pending'";
+     const [countResult] = await pool.query(countQuery, [userId]);
     const totalCount = countResult[0].total;
     const query = `
         SELECT 

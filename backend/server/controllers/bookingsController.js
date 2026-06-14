@@ -37,7 +37,7 @@ export async function handleGetBookings(req, res) {
 }
 
 export async function handleCreateBooking(req, res) {
-    const targetUserId = req.params.id ? parseInt(req.params.id) : req.user.userId;
+    const targetUserId = req.user.userId;
     const { flightId, returnFlightId, totalPrice, passengers } = req.body;
 
     try {
@@ -66,7 +66,6 @@ export async function handleProcessPayment(req, res) {
         const bookingData = await bookingsService.processBookingPayment(bookingId);
         io.emit('new_booking_created', {
             bookingId: bookingId,
-
         });
 
         return res.status(200).json({ message: "Payment successful. Booking confirmed!" });
