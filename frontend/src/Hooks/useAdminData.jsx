@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getAllAirports } from '../API/airportsAPI.js';
-import { flightsApi } from '../API/flightsAPI';
+import { flightsApi } from '../API/flightsAPI.js';
 
 export function useAdminData(selectedDate) {
     const [airports, setAirports] = useState([]);

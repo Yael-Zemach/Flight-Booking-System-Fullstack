@@ -1,5 +1,5 @@
 import React from 'react';
-import DestinationCard from './destinationCard';
+import DestinationCard from './destinationCard.jsx';
 
 export default function DestinationGrid({ destinations, onBookDestination }) {
     return (

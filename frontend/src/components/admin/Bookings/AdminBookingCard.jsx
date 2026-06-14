@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { adminCancelBooking } from '../../../API/bookingAPI';
+import { adminCancelBooking } from '../../../API/bookingAPI.js';
 import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Admin/AdminBookingCard.css';
 

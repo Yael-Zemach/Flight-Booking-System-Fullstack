@@ -9,14 +9,19 @@ export async function registerUser(name, email, password, userType = USER_TYPES.
     if (!name || !email || !password) {
         throw new Error(ERROR_CODES.MISSING_DATA);
     }
-    // ... שאר הלוגיקה של ההרשמה והצ
-    const existingUser = await userModel.getUserByEmail(email);
-    if (existingUser) {
-        throw new Error(ERROR_CODES.EMAIL_EXISTS);
-    }
+
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
-    const userId = await userModel.createUser(name, email, passwordHash, userType);
+    
+    let userId;
+    try {
+        userId = await userModel.createUser(name, email, passwordHash, userType);
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY' || error.errno === 1062) {
+            throw new Error(ERROR_CODES.EMAIL_EXISTS);
+        }
+        throw error; 
+    }
     
     const token = jwt.sign(
         { userId: userId, userType: userType },

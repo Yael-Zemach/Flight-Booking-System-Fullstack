@@ -1,5 +1,5 @@
 import React from 'react';
-import SingleFlight from './SingleFlight';
+import SingleFlight from './SingleFlight.jsx';
 import '../../../style/Flights/FlightResults.css'; // ייבוא ה-CSS
 
 const FlightResults = ({ results, selectedOutbound, selectedInbound, onSelectFlight }) => {

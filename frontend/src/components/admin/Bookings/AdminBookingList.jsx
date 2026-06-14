@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminBookingCard from './AdminBookingCard';
+import AdminBookingCard from './AdminBookingCard.jsx';
 import '../../../style/Admin/AdminBookingList.css';
 export default function AdminBookingList({ bookings, userId, onRefresh, onEditClick }) {
   if (!bookings || bookings.length === 0) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getMyBookings } from '../../../API/bookingAPI';
-import BookingCard from '../../../components/client/bookings/BookingCard';
+import { getMyBookings } from '../../../API/bookingAPI.js';
+import BookingCard from '../../../components/client/Bookings/BookingCard.jsx';
 import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Bookings/MyBookingsPage.css'; 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminAirportRow from './Airports/AdminAirportRow.jsx';
+import AdminAirportRow from './AdminAirportRow.jsx';
 
 export default function AdminAirportsTable({ airports, onDelete, onUpdateImage, loading }) {
     return (

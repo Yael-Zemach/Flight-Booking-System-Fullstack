@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { adminUpdateBookingFull } from '../../../API/bookingAPI';
+import { adminUpdateBookingFull } from '../../../API/bookingAPI.js';
 import { UI_MESSAGES } from '../../../constants/messages.js';
 import '../../../style/Admin/AdminEditBookingModal.css';
 

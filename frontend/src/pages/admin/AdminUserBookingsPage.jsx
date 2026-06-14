@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { adminGetUserBookings } from '../../API/bookingAPI';
-import AdminBookingList from '../../components/admin/Bookings/AdminBookingList';
-import AdminEditBookingModal from '../../components/admin/Bookings/AdminEditBookingModal';
+import { adminGetUserBookings } from '../../API/bookingAPI.js';
+import AdminBookingList from '../../components/admin/Bookings/AdminBookingList.jsx';
+import AdminEditBookingModal from '../../components/admin/Bookings/AdminEditBookingModal.jsx';
 import { io } from 'socket.io-client';
 import '../../style/Admin/AdminUserBookingsPage.css';
     

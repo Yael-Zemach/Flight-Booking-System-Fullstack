@@ -1,7 +1,6 @@
 import pool from '../config/database.js';
 
 export async function createUser(name, email, passwordHash, userType) {
-    // 1. משיכת חיבור ייעודי מתוך ה-Pool
     const connection = await pool.getConnection();
     
     try {
