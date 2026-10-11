@@ -193,13 +193,6 @@ The backend API will run on:
 http://localhost:3000/api
 ```
 
-## Future Improvements
-
-- Integrate a production-grade payment system such as Stripe or PayPal for real booking payments
-- Add advanced search filters, airline comparison tools, and richer analytics for business insights
-- Expand test coverage with unit and integration tests, and add CI/CD automation for deployment validation
-- Improve customer engagement with email notifications, booking reminders, and admin activity monitoring
-
 ## Summary
 
 This project demonstrates a practical, full-stack software engineering workflow across frontend development, backend API design, database modeling, and secure application logic. It reflects a strong understanding of user-centric product design, business workflows, and the technical decisions required to build a modern travel booking application from end to end.
